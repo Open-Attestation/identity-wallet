@@ -26,7 +26,7 @@ jobs:
           name: expo_publish_channel
           command: expo publish --non-interactive --release-channel $(echo $CI_PULL_REQUEST | cut -c 58-)
       - run:
-          name: expo_publish_channel
+          name: expo_publish_storybook_channel
           command: expo publish --non-interactive --release-channel storybook-$(echo $CI_PULL_REQUEST | cut -c 58-)
       - run:
           name: github_comment_published_link
