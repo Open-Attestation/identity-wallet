@@ -8,7 +8,8 @@ import ReactNative, {
 } from "react-native";
 import { WebView, WebViewMessageEvent } from "react-native-webview";
 import { Document } from "@govtechsg/open-attestation";
-
+import { get } from "lodash";
+4;
 interface IWebViewRef {
   current:
     | {
@@ -37,8 +38,8 @@ const TemplateTabs = ({
 }) => {
   // Do not show when there is only one tab
   if (!tabs || tabs.length <= 1) return null;
-  const renderedTabs = tabs.map((tab, index) => (
-    <TouchableWithoutFeedback onPress={() => tabSelect(index)} key={index}>
+  const renderedTabs = tabs.map(tab => (
+    <TouchableWithoutFeedback onPress={() => tabSelect(tab.id)} key={tab.id}>
       <Text>{tab.label}</Text>
     </TouchableWithoutFeedback>
   ));
@@ -61,8 +62,10 @@ const DocumentRenderer = ({ document }: { document: Document }) => {
     setTemplate(JSON.parse(event.nativeEvent.data));
   };
 
-  const onTabSelect = (tabIndex: number) => {
-    inject(`window.openAttestation.selectTemplateTab(${tabIndex})`);
+  const onTabSelect = (tabIndex: string) => {
+    inject(
+      `window.openAttestation({type: "SELECT_TEMPLATE", payload: "${tabIndex}"})`
+    );
   };
 
   return (
@@ -70,25 +73,18 @@ const DocumentRenderer = ({ document }: { document: Document }) => {
       <TemplateTabs tabs={template} tabSelect={onTabSelect} />
       <WebView
         ref={refWebView}
-        source={{ uri: data.$template.url }}
+        source={{
+          uri: get(data, "$template.url")
+        }}
         injectedJavaScript={`
           // Render the document
           const documentToRender = ${JSON.stringify(data)};
-          window.openAttestation({type: "RENDER_DOCUMENT", payload: document});
+          const rawDocument = ${JSON.stringify(document)}
+          window.openAttestation({type: "RENDER_DOCUMENT", payload: {document: documentToRender, rawDocument}});
 
-          // Constantly poll if template tabs is known
-          const epoch = 100;
-          let timeout = 10000;
-          const replyWithTemplateTabs = () => {
-            const templates = window.openAttestation.getTemplates();
-            timeout = timeout - epoch;
-            if(templates){
-              window.ReactNativeWebView.postMessage(JSON.stringify(templates));
-            }else if(timeout > 0){
-              setTimeout(replyWithTemplateTabs, epoch);
-            }
-          }
-          replyWithTemplateTabs();
+          // Retrieve the templates
+          const templates = window.openAttestation({type: "GET_TEMPLATES", payload: documentToRender});
+          window.ReactNativeWebView.postMessage(JSON.stringify(templates));
         `}
         onMessage={onTemplateMessageHandler}
       />
