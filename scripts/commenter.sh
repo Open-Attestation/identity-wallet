@@ -11,9 +11,4 @@ QR_CODE_STORYBOOK="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data
 curl -X POST \
   https://${GITHUB_ACCESS_TOKEN_COMMENTER}@api.github.com/repos/${GITHUB_PROJECT}/issues/${PULL_REQUEST_ID}/comments \
   -H 'Content-Type: application/json' \
-  -d '{ "body": "![Expo QR]('"$QR_CODE_STORYBOOK"')\n'"$STORYBOOK_PUBLISH_TEXT"'" }'
-
-curl -X POST \
-  https://${GITHUB_ACCESS_TOKEN_COMMENTER}@api.github.com/repos/${GITHUB_PROJECT}/issues/${PULL_REQUEST_ID}/comments \
-  -H 'Content-Type: application/json' \
-  -d '{ "body": "![Expo QR]('"$QR_CODE"')\n'"$PUBLISH_TEXT"'" }'
+  -d '{ "body": "## Application\n![Expo QR]('"$QR_CODE"')\n'"$PUBLISH_TEXT"'\n\n## Storybook\n![Expo QR]('"$QR_CODE_STORYBOOK"')\n'"$STORYBOOK_PUBLISH_TEXT"'" }'
