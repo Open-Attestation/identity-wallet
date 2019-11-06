@@ -74,7 +74,7 @@ const DocumentRenderer = ({ document }: { document: Document }) => {
         injectedJavaScript={`
           // Render the document
           const documentToRender = ${JSON.stringify(data)};
-          window.openAttestation.renderDocument(documentToRender);
+          window.openAttestation({type: "RENDER_DOCUMENT", payload: document});
 
           // Constantly poll if template tabs is known
           const epoch = 100;

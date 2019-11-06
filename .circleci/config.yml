@@ -26,6 +26,9 @@ jobs:
           name: expo_publish_channel
           command: expo publish --non-interactive --release-channel $(echo $CI_PULL_REQUEST | cut -c 43-)
       - run:
+          name: expo_publish_channel
+          command: expo publish --non-interactive --release-channel storybook-$(echo $CI_PULL_REQUEST | cut -c 43-)
+      - run:
           name: github_comment_published_link
           command: ./scripts/commenter.sh
   deploy_master:
@@ -42,6 +45,9 @@ jobs:
       - run:
           name: expo_publish_channel
           command: expo publish --non-interactive --release-channel default
+      - run:
+          name: expo_publish_channel
+          command: expo publish --non-interactive --release-channel storybook-default
 workflows:
   version: 2
   test_and_publish:
