@@ -1,5 +1,5 @@
 #!/bin/bash
-PULL_REQUEST_ID=$(echo $CI_PULL_REQUEST | cut -c 43-)
+PULL_REQUEST_ID=$(echo $CI_PULL_REQUEST | cut -c 58-)
 PUBLISH_TEXT="Published to https://exp.host/@workpasssg/sg-workpass?release-channel=${PULL_REQUEST_ID}"
 STORYBOOK_PUBLISH_TEXT="Published to https://exp.host/@workpasssg/sg-workpass?release-channel=storybook-${PULL_REQUEST_ID}"
 QR_CODE="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=exp://exp.host/@workpasssg/sg-workpass?release-channel=${PULL_REQUEST_ID}"
