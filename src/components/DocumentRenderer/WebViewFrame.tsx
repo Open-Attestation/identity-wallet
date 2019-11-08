@@ -27,10 +27,11 @@ const WebViewFrame: FunctionComponent<WebViewFrameProps> = ({
   useEffect(() => {
     const { current } = webViewRef as WebViewFrameRef;
     if (current && current.injectJavaScript)
-      setGoToTemplate(() => (tabId: string) =>
-        current.injectJavaScript(
-          `window.openAttestation({type: "SELECT_TEMPLATE", payload: "${tabId}"})`
-        )
+      setGoToTemplate(
+        (): Function => (tabId: string): void =>
+          current.injectJavaScript(
+            `window.openAttestation({type: "SELECT_TEMPLATE", payload: "${tabId}"})`
+          )
       );
   }, [true]);
 
