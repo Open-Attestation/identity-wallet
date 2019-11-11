@@ -1,15 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, FunctionComponent } from "react";
 import { Text, View } from "react-native";
-import {
-  NavigationParams,
-  NavigationScreenProp,
-  NavigationState
-} from "react-navigation";
-interface Props {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
-}
+import { NavigationProps } from "./types";
 
-const LoadingScreen = ({ navigation }: Props) => {
+const LoadingScreen: FunctionComponent<NavigationProps> = ({
+  navigation
+}: NavigationProps) => {
   useEffect(() => {
     setTimeout(() => {
       navigation.navigate("StackNavigator");

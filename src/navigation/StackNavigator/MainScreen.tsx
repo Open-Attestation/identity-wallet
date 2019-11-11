@@ -1,12 +1,13 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { Text, View } from "react-native";
+import { NavigationProps } from "../types";
 
-const HomeScreen = () => {
+const MainScreen: FunctionComponent<NavigationProps> = () => {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Home Screen</Text>
+      <Text>Main Screen</Text>
     </View>
   );
 };
 
-export default HomeScreen;
+export default MainScreen;
