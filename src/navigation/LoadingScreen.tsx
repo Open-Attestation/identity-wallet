@@ -1,21 +1,25 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { Text, View } from "react-native";
-import { NavigationInjectedProps } from "react-navigation";
-
-class LoadingScreen extends Component<NavigationInjectedProps> {
-  componentDidMount() {
-    setTimeout(() => {
-      this.props.navigation.navigate("StackNavigator");
-    }, 3000);
-  }
-
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+import {
+  NavigationParams,
+  NavigationScreenProp,
+  NavigationState
+} from "react-navigation";
+interface Props {
+  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
 }
+
+const LoadingScreen = ({ navigation }: Props) => {
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.navigate("StackNavigator");
+    }, 1000);
+  });
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>Loading...</Text>
+    </View>
+  );
+};
 
 export default LoadingScreen;
