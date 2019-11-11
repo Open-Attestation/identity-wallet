@@ -1,11 +1,32 @@
-import React, { FunctionComponent } from "react";
-import { Text, View } from "react-native";
+import React, { useEffect, useState, FunctionComponent } from "react";
+import { Text, View, TouchableHighlight } from "react-native";
 import { NavigationProps } from "../types";
+import { useContextValue } from "../state";
 
-const MainScreen: FunctionComponent<NavigationProps> = () => {
+const MainScreen: FunctionComponent<NavigationProps> = ({
+  navigation
+}: NavigationProps) => {
+  const [{ db }] = useContextValue();
+  const [secret, setSecret] = useState();
+
+  useEffect(() => {
+    db.heros
+      .find()
+      .sort({ name: 1 })
+      .$.subscribe(setSecret);
+  }, [true]);
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Main Screen</Text>
+      <Text>Loading...</Text>
+      <Text>{JSON.stringify(secret)}</Text>
+      <TouchableHighlight
+        onPress={() => {
+          db.heros.insert({ name: Math.random().toString(), color: "sjkdnf" });
+        }}
+      >
+        <Text>Insert new records</Text>
+      </TouchableHighlight>
     </View>
   );
 };

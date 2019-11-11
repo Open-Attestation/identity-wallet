@@ -1,15 +1,59 @@
-import React, { useEffect, FunctionComponent } from "react";
-import { Text, View } from "react-native";
+import React, { useEffect, useState, FunctionComponent } from "react";
+import { Text, View, TouchableHighlight } from "react-native";
 import { NavigationProps } from "./types";
+import { useContextValue } from "./state";
+import * as RxDB from "rxdb";
+
+RxDB.plugin(require("pouchdb-adapter-asyncstorage").default);
+
+const heroSchema = {
+  version: 0,
+  title: "hero schema",
+  description: "describes a simple hero",
+  type: "object",
+  properties: {
+    name: {
+      type: "string",
+      primary: true
+    },
+    color: {
+      type: "string"
+    }
+  },
+  required: ["color"]
+};
+
+const createDatabase = async () => {
+  const db = await RxDB.create({
+    name: "mydbname2",
+    adapter: "asyncstorage",
+    password: "supersecret",
+    multiInstance: false,
+    pouchSettings: { skip_setup: true }
+  });
+  await db.collection({
+    name: "heros",
+    schema: heroSchema
+  });
+  return db;
+};
 
 const LoadingScreen: FunctionComponent<NavigationProps> = ({
   navigation
 }: NavigationProps) => {
+  const [, dispatch] = useContextValue();
+
+  // To initialise database
   useEffect(() => {
-    setTimeout(() => {
+    createDatabase().then(db => {
+      dispatch({
+        type: "SET_DB",
+        payload: db
+      });
       navigation.navigate("StackNavigator");
-    }, 1000);
-  });
+    });
+  }, [true]);
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>Loading...</Text>
