@@ -1,41 +1,74 @@
-import React, { useEffect, useState, FunctionComponent } from "react";
-import { Text, View, TouchableHighlight } from "react-native";
+import React, { useEffect, FunctionComponent } from "react";
+import { Text, View } from "react-native";
 import { NavigationProps } from "./types";
 import { useDbContext } from "../context/db";
+import sampleData from "../sample.json";
 import * as RxDB from "rxdb";
+import { get } from "lodash";
+import { Document } from "@govtechsg/open-attestation";
 
 RxDB.plugin(require("pouchdb-adapter-asyncstorage").default);
 
-const heroSchema = {
+const documentSchema = {
   version: 0,
-  title: "hero schema",
-  description: "describes a simple hero",
   type: "object",
   properties: {
-    name: {
+    id: {
       type: "string",
       primary: true
     },
-    color: {
-      type: "string"
+    created: {
+      type: "number",
+      index: true
+    },
+    verified: {
+      type: "number",
+      index: true
+    },
+    document: {
+      type: "object"
     }
-  },
-  required: ["color"]
+  }
 };
 
-const createDatabase = async () => {
+const createDatabase = async (): Promise<RxDB.RxDatabase> => {
   const db = await RxDB.create({
-    name: "mydbname2",
+    name: "db",
     adapter: "asyncstorage",
     password: "supersecret",
     multiInstance: false,
-    pouchSettings: { skip_setup: true }
+    pouchSettings: { skip_setup: true } // eslint-disable-line @typescript-eslint/camelcase
   });
   await db.collection({
-    name: "heros",
-    schema: heroSchema
+    name: "documents",
+    schema: documentSchema
   });
   return db;
+};
+
+const seedDb = async (db: RxDB.RxDatabase, doc: Document): Promise<void> => {
+  const id = get(doc, "signature.targetHash");
+  const defaultDocument = await db.documents.findOne({ id }).exec();
+  if (!defaultDocument) {
+    await db.documents.insert({
+      id,
+      created: Date.now(),
+      document: doc
+    });
+  }
+};
+
+const init = async ({
+  setDb,
+  done
+}: {
+  setDb: Function;
+  done: Function;
+}): Promise<void> => {
+  const db = await createDatabase();
+  setDb(db);
+  await seedDb(db, sampleData);
+  done();
 };
 
 const LoadingScreen: FunctionComponent<NavigationProps> = ({
@@ -45,11 +78,11 @@ const LoadingScreen: FunctionComponent<NavigationProps> = ({
 
   // To initialise database
   useEffect(() => {
-    createDatabase().then(db => {
-      setDb(db);
-      navigation.navigate("StackNavigator");
+    init({
+      setDb,
+      done: () => navigation.navigate("StackNavigator")
     });
-  }, [true]);
+  }, []);
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

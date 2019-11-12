@@ -1,32 +1,27 @@
 import React, { useEffect, useState, FunctionComponent } from "react";
-import { Text, View, TouchableHighlight } from "react-native";
+import { Text, View } from "react-native";
 import { NavigationProps } from "../types";
 import { useDbContext } from "../../context/db";
+import { get } from "lodash";
 
-const MainScreen: FunctionComponent<NavigationProps> = ({
-  navigation
-}: NavigationProps) => {
+const MainScreen: FunctionComponent<NavigationProps> = () => {
   const { db } = useDbContext();
-  const [secret, setSecret] = useState();
+  const [documents, setDocuments] = useState();
 
   useEffect(() => {
-    db.heros
+    db.documents
       .find()
-      .sort({ name: 1 })
-      .$.subscribe(setSecret);
+      .sort({ created: 1 })
+      .$.subscribe(setDocuments);
   }, [true]);
+
+  const titles =
+    documents &&
+    documents.map((doc: any) => get(doc, "document.signature.targetHash"));
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Loading...</Text>
-      <Text>{JSON.stringify(secret)}</Text>
-      <TouchableHighlight
-        onPress={() => {
-          db.heros.insert({ name: Math.random().toString(), color: "sjkdnf" });
-        }}
-      >
-        <Text>Insert new records</Text>
-      </TouchableHighlight>
+      <Text>{JSON.stringify(titles)}</Text>
     </View>
   );
 };

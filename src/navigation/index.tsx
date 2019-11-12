@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { DbContextProvider } from "../context/db";
 import StackNavigator from "./StackNavigator";
@@ -11,12 +11,10 @@ const SwitchNavigator = createSwitchNavigator(
 
 const AppContainer = createAppContainer(SwitchNavigator);
 
-const App = () => {
-  return (
-    <DbContextProvider>
-      <AppContainer />
-    </DbContextProvider>
-  );
-};
+const App = (): ReactElement => (
+  <DbContextProvider>
+    <AppContainer />
+  </DbContextProvider>
+);
 
 export default App;

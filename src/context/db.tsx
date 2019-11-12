@@ -1,16 +1,30 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  FunctionComponent
+} from "react";
 import { RxDatabase } from "rxdb";
 
-export const DbContext = createContext({});
+interface DbContext {
+  db: RxDatabase;
+  setDb: Function;
+}
 
-export const useDbContext = (): { db: RxDatabase; setDb: Function } =>
-  useContext(DbContext) as any;
+export const DbContext = createContext<DbContext>({
+  db: undefined,
+  setDb: undefined
+});
 
-interface DbContextProviderProps {
+export const useDbContext = (): DbContext => useContext<DbContext>(DbContext);
+
+export interface DbContextProviderProps {
   children: object;
 }
 
-export const DbContextProvider = ({ children }: DbContextProviderProps) => {
+export const DbContextProvider: FunctionComponent<DbContextProviderProps> = ({
+  children
+}: DbContextProviderProps) => {
   const [db, setDb] = useState();
   return (
     <DbContext.Provider value={{ db, setDb }}>{children}</DbContext.Provider>
