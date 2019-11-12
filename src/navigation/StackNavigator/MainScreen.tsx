@@ -1,12 +1,12 @@
 import React, { useEffect, useState, FunctionComponent } from "react";
 import { Text, View, TouchableHighlight } from "react-native";
 import { NavigationProps } from "../types";
-import { useContextValue } from "../state";
+import { useDbContext } from "../../context/db";
 
 const MainScreen: FunctionComponent<NavigationProps> = ({
   navigation
 }: NavigationProps) => {
-  const [{ db }] = useContextValue();
+  const { db } = useDbContext();
   const [secret, setSecret] = useState();
 
   useEffect(() => {

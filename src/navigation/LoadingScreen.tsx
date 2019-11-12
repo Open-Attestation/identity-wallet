@@ -1,7 +1,7 @@
 import React, { useEffect, useState, FunctionComponent } from "react";
 import { Text, View, TouchableHighlight } from "react-native";
 import { NavigationProps } from "./types";
-import { useContextValue } from "./state";
+import { useDbContext } from "../context/db";
 import * as RxDB from "rxdb";
 
 RxDB.plugin(require("pouchdb-adapter-asyncstorage").default);
@@ -41,15 +41,12 @@ const createDatabase = async () => {
 const LoadingScreen: FunctionComponent<NavigationProps> = ({
   navigation
 }: NavigationProps) => {
-  const [, dispatch] = useContextValue();
+  const { setDb } = useDbContext();
 
   // To initialise database
   useEffect(() => {
     createDatabase().then(db => {
-      dispatch({
-        type: "SET_DB",
-        payload: db
-      });
+      setDb(db);
       navigation.navigate("StackNavigator");
     });
   }, [true]);
