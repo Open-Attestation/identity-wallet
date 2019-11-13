@@ -14,6 +14,12 @@ const documents = [
     title:
       "Bachelor of Biological Sciences with a Second Major in Medicinal Chemistry and Pharmacology",
     isVerified: false
+  },
+  {
+    id: "#3",
+    title: "Bachelor of Computer Science",
+    isVerified: false,
+    lastVerification: new Date()
   }
 ];
 

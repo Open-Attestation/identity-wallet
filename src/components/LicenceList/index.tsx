@@ -8,10 +8,12 @@ export interface LicenceListItemProps {
   title: string;
   isVerified: boolean;
   onPress: () => void;
+  lastVerification?: Date;
 }
 
 export interface VerifiedLabelProps {
   isVerified: boolean;
+  lastVerification?: Date;
 }
 
 const colorDark = "#4f4f4f";
@@ -20,10 +22,28 @@ const colorLightWRed = "#d09a9a";
 const colorVeryLight = "#f2f2f2";
 
 export const VerifiedLabel = ({
-  isVerified
+  isVerified,
+  lastVerification
 }: VerifiedLabelProps): ReactElement => {
-  const labelText = isVerified ? "VERIFIED" : "INVALID";
-  const backgroundColor = isVerified ? colorLight : colorLightWRed;
+  let labelText;
+  let iconName;
+  let backgroundColor;
+  switch (true) {
+    case isVerified:
+      labelText = "VERIFIED";
+      iconName = "check-circle";
+      backgroundColor = colorLight;
+      break;
+    case !isVerified && !lastVerification:
+      labelText = "UNKNOWN";
+      iconName = "alert-circle";
+      backgroundColor = colorLightWRed;
+      break;
+    default:
+      labelText = "INVALID";
+      iconName = "x-circle";
+      backgroundColor = colorLightWRed;
+  }
   return (
     <View
       style={{
@@ -33,7 +53,7 @@ export const VerifiedLabel = ({
         padding: 5
       }}
     >
-      <Feather name="check-circle" />
+      <Feather name={iconName} />
       <Text style={{ marginLeft: 5 }}>{labelText}</Text>
     </View>
   );
@@ -42,7 +62,8 @@ export const VerifiedLabel = ({
 export const LicenceListItem = ({
   title,
   isVerified,
-  onPress
+  onPress,
+  lastVerification
 }: LicenceListItemProps): ReactElement => (
   <TouchableOpacity onPress={onPress} style={{ width: "100%", margin: 5 }}>
     <View
@@ -57,7 +78,10 @@ export const LicenceListItem = ({
       <Text style={{ color: colorDark, fontWeight: "bold" }}>
         {truncate(title)}
       </Text>
-      <VerifiedLabel isVerified={isVerified} />
+      <VerifiedLabel
+        isVerified={isVerified}
+        lastVerification={lastVerification}
+      />
     </View>
   </TouchableOpacity>
 );
@@ -66,6 +90,7 @@ interface DocumentItem {
   id: string;
   title: string;
   isVerified: boolean;
+  lastVerification?: Date;
 }
 
 interface LicenceListProp {
@@ -83,6 +108,7 @@ export const LicenceList = ({
         key={doc.id}
         title={doc.title}
         isVerified={doc.isVerified}
+        lastVerification={doc.lastVerification}
         onPress={(): void => navigateToDoc(doc.id)}
       />
     )
