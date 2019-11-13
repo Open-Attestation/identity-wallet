@@ -7,8 +7,8 @@ import ScreenView from "../ScreenView";
 export interface LicenceListItemProps {
   title: string;
   isVerified: boolean;
-  onPress: () => void;
   lastVerification?: Date;
+  onPress: () => void;
 }
 
 export interface VerifiedLabelProps {
