@@ -8,7 +8,7 @@ import { RxDatabase } from "rxdb";
 
 interface DbContext {
   db: RxDatabase;
-  setDb: Function;
+  setDb: (db: RxDatabase) => void;
 }
 
 export const DbContext = createContext<DbContext>({
