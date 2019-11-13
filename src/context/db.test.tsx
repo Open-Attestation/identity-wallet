@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { Text, View } from "react-native";
 import { DbContextProvider, useDbContext } from "./db";
 import { render } from "@testing-library/react-native";
 
-const TestComponent = (): JSX.Element => {
+const TestComponent = (): ReactElement => {
   const { db, setDb } = useDbContext();
   const mockDb = "MOCK_DB" as any;
   useEffect(() => {
@@ -12,11 +12,13 @@ const TestComponent = (): JSX.Element => {
   return <Text testID="printed-db">{db}</Text>;
 };
 
-const PassthroughParent = ({ children }: { children: JSX.Element }) => (
-  <View>{children}</View>
-);
+const PassthroughParent = ({
+  children
+}: {
+  children: ReactElement;
+}): ReactElement => <View>{children}</View>;
 
-const WrappedComponent = () => (
+const WrappedComponent = (): ReactElement => (
   <DbContextProvider>
     <PassthroughParent>
       <TestComponent />
@@ -24,7 +26,10 @@ const WrappedComponent = () => (
   </DbContextProvider>
 );
 
-it("DbContextProvider gives context to successors", async () => {
-  const { getByTestId } = render(<WrappedComponent />);
-  expect(getByTestId("printed-db").props.children).toBe("MOCK_DB");
+describe("DbContextProvider", () => {
+  it("should gives context to successors", async () => {
+    expect.assertions(1);
+    const { getByTestId } = render(<WrappedComponent />);
+    expect(getByTestId("printed-db").props.children).toBe("MOCK_DB");
+  });
 });

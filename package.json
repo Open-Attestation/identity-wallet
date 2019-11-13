@@ -53,6 +53,7 @@
     "jest-expo": "^35.0.0",
     "prettier": "^1.18.2",
     "react-dom": "^16.8.3",
+    "react-test-renderer": "16.8.3",
     "typescript": "^3.6.3"
   },
   "private": true

@@ -31,6 +31,7 @@ module.exports = {
     ],
     "import/prefer-default-export": 0,
     "@typescript-eslint/no-unused-vars": [2, { args: "none" }],
-    "@typescript-eslint/no-explicit-any": 0
+    "@typescript-eslint/no-explicit-any": 0,
+    "jest/lowercase-name": 0
   }
 };
