@@ -7,8 +7,8 @@ import React, {
 import { RxDatabase } from "rxdb";
 
 interface DbContext {
-  db: RxDatabase;
-  setDb: (db: RxDatabase) => void;
+  db?: RxDatabase;
+  setDb?: (db: RxDatabase) => void;
 }
 
 export const DbContext = createContext<DbContext>({

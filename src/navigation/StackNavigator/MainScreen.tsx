@@ -9,7 +9,7 @@ const MainScreen: FunctionComponent<NavigationProps> = () => {
   const [documents, setDocuments] = useState();
 
   useEffect(() => {
-    db.documents
+    db!.documents
       .find()
       .sort({ created: 1 })
       .$.subscribe(setDocuments);

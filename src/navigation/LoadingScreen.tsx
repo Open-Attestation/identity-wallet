@@ -6,43 +6,13 @@ import sampleData from "../sample.json";
 import * as RxDB from "rxdb";
 import { get } from "lodash";
 import { Document } from "@govtechsg/open-attestation";
+import { DB_CONFIG } from "../config";
 
 RxDB.plugin(require("pouchdb-adapter-asyncstorage").default);
 
-const documentSchema = {
-  version: 0,
-  type: "object",
-  properties: {
-    id: {
-      type: "string",
-      primary: true
-    },
-    created: {
-      type: "number",
-      index: true
-    },
-    verified: {
-      type: "number",
-      index: true
-    },
-    document: {
-      type: "object"
-    }
-  }
-};
-
 const createDatabase = async (): Promise<RxDB.RxDatabase> => {
-  const db = await RxDB.create({
-    name: "db",
-    adapter: "asyncstorage",
-    password: "supersecret",
-    multiInstance: false,
-    pouchSettings: { skip_setup: true } // eslint-disable-line @typescript-eslint/camelcase
-  });
-  await db.collection({
-    name: "documents",
-    schema: documentSchema
-  });
+  const db = await RxDB.create(DB_CONFIG.db);
+  await db.collection(DB_CONFIG.documentsCollection);
   return db;
 };
 
@@ -62,11 +32,11 @@ const init = async ({
   setDb,
   done
 }: {
-  setDb: Function;
+  setDb?: Function;
   done: Function;
 }): Promise<void> => {
   const db = await createDatabase();
-  setDb(db);
+  setDb!(db);
   await seedDb(db, sampleData);
   done();
 };

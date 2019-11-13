@@ -36,8 +36,8 @@
     "@types/jest": "^24.0.23",
     "@types/react": "^16.9.11",
     "@types/react-native": "^0.57.65",
-    "@typescript-eslint/eslint-plugin": "^2.6.1",
-    "@typescript-eslint/parser": "^2.6.1",
+    "@typescript-eslint/eslint-plugin": "^2.7.0",
+    "@typescript-eslint/parser": "^2.7.0",
     "babel-loader": "^8.0.6",
     "babel-preset-expo": "^7.1.0",
     "eslint": "^6.6.0",
@@ -51,10 +51,10 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "jest": "^24.9.0",
     "jest-expo": "^35.0.0",
-    "prettier": "^1.18.2",
+    "prettier": "^1.19.1",
     "react-dom": "^16.8.3",
     "react-test-renderer": "16.8.3",
-    "typescript": "^3.6.3"
+    "typescript": "^3.7.2"
   },
   "private": true
 }
