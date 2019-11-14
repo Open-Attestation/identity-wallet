@@ -1,10 +1,10 @@
 import { createStackNavigator } from "react-navigation-stack";
-import MainScreen from "./MainScreen";
+import LicenseListScreen from "./LicenseListScreen";
 
 const StackNavigator = createStackNavigator(
   {
-    MainScreen: {
-      screen: MainScreen
+    LicenseListScreen: {
+      screen: LicenseListScreen
     }
   },
   {

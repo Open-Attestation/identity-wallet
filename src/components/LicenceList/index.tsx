@@ -6,14 +6,14 @@ import ScreenView from "../ScreenView";
 
 export interface LicenceListItemProps {
   title: string;
-  isVerified: boolean;
-  lastVerification?: Date;
+  isVerified?: boolean;
+  lastVerification?: number;
   onPress: () => void;
 }
 
 export interface VerifiedLabelProps {
-  isVerified: boolean;
-  lastVerification?: Date;
+  isVerified?: boolean;
+  lastVerification?: number;
 }
 
 const colorDark = "#4f4f4f";
@@ -89,8 +89,8 @@ export const LicenceListItem = ({
 interface DocumentItem {
   id: string;
   title: string;
-  isVerified: boolean;
-  lastVerification?: Date;
+  isVerified?: boolean;
+  lastVerification?: number;
 }
 
 interface LicenceListProp {

@@ -1,6 +1,6 @@
 import React, { useEffect, FunctionComponent } from "react";
 import { Text, View } from "react-native";
-import { NavigationProps } from "./types";
+import { NavigationProps, DocumentObject } from "../types";
 import { useDbContext } from "../context/db";
 import sampleData from "../sample.json";
 import * as RxDB from "rxdb";
@@ -20,11 +20,14 @@ const seedDb = async (db: RxDB.RxDatabase, doc: Document): Promise<void> => {
   const id = get(doc, "signature.targetHash");
   const defaultDocument = await db.documents.findOne({ id }).exec();
   if (!defaultDocument) {
-    await db.documents.insert({
+    const documentToInsert: DocumentObject = {
       id,
       created: Date.now(),
-      document: doc
-    });
+      document: doc,
+      verified: Date.now(),
+      isVerified: true
+    };
+    await db.documents.insert(documentToInsert);
   }
 };
 
