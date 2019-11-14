@@ -1,13 +1,14 @@
 import React, { FunctionComponent } from "react";
 import { DocumentObject, NavigationProps } from "../../types";
 import { getData } from "@govtechsg/open-attestation";
-import { DocumentListView } from "./index";
+import { ScreenView } from "../ScreenView";
+import { DocumentList } from "./DocumentList";
 
-interface DocumentListScreenContainer extends NavigationProps {
+export interface DocumentListScreenContainer extends NavigationProps {
   documents: DocumentObject[];
 }
 
-const DocumentListScreenContainer: FunctionComponent<DocumentListScreenContainer> = ({
+export const DocumentListScreenContainer: FunctionComponent<DocumentListScreenContainer> = ({
   documents,
   navigation
 }: DocumentListScreenContainer) => {
@@ -23,8 +24,8 @@ const DocumentListScreenContainer: FunctionComponent<DocumentListScreenContainer
     };
   });
   return (
-    <DocumentListView documents={documentItems} navigateToDoc={navigateToDoc} />
+    <ScreenView>
+      <DocumentList documents={documentItems} navigateToDoc={navigateToDoc} />
+    </ScreenView>
   );
 };
-
-export default DocumentListScreenContainer;

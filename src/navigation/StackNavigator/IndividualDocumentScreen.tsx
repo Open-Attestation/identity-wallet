@@ -1,9 +1,7 @@
 import React, { useEffect, useState, FunctionComponent } from "react";
 import { NavigationProps, DocumentObject } from "../../types";
 import { useDbContext } from "../../context/db";
-import ScreenView from "../../components/ScreenView";
-import DocumentRenderer from "../../components/DocumentRenderer";
-import { LoadingView } from "../../components/Loading";
+import { DocumentRendererScreenContainer } from "../../components/DocumentRenderer/DocumentRendererScreenContainer";
 
 const IndividualDocumentScreen: FunctionComponent<NavigationProps> = ({
   navigation
@@ -16,13 +14,12 @@ const IndividualDocumentScreen: FunctionComponent<NavigationProps> = ({
     db!.documents.findOne({ id: { $eq: id } }).$.subscribe(setDocument);
   }, [true]);
 
-  const output = document ? (
-    <DocumentRenderer document={document.document} />
-  ) : (
-    <LoadingView />
+  return (
+    <DocumentRendererScreenContainer
+      document={document}
+      navigation={navigation}
+    />
   );
-
-  return <ScreenView>{output}</ScreenView>;
 };
 
 export default IndividualDocumentScreen;

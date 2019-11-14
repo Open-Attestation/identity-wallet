@@ -1,7 +1,7 @@
 import React, { useEffect, useState, FunctionComponent } from "react";
 import { NavigationProps, DocumentObject } from "../../types";
 import { useDbContext } from "../../context/db";
-import DocumentListScreenContainer from "../../components/DocumentList/DocumentListScreenContainer";
+import { DocumentListScreenContainer } from "../../components/DocumentList/DocumentListScreenContainer";
 
 const DocumentListScreen: FunctionComponent<NavigationProps> = ({
   navigation

@@ -2,10 +2,8 @@ import React from "react";
 import { CenterDecorator } from "../decorators";
 import { storiesOf } from "@storybook/react-native";
 
-import {
-  DocumentListItem,
-  DocumentListView
-} from "../../../src/components/DocumentList";
+import { DocumentListItem } from "../../../src/components/DocumentList/DocumentListItem";
+import { DocumentList } from "../../../src/components/DocumentList/DocumentList";
 
 const documents = [
   { id: "#1", title: "UAPL", isVerified: true },
@@ -24,7 +22,7 @@ const documents = [
 ];
 
 storiesOf("DocumentList", module).add("DocumentListView", () => (
-  <DocumentListView documents={documents} navigateToDoc={alert} />
+  <DocumentList documents={documents} navigateToDoc={alert} />
 ));
 
 storiesOf("DocumentList", module)

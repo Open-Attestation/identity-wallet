@@ -5,11 +5,9 @@ interface ScreenView {
   children: ReactElement;
 }
 
-const ScreenView = ({ children }: ScreenView): ReactElement => (
+export const ScreenView = ({ children }: ScreenView): ReactElement => (
   <SafeAreaView style={{ flex: 1 }}>
     <StatusBar hidden={true} />
     {children}
   </SafeAreaView>
 );
-
-export default ScreenView;
