@@ -8,9 +8,11 @@ interface DocumentListScreenContainer extends NavigationProps {
 }
 
 const DocumentListScreenContainer: FunctionComponent<DocumentListScreenContainer> = ({
-  documents
+  documents,
+  navigation
 }: DocumentListScreenContainer) => {
-  const navigateToDoc = (docId: string): void => alert(docId);
+  const navigateToDoc = (id: string): boolean =>
+    navigation.navigate("IndividualDocumentScreen", { id });
   const documentItems = documents.map((doc: DocumentObject) => {
     const docClear = getData(doc.document);
     return {

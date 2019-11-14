@@ -1,5 +1,4 @@
 import React, { useEffect, FunctionComponent } from "react";
-import { Text, View } from "react-native";
 import { NavigationProps, DocumentObject } from "../types";
 import { useDbContext } from "../context/db";
 import sampleData from "../sample.json";
@@ -7,6 +6,7 @@ import * as RxDB from "rxdb";
 import { get } from "lodash";
 import { Document } from "@govtechsg/open-attestation";
 import { DB_CONFIG } from "../config";
+import { LoadingView } from "../components/Loading";
 
 RxDB.plugin(require("pouchdb-adapter-asyncstorage").default);
 
@@ -57,11 +57,7 @@ const LoadingScreen: FunctionComponent<NavigationProps> = ({
     });
   }, []);
 
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Loading...</Text>
-    </View>
-  );
+  return <LoadingView />;
 };
 
 export default LoadingScreen;

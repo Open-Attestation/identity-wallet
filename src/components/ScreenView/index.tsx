@@ -6,7 +6,7 @@ interface ScreenView {
 }
 
 const ScreenView = ({ children }: ScreenView): ReactElement => (
-  <SafeAreaView>
+  <SafeAreaView style={{ flex: 1 }}>
     <StatusBar hidden={true} />
     {children}
   </SafeAreaView>

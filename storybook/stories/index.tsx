@@ -1,3 +1,3 @@
 import "./DocumentRenderer";
-import "./LicenseList";
+import "./DocumentList";
 import "./Loading";
