@@ -1,15 +1,15 @@
 import React, { FunctionComponent } from "react";
 import { DocumentObject, NavigationProps } from "../../types";
 import { getData } from "@govtechsg/open-attestation";
-import { LicenceListView } from "./index";
+import { DocumentListView } from "./index";
 
-interface LicenceListScreenContainer extends NavigationProps {
+interface DocumentListScreenContainer extends NavigationProps {
   documents: DocumentObject[];
 }
 
-const LicenceListScreenContainer: FunctionComponent<LicenceListScreenContainer> = ({
+const DocumentListScreenContainer: FunctionComponent<DocumentListScreenContainer> = ({
   documents
-}: LicenceListScreenContainer) => {
+}: DocumentListScreenContainer) => {
   const navigateToDoc = (docId: string): void => alert(docId);
   const documentItems = documents.map((doc: DocumentObject) => {
     const docClear = getData(doc.document);
@@ -21,8 +21,8 @@ const LicenceListScreenContainer: FunctionComponent<LicenceListScreenContainer> 
     };
   });
   return (
-    <LicenceListView documents={documentItems} navigateToDoc={navigateToDoc} />
+    <DocumentListView documents={documentItems} navigateToDoc={navigateToDoc} />
   );
 };
 
-export default LicenceListScreenContainer;
+export default DocumentListScreenContainer;

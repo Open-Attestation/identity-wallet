@@ -1,9 +1,9 @@
 import React, { useEffect, useState, FunctionComponent } from "react";
 import { NavigationProps, DocumentObject } from "../../types";
 import { useDbContext } from "../../context/db";
-import LicenseListScreenContainer from "../../components/LicenceList/LicenseListScreenContainer";
+import DocumentListScreenContainer from "../../components/DocumentList/DocumentListScreenContainer";
 
-const LicenseListScreen: FunctionComponent<NavigationProps> = ({
+const DocumentListScreen: FunctionComponent<NavigationProps> = ({
   navigation
 }: NavigationProps) => {
   const { db } = useDbContext();
@@ -17,8 +17,11 @@ const LicenseListScreen: FunctionComponent<NavigationProps> = ({
   }, [true]);
 
   return (
-    <LicenseListScreenContainer documents={documents} navigation={navigation} />
+    <DocumentListScreenContainer
+      documents={documents}
+      navigation={navigation}
+    />
   );
 };
 
-export default LicenseListScreen;
+export default DocumentListScreen;

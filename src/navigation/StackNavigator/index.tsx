@@ -1,10 +1,10 @@
 import { createStackNavigator } from "react-navigation-stack";
-import LicenseListScreen from "./LicenseListScreen";
+import DocumentListScreen from "./DocumentListScreen";
 
 const StackNavigator = createStackNavigator(
   {
-    LicenseListScreen: {
-      screen: LicenseListScreen
+    DocumentListScreen: {
+      screen: DocumentListScreen
     }
   },
   {

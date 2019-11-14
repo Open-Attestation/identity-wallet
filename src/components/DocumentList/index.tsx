@@ -4,7 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import { truncate } from "lodash";
 import ScreenView from "../ScreenView";
 
-export interface LicenceListItemProps {
+export interface DocumentListItemProps {
   title: string;
   isVerified?: boolean;
   lastVerification?: number;
@@ -59,12 +59,12 @@ export const VerifiedLabel = ({
   );
 };
 
-export const LicenceListItem = ({
+export const DocumentListItem = ({
   title,
   isVerified,
   onPress,
   lastVerification
-}: LicenceListItemProps): ReactElement => (
+}: DocumentListItemProps): ReactElement => (
   <TouchableOpacity onPress={onPress} style={{ width: "100%", margin: 5 }}>
     <View
       style={{
@@ -93,18 +93,18 @@ interface DocumentItem {
   lastVerification?: number;
 }
 
-interface LicenceListProp {
+interface DocumentListProp {
   documents: DocumentItem[];
   navigateToDoc: (documentId: string) => void;
 }
 
-export const LicenceList = ({
+export const DocumentList = ({
   documents,
   navigateToDoc
-}: LicenceListProp): ReactElement => {
-  const renderedLicenceListItem = documents.map(
+}: DocumentListProp): ReactElement => {
+  const renderedDocumentListItem = documents.map(
     (doc): ReactElement => (
-      <LicenceListItem
+      <DocumentListItem
         key={doc.id}
         title={doc.title}
         isVerified={doc.isVerified}
@@ -115,18 +115,18 @@ export const LicenceList = ({
   );
   return (
     <ScrollView style={{ width: "100%", padding: 10, height: "100%" }}>
-      {renderedLicenceListItem}
+      {renderedDocumentListItem}
     </ScrollView>
   );
 };
 
-export const LicenceListView = ({
+export const DocumentListView = ({
   documents,
   navigateToDoc
-}: LicenceListProp): ReactElement => {
+}: DocumentListProp): ReactElement => {
   return (
     <ScreenView>
-      <LicenceList documents={documents} navigateToDoc={navigateToDoc} />
+      <DocumentList documents={documents} navigateToDoc={navigateToDoc} />
     </ScreenView>
   );
 };

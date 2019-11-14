@@ -3,9 +3,9 @@ import { CenterDecorator } from "../decorators";
 import { storiesOf } from "@storybook/react-native";
 
 import {
-  LicenceListItem,
-  LicenceListView
-} from "../../../src/components/LicenceList";
+  DocumentListItem,
+  DocumentListView
+} from "../../../src/components/DocumentList";
 
 const documents = [
   { id: "#1", title: "UAPL", isVerified: true },
@@ -19,18 +19,18 @@ const documents = [
     id: "#3",
     title: "Bachelor of Computer Science",
     isVerified: false,
-    lastVerification: new Date()
+    lastVerification: Date.now()
   }
 ];
 
-storiesOf("LicenceList", module).add("LicenceListView", () => (
-  <LicenceListView documents={documents} navigateToDoc={alert} />
+storiesOf("DocumentList", module).add("DocumentListView", () => (
+  <DocumentListView documents={documents} navigateToDoc={alert} />
 ));
 
-storiesOf("LicenceList", module)
+storiesOf("DocumentList", module)
   .addDecorator(CenterDecorator)
-  .add("LicenceListItem", () => (
-    <LicenceListItem
+  .add("DocumentListItem", () => (
+    <DocumentListItem
       title="UAPL"
       isVerified={true}
       onPress={(): void => alert("Oink!")}
