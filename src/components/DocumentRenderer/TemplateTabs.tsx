@@ -1,7 +1,7 @@
 // Given a OA document and url, render it with webview
 import React, { FunctionComponent } from "react";
-import { View, Text, TouchableWithoutFeedback } from "react-native";
-
+import { View, Text, TouchableOpacity, ViewStyle } from "react-native";
+import { DARK } from "../../common/colors";
 export interface Tab {
   id: string;
   label: string;
@@ -10,21 +10,34 @@ export interface Tab {
 export interface TemplateTabs {
   tabs: Tab[];
   tabSelect: Function;
+  activeTabId: string;
 }
+
+const inactiveTabStyle: ViewStyle = {
+  padding: 10
+};
+
+const activeTabStyle: ViewStyle = {
+  ...inactiveTabStyle,
+  borderBottomColor: DARK,
+  borderBottomWidth: 2,
+  borderStyle: "solid"
+};
 
 export const TemplateTabs: FunctionComponent<TemplateTabs> = ({
   tabs,
-  tabSelect
+  tabSelect,
+  activeTabId
 }) => {
-  // Do not show when there is only one tab
-  if (!tabs || tabs.length <= 1) return null;
+  if (!tabs) return null;
   const renderedTabs = tabs.map(tab => (
-    <TouchableWithoutFeedback
+    <TouchableOpacity
       onPress={(): void => tabSelect(tab.id)}
       key={tab.id}
+      style={tab.id === activeTabId ? activeTabStyle : inactiveTabStyle}
     >
-      <Text>{tab.label}</Text>
-    </TouchableWithoutFeedback>
+      <Text style={{ color: DARK }}>{tab.label}</Text>
+    </TouchableOpacity>
   ));
-  return <View>{renderedTabs}</View>;
+  return <View style={{ flexDirection: "row" }}>{renderedTabs}</View>;
 };

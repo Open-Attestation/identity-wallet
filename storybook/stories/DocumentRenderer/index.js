@@ -6,14 +6,18 @@ import demoOc from "./demo-oc.json";
 import demoCaas from "./demo-caas.json";
 import demoEbl from "./demo-ebl.json";
 
+const mockBack = () => {
+  alert("Back!");
+};
+
 storiesOf("DocumentRenderer", module).add("OpenCerts", () => (
-  <DocumentRenderer document={demoOc} />
+  <DocumentRenderer document={demoOc} goBack={mockBack} />
 ));
 
 storiesOf("DocumentRenderer", module).add("UALP", () => (
-  <DocumentRenderer document={demoCaas} />
+  <DocumentRenderer document={demoCaas} goBack={mockBack} />
 ));
 
 storiesOf("DocumentRenderer", module).add("eBL", () => (
-  <DocumentRenderer document={demoEbl} />
+  <DocumentRenderer document={demoEbl} goBack={mockBack} />
 ));
