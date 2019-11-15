@@ -20,8 +20,8 @@ export const WebViewFrame: FunctionComponent<WebViewFrame> = ({
   document,
   onTemplateMessageHandler,
   setGoToTemplate
-}: WebViewFrame) => {
-  const webViewRef = useRef<WebView>() as RefObject<WebView>;
+}) => {
+  const webViewRef: RefObject<WebView> = useRef<WebView>(null);
   const data = getData(document);
 
   useEffect(() => {

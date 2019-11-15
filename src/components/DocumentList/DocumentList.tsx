@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { FunctionComponent } from "react";
 import { ScrollView } from "react-native";
 import { DocumentListItem } from "./DocumentListItem";
 
@@ -14,21 +14,19 @@ export interface DocumentList {
   navigateToDoc: (documentId: string) => void;
 }
 
-export const DocumentList = ({
+export const DocumentList: FunctionComponent<DocumentList> = ({
   documents,
   navigateToDoc
-}: DocumentList): ReactElement => {
-  const renderedDocumentListItem = documents.map(
-    (doc): ReactElement => (
-      <DocumentListItem
-        key={doc.id}
-        title={doc.title}
-        isVerified={doc.isVerified}
-        lastVerification={doc.lastVerification}
-        onPress={(): void => navigateToDoc(doc.id)}
-      />
-    )
-  );
+}) => {
+  const renderedDocumentListItem = documents.map(doc => (
+    <DocumentListItem
+      key={doc.id}
+      title={doc.title}
+      isVerified={doc.isVerified}
+      lastVerification={doc.lastVerification}
+      onPress={(): void => navigateToDoc(doc.id)}
+    />
+  ));
   return (
     <ScrollView style={{ width: "100%", padding: 10, height: "100%" }}>
       {renderedDocumentListItem}

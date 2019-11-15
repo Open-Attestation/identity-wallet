@@ -18,7 +18,7 @@ interface DocumentRenderer {
 
 export const DocumentRenderer: FunctionComponent<DocumentRenderer> = ({
   document
-}: DocumentRenderer) => {
+}) => {
   const [template, setTemplate] = useState<Tab[]>([]);
   const [goToTemplate, setGoToTemplate] = useState();
 

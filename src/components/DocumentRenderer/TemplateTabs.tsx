@@ -15,7 +15,7 @@ export interface TemplateTabs {
 export const TemplateTabs: FunctionComponent<TemplateTabs> = ({
   tabs,
   tabSelect
-}: TemplateTabs) => {
+}) => {
   // Do not show when there is only one tab
   if (!tabs || tabs.length <= 1) return null;
   const renderedTabs = tabs.map(tab => (

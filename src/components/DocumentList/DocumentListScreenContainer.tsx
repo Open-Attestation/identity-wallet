@@ -11,7 +11,7 @@ export interface DocumentListScreenContainer extends NavigationProps {
 export const DocumentListScreenContainer: FunctionComponent<DocumentListScreenContainer> = ({
   documents,
   navigation
-}: DocumentListScreenContainer) => {
+}) => {
   const navigateToDoc = (id: string): boolean =>
     navigation.navigate("IndividualDocumentScreen", { id });
   const documentItems = documents.map((doc: DocumentObject) => {

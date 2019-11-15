@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { FunctionComponent } from "react";
 import { View, Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { LIGHT, LIGHT_RED_TINGE } from "../../common/colors";
@@ -8,10 +8,10 @@ export interface VerifiedLabel {
   lastVerification?: number;
 }
 
-export const VerifiedLabel = ({
+export const VerifiedLabel: FunctionComponent<VerifiedLabel> = ({
   isVerified,
   lastVerification
-}: VerifiedLabel): ReactElement => {
+}) => {
   let labelText;
   let iconName;
   let backgroundColor;

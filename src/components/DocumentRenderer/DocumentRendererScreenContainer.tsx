@@ -10,7 +10,7 @@ export interface DocumentRendererScreenContainer extends NavigationProps {
 
 export const DocumentRendererScreenContainer: FunctionComponent<DocumentRendererScreenContainer> = ({
   document
-}: DocumentRendererScreenContainer) => {
+}) => {
   const output = document ? (
     <DocumentRenderer document={document.document} />
   ) : (

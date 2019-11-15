@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { FunctionComponent } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { truncate } from "lodash";
 import { VerifiedLabel } from "./VerifiedLabel";
@@ -11,12 +11,12 @@ export interface DocumentListItem {
   onPress: () => void;
 }
 
-export const DocumentListItem = ({
+export const DocumentListItem: FunctionComponent<DocumentListItem> = ({
   title,
   isVerified,
   onPress,
   lastVerification
-}: DocumentListItem): ReactElement => (
+}) => (
   <TouchableOpacity
     onPress={onPress}
     style={{ width: "100%", margin: 5 }}

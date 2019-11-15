@@ -1,11 +1,7 @@
-import React, { ReactElement } from "react";
+import React, { FunctionComponent } from "react";
 import { SafeAreaView, StatusBar } from "react-native";
 
-interface ScreenView {
-  children: ReactElement;
-}
-
-export const ScreenView = ({ children }: ScreenView): ReactElement => (
+export const ScreenView: FunctionComponent = ({ children }) => (
   <SafeAreaView style={{ flex: 1 }}>
     <StatusBar hidden={true} />
     {children}
