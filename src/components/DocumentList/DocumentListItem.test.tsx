@@ -29,8 +29,8 @@ describe("DocumentListItem", () => {
       />
     );
     fireEvent.press(getByText("My Degree"));
-    expect(onPress.mock.calls).toStrictEqual([[]]);
     fireEvent.press(getByTestId("verified-label"));
-    expect(onPress.mock.calls).toStrictEqual([[], []]);
+    expect(onPress).toHaveBeenCalledWith();
+    expect(onPress.mock.calls).toHaveLength(2);
   });
 });
