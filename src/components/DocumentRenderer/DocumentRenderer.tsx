@@ -1,50 +1,11 @@
 // Given a OA document and url, render it with webview
 import React, { FunctionComponent, useState } from "react";
 import { Document } from "@govtechsg/open-attestation";
-import ReactNative, { View, TouchableOpacity } from "react-native";
+import ReactNative, { View } from "react-native";
 import { WebViewMessageEvent } from "react-native-webview";
-import { Ionicons } from "@expo/vector-icons";
-import { Tab, TemplateTabs } from "./TemplateTabs";
+import { Tab } from "./TemplateTabs";
 import { WebViewFrame } from "./WebViewFrame";
-import { VERY_LIGHT, DARK } from "../../common/colors";
-
-interface DocumentRendererHeader extends TemplateTabs {
-  goBack?: () => {};
-}
-
-export const DocumentRendererHeader: FunctionComponent<DocumentRendererHeader> = ({
-  goBack,
-  tabs,
-  tabSelect,
-  activeTabId
-}) => {
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        borderBottomWidth: 2,
-        borderStyle: "solid",
-        borderColor: VERY_LIGHT,
-        marginBottom: 5
-      }}
-    >
-      <TouchableOpacity
-        onPress={() => {
-          if (goBack) goBack();
-        }}
-        style={{ padding: 10, margin: 5 }}
-      >
-        <Ionicons name="md-arrow-round-back" size={20} color={DARK} />
-      </TouchableOpacity>
-      <TemplateTabs
-        tabs={tabs}
-        tabSelect={tabSelect}
-        activeTabId={activeTabId}
-      />
-    </View>
-  );
-};
+import { DocumentRendererHeader } from "./DocumentRendererHeader";
 
 const wrapperStyle: ReactNative.ViewStyle = {
   flex: 1,
