@@ -4,12 +4,13 @@ import { DocumentListItem } from "./DocumentListItem";
 
 describe("DocumentListItem", () => {
   it("should show the title and VerifiedLabel", () => {
+    expect.assertions(2);
     const { queryByText, queryByTestId } = render(
       <DocumentListItem
         title="My Degree"
         isVerified={true}
         lastVerification={1}
-        onPress={() => {}}
+        onPress={(): void => {}}
       />
     );
     expect(queryByText("My Degree")).not.toBeNull();
@@ -28,8 +29,8 @@ describe("DocumentListItem", () => {
       />
     );
     fireEvent.press(getByText("My Degree"));
-    expect(onPress.mock.calls).toEqual([[]]);
+    expect(onPress.mock.calls).toStrictEqual([[]]);
     fireEvent.press(getByTestId("verified-label"));
-    expect(onPress.mock.calls).toEqual([[], []]);
+    expect(onPress.mock.calls).toStrictEqual([[], []]);
   });
 });
