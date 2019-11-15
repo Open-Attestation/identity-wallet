@@ -33,6 +33,7 @@ export const VerifiedLabel = ({
   }
   return (
     <View
+      testID="verified-label"
       style={{
         backgroundColor,
         flexDirection: "row",

@@ -17,7 +17,11 @@ export const DocumentListItem = ({
   onPress,
   lastVerification
 }: DocumentListItem): ReactElement => (
-  <TouchableOpacity onPress={onPress} style={{ width: "100%", margin: 5 }}>
+  <TouchableOpacity
+    onPress={onPress}
+    style={{ width: "100%", margin: 5 }}
+    testID="document-list-item"
+  >
     <View
       style={{
         backgroundColor: VERY_LIGHT,

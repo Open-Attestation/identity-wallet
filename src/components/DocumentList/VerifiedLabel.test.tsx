@@ -2,8 +2,6 @@ import React from "react";
 import { render } from "@testing-library/react-native";
 import { VerifiedLabel } from "./VerifiedLabel";
 
-jest.mock("@expo/vector-icons", () => ({ Feather: "Feather Icons" }));
-
 describe("VerifiedLabel", () => {
   it("should show VERIFIED when isVerified is true", async () => {
     expect.assertions(1);
