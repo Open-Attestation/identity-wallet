@@ -34,6 +34,7 @@ export const DocumentRendererHeader: FunctionComponent<DocumentRendererHeader> =
 }) => {
   return (
     <View
+      testID="document-renderer-header"
       style={{
         flexDirection: "row",
         alignItems: "center",

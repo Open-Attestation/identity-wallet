@@ -13,7 +13,7 @@ const wrapperStyle: ReactNative.ViewStyle = {
 
 interface DocumentRenderer {
   document: Document;
-  goBack?: () => {};
+  goBack?: () => void;
 }
 
 export const DocumentRenderer: FunctionComponent<DocumentRenderer> = ({
