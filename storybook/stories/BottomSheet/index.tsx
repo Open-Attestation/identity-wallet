@@ -1,13 +1,14 @@
-import React, {
-  ReactElement,
-  useState,
-  useEffect,
-  FunctionComponent
-} from "react";
+import React, { ReactElement, useState, FunctionComponent } from "react";
 import { storiesOf } from "@storybook/react-native";
 
 import { BottomSheet } from "../../../src/components/BottomSheet/BottomSheet";
-import { SafeAreaView, View, Button, Text } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Button,
+  Text,
+  LayoutChangeEvent
+} from "react-native";
 
 const Lorem = (): ReactElement => (
   <View>
@@ -41,12 +42,26 @@ const Lorem = (): ReactElement => (
 );
 
 const Example: FunctionComponent = () => {
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const onHeaderLayout = (event: LayoutChangeEvent): void => {
+    const { height } = event.nativeEvent.layout;
+    setHeaderHeight(height + 24);
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <BottomSheet>
+    <SafeAreaView style={{ flex: 1, marginBottom: 96 }}>
+      <BottomSheet snapPoints={[headerHeight, "90%"]}>
         {openSheet => (
           <View>
-            <Button title="QR" onPress={openSheet} />
+            <View
+              onLayout={onHeaderLayout}
+              style={{
+                paddingBottom: 24
+              }}
+            >
+              <Text>Header</Text>
+              <Button title="expand" onPress={openSheet} />
+            </View>
             <Lorem />
             <Lorem />
           </View>
