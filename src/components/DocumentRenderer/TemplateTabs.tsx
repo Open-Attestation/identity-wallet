@@ -1,4 +1,3 @@
-// Given a OA document and url, render it with webview
 import React, { FunctionComponent } from "react";
 import { View, Text, TouchableOpacity, ViewStyle } from "react-native";
 import { DARK } from "../../common/colors";
@@ -32,6 +31,7 @@ export const TemplateTabs: FunctionComponent<TemplateTabs> = ({
   if (!tabs) return null;
   const renderedTabs = tabs.map(tab => (
     <TouchableOpacity
+      testID="template-tab"
       onPress={(): void => tabSelect(tab.id)}
       key={tab.id}
       style={tab.id === activeTabId ? activeTabStyle : inactiveTabStyle}
