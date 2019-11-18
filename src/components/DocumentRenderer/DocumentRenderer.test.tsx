@@ -35,7 +35,7 @@ describe("DocumentRenderer", () => {
   });
 
   it("should switch view when tabs are pressed", async () => {
-    expect.assertions(2);
+    expect.assertions(4);
     const { getByText, queryByText } = render(
       <DocumentRenderer document={sampleDoc} goBack={() => {}} />
     );
