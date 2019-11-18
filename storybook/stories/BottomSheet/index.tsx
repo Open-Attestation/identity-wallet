@@ -45,11 +45,11 @@ const Example: FunctionComponent = () => {
   const [headerHeight, setHeaderHeight] = useState(0);
   const onHeaderLayout = (event: LayoutChangeEvent): void => {
     const { height } = event.nativeEvent.layout;
-    setHeaderHeight(height + 24);
+    setHeaderHeight(height + 56);
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, marginBottom: 96 }}>
+    <SafeAreaView style={{ flex: 1, marginBottom: 40 }}>
       <BottomSheet snapPoints={[headerHeight, "90%"]}>
         {openSheet => (
           <View>
