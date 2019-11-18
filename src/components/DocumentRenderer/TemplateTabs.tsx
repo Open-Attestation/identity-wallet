@@ -1,5 +1,11 @@
 import React, { FunctionComponent } from "react";
-import { View, Text, TouchableOpacity, ViewStyle } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  TouchableOpacity,
+  ViewStyle
+} from "react-native";
 import { DARK } from "../../common/colors";
 export interface Tab {
   id: string;
@@ -39,5 +45,9 @@ export const TemplateTabs: FunctionComponent<TemplateTabs> = ({
       <Text style={{ color: DARK }}>{tab.label}</Text>
     </TouchableOpacity>
   ));
-  return <View style={{ flexDirection: "row" }}>{renderedTabs}</View>;
+  return (
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <View style={{ flexDirection: "row" }}>{renderedTabs}</View>
+    </ScrollView>
+  );
 };
