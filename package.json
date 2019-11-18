@@ -25,7 +25,8 @@
     "react-navigation-stack": "^1.10.3",
     "reanimated-bottom-sheet": "^1.0.0-alpha.16",
     "rxdb": "^8.7.3",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.3",
+    "react-native-reanimated": "~1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
