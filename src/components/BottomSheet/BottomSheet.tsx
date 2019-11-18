@@ -20,7 +20,8 @@ export const BottomSheet: FunctionComponent<BottomSheet> = ({
   const bottomSheetRef: RefObject<BottomSheetBehavior> = useRef(null);
 
   const openSheet = (): null | void =>
-    bottomSheetRef.current && bottomSheetRef.current.snapTo(1);
+    bottomSheetRef.current &&
+    bottomSheetRef.current.snapTo(snapPoints.length - 1);
 
   useEffect(() => {
     bottomSheetRef.current && bottomSheetRef.current.snapTo(0);
