@@ -134,12 +134,23 @@ const ContentWrapper: FunctionComponent = ({ children }) => (
       borderColor: "rgba(0,0,0,0.1)",
       borderWidth: 1,
       shadowColor: "#000",
-      shadowOpacity: 0.4,
+      shadowOpacity: 0.3,
       shadowRadius: 16,
       elevation: 24,
       marginTop: 32
     }}
   >
+    <View
+      style={{
+        position: "absolute",
+        alignSelf: "center",
+        top: 8,
+        width: 48,
+        height: 4,
+        borderRadius: 24,
+        backgroundColor: "#E0E0E0"
+      }}
+    />
     {children}
   </View>
 );
