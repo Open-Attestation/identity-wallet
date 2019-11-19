@@ -145,7 +145,7 @@ const FixedHeader: FunctionComponent = () => (
         borderColor: "rgba(0,0,0,0.1)",
         borderWidth: 1,
         shadowColor: "#000",
-        shadowOpacity: 0.3,
+        shadowOpacity: 0.2,
         shadowRadius: 16,
         elevation: 24
       }}
@@ -170,6 +170,7 @@ const ContentWrapper: FunctionComponent = ({ children }) => (
     style={{
       minHeight: "100%",
       padding: 24,
+      paddingTop: 12,
       backgroundColor: "white"
     }}
   >
