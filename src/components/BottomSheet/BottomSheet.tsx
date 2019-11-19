@@ -91,12 +91,13 @@ export const BottomSheet: FunctionComponent<BottomSheet> = ({
   };
 
   return (
-    <View style={{ flex: 1, overflow: "hidden" }}>
+    <View style={{ flex: 1 }}>
       <Animated.Code
         exec={call<number>([sheetHiddenPercentage], handlePercentageChange)}
       />
       <BottomSheetBehavior
         ref={bottomSheetRef}
+        renderHeader={() => <FixedHeader />}
         renderContent={() => (
           <ContentWrapper>{children(openSheet)}</ContentWrapper>
         )}
@@ -122,35 +123,56 @@ export const BottomSheet: FunctionComponent<BottomSheet> = ({
   );
 };
 
-const ContentWrapper: FunctionComponent = ({ children }) => (
+const FixedHeader: FunctionComponent = () => (
   <View
     style={{
-      width: "100%",
-      borderRadius: 16,
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0,
-      backgroundColor: "white",
-      padding: 24,
-      borderColor: "rgba(0,0,0,0.1)",
-      borderWidth: 1,
-      shadowColor: "#000",
-      shadowOpacity: 0.3,
-      shadowRadius: 16,
-      elevation: 24,
-      marginTop: 32
+      height: 52,
+      overflow: "hidden"
     }}
   >
     <View
       style={{
         position: "absolute",
-        alignSelf: "center",
-        top: 8,
-        width: 48,
-        height: 4,
-        borderRadius: 24,
-        backgroundColor: "#E0E0E0"
+        left: "-0.5%",
+        width: "101%",
+        borderRadius: 16,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        borderBottomWidth: 0,
+        backgroundColor: "white",
+        marginTop: 32,
+        height: 21, // 1 additional unit to ensure the shadow doesn't leak out of the header
+        borderColor: "rgba(0,0,0,0.1)",
+        borderWidth: 1,
+        shadowColor: "#000",
+        shadowOpacity: 0.3,
+        shadowRadius: 16,
+        elevation: 24
       }}
-    />
+    >
+      <View
+        style={{
+          position: "absolute",
+          alignSelf: "center",
+          top: 8,
+          width: 48,
+          height: 4,
+          borderRadius: 24,
+          backgroundColor: "#E0E0E0"
+        }}
+      />
+    </View>
+  </View>
+);
+
+const ContentWrapper: FunctionComponent = ({ children }) => (
+  <View
+    style={{
+      minHeight: "100%",
+      padding: 24,
+      backgroundColor: "white"
+    }}
+  >
     {children}
   </View>
 );
