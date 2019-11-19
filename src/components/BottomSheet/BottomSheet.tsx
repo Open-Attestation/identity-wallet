@@ -67,7 +67,7 @@ export const BottomSheet: FunctionComponent<BottomSheet> = ({
     const changeInHiddenPercentage =
       hiddenPercentage - prevSheetHiddenPercentage.current;
 
-    if (!isTransitioning.current) {
+    if (!isTransitioning.current && status !== null) {
       // Two optimizations have been made:
       // 1. If the user flicks the bottom sheet up or down, it opens and closes accordingly.
       //    The default approach required the user to drag to the halfway point between
