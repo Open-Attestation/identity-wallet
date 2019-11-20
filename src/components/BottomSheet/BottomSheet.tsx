@@ -93,7 +93,7 @@ export const BottomSheet: FunctionComponent<BottomSheet> = ({
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <>
       <Animated.Code
         exec={call<number>([sheetHiddenPercentage], handlePercentageChange)}
       />
@@ -125,51 +125,62 @@ export const BottomSheet: FunctionComponent<BottomSheet> = ({
           isTransitioning.current = false;
         }}
       />
-    </View>
+    </>
   );
 };
 
 const FixedHeader: FunctionComponent = () => (
-  <View
-    style={{
-      height: 52,
-      overflow: "hidden"
-    }}
-  >
+  <>
     <View
       style={{
-        position: "absolute",
-        left: "-0.5%",
-        width: "101%",
-        borderRadius: 16,
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
-        borderBottomWidth: 0,
-        backgroundColor: "white",
-        marginTop: 32,
-        height: 21, // 1 additional unit to ensure the shadow doesn't leak out of the header
-        borderColor: "rgba(0,0,0,0.1)",
-        borderWidth: 1,
-        shadowColor: "#000",
-        shadowOpacity: 0.2,
-        shadowRadius: 16,
-        elevation: 24
+        height: 52,
+        overflow: "hidden"
       }}
     >
       <View
-        testID="drag-indicator"
         style={{
           position: "absolute",
-          alignSelf: "center",
-          top: 8,
-          width: 48,
-          height: 4,
-          borderRadius: 24,
-          backgroundColor: "#E0E0E0"
+          left: "-0.5%",
+          width: "101%",
+          borderRadius: 16,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+          borderBottomWidth: 0,
+          backgroundColor: "white",
+          marginTop: 32,
+          height: 20,
+          borderColor: "rgba(0,0,0,0.1)",
+          borderWidth: 1,
+          shadowColor: "#000",
+          shadowOpacity: 0.2,
+          shadowRadius: 16,
+          elevation: 24
         }}
-      />
+      >
+        <View
+          testID="drag-indicator"
+          style={{
+            position: "absolute",
+            alignSelf: "center",
+            top: 8,
+            width: 48,
+            height: 4,
+            borderRadius: 24,
+            backgroundColor: "#E0E0E0"
+          }}
+        />
+      </View>
     </View>
-  </View>
+    <View
+      style={{
+        position: "absolute",
+        bottom: -1,
+        height: 2,
+        backgroundColor: "white",
+        width: "100%"
+      }}
+    />
+  </>
 );
 
 const ContentWrapper: FunctionComponent = ({ children }) => (
@@ -177,7 +188,7 @@ const ContentWrapper: FunctionComponent = ({ children }) => (
     style={{
       minHeight: "100%",
       padding: 24,
-      paddingTop: 12,
+      paddingTop: 4,
       backgroundColor: "white"
     }}
   >
