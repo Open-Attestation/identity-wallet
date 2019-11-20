@@ -1,9 +1,9 @@
 import React, {
   FunctionComponent,
   useRef,
-  ReactElement,
   RefObject,
-  useEffect
+  useEffect,
+  ReactNode
 } from "react";
 import { View } from "react-native";
 import BottomSheetBehavior from "reanimated-bottom-sheet";
@@ -16,7 +16,7 @@ const OPEN_THRESHOLD = 0.7;
 const CLOSE_THRESHOLD = 0.3;
 
 interface BottomSheet {
-  children: (openSheet: () => null | void) => ReactElement;
+  children: ReactNode | ((openSheet: () => null | void) => ReactNode);
   snapPoints?: (number | string)[];
 }
 

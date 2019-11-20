@@ -9,11 +9,9 @@ describe("BottomSheet", () => {
     const testContent = "content";
     const component = render(
       <BottomSheet>
-        {() => (
-          <View>
-            <Text>{testContent}</Text>
-          </View>
-        )}
+        <View>
+          <Text>{testContent}</Text>
+        </View>
       </BottomSheet>
     );
     expect(component.queryByText(testContent)).not.toBeNull();
@@ -23,11 +21,9 @@ describe("BottomSheet", () => {
     expect.assertions(1);
     const component = render(
       <BottomSheet>
-        {() => (
-          <View>
-            <Text>content</Text>
-          </View>
-        )}
+        <View>
+          <Text>content</Text>
+        </View>
       </BottomSheet>
     );
     expect(component.queryByTestId("drag-indicator")).not.toBeNull();
