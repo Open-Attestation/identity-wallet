@@ -9,6 +9,7 @@ import { LoadingView } from "../components/Loading";
 import demoCaas from "../../fixtures/demo-caas.json";
 import demoOc from "../../fixtures/demo-oc.json";
 import demoTt from "../../fixtures/demo-ebl.json";
+import demoCoc from "../../fixtures/demo-coc.json";
 
 RxDB.plugin(require("pouchdb-adapter-asyncstorage").default);
 
@@ -48,6 +49,7 @@ const init = async ({
   await seedDocument(db, demoCaas);
   await seedDocument(db, demoOc);
   await seedDocument(db, demoTt);
+  await seedDocument(db, demoCoc);
   done();
 };
 
