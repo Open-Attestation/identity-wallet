@@ -151,6 +151,7 @@ const FixedHeader: FunctionComponent = () => (
       }}
     >
       <View
+        testID="drag-indicator"
         style={{
           position: "absolute",
           alignSelf: "center",
