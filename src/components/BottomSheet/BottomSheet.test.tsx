@@ -30,6 +30,6 @@ describe("BottomSheet", () => {
         )}
       </BottomSheet>
     );
-    expect(component.getByTestId("drag-indicator")).not.toBeNull();
+    expect(component.queryByTestId("drag-indicator")).not.toBeNull();
   });
 });
