@@ -15,8 +15,10 @@ const FLICK_THRESHOLD = 0.04;
 const OPEN_THRESHOLD = 0.7;
 const CLOSE_THRESHOLD = 0.3;
 
+type BottomSheetChildrenFn = (openSheet: () => null | void) => ReactNode;
+
 interface BottomSheet {
-  children: ReactNode | ((openSheet: () => null | void) => ReactNode);
+  children: ReactNode | BottomSheetChildrenFn;
   snapPoints?: (number | string)[];
 }
 
@@ -99,7 +101,11 @@ export const BottomSheet: FunctionComponent<BottomSheet> = ({
         ref={bottomSheetRef}
         renderHeader={() => <FixedHeader />}
         renderContent={() => (
-          <ContentWrapper>{children(openSheet)}</ContentWrapper>
+          <ContentWrapper>
+            {typeof children === "function"
+              ? (children as BottomSheetChildrenFn)(openSheet)
+              : children}
+          </ContentWrapper>
         )}
         enabledContentTapInteraction={false}
         snapPoints={snapPoints}
