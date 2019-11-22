@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 import { LayoutChangeEvent, View, Text } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
-import { BottomSheet } from "../BottomSheet/BottomSheet";
+import { BottomSheet } from "../Layout/BottomSheet";
 import { Document } from "@govtechsg/open-attestation";
 import QRIcon from "../../../assets/icons/qr.svg";
 
