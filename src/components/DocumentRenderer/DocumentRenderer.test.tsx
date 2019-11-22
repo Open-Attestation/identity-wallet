@@ -14,7 +14,7 @@ describe("DocumentRenderer", () => {
       <DocumentRenderer document={sampleDoc} goBack={() => {}} />
     );
     expect(queryByTestId("mock-web-view-frame")).not.toBeNull();
-    expect(queryByTestId("document-renderer-header")).not.toBeNull();
+    expect(queryByTestId("header-bar")).not.toBeNull();
   });
 
   it("should render tabs correctly", () => {
