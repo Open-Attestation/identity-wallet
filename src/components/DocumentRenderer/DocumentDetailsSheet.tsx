@@ -24,7 +24,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   return (
     <BottomSheet snapPoints={[headerHeight, "80%"]}>
       {openSheet => (
-        <View>
+        <View testID="document-details">
           <View
             onLayout={onHeaderLayout}
             style={{
