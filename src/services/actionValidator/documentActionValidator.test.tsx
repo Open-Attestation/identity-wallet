@@ -64,4 +64,20 @@ describe("validateDocumentAction", () => {
       "cannot have keys not specified in the object shape"
     );
   });
+
+  it("should return the validated payload", () => {
+    expect.assertions(1);
+    const input = {
+      uri: "https://test.com/doc/123",
+      key: "somepassword",
+      permittedActions: ["STORE"],
+      redirect: "https://tradetrust.io"
+    };
+    expect(validateDocumentAction(input)).toStrictEqual({
+      uri: "https://test.com/doc/123",
+      key: "somepassword",
+      permittedActions: ["STORE"],
+      redirect: "https://tradetrust.io"
+    });
+  });
 });

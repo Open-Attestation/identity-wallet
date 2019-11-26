@@ -23,4 +23,20 @@ describe("validateAction", () => {
       "uri is a required field"
     );
   });
+
+  it("should return validated input", () => {
+    expect.assertions(1);
+    const input = {
+      uri: "https://test.com/doc/123",
+      key: "someverylongkey",
+      permittedActions: ["VIEW"],
+      redirect: "https://tradetrust.io/"
+    };
+    expect(validateAction(ActionType.DOCUMENT, input)).toStrictEqual({
+      uri: "https://test.com/doc/123",
+      key: "someverylongkey",
+      permittedActions: ["VIEW"],
+      redirect: "https://tradetrust.io/"
+    });
+  });
 });
