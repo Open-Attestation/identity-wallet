@@ -13,7 +13,8 @@ export const DocumentListScreenContainer: FunctionComponent<NavigationProps> = (
   const [documents, setDocuments] = useState<DocumentObject[]>([]);
 
   useEffect(() => {
-    const doc = db!.documents.find().sort({ created: 1 });
+    const subscription = db!.documents.find().sort({ created: 1 }).$.subscribe(setDocuments);
+    return () => subscription.unsubscribe();
     doc.$.subscribe(setDocuments);
     return () => {
       doc.$.unsubscribe();
