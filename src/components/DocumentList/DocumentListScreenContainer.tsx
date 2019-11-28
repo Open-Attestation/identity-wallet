@@ -13,12 +13,11 @@ export const DocumentListScreenContainer: FunctionComponent<NavigationProps> = (
   const [documents, setDocuments] = useState<DocumentObject[]>([]);
 
   useEffect(() => {
-    const subscription = db!.documents.find().sort({ created: 1 }).$.subscribe(setDocuments);
+    const subscription = db!.documents
+      .find()
+      .sort({ created: 1 })
+      .$.subscribe(setDocuments);
     return () => subscription.unsubscribe();
-    doc.$.subscribe(setDocuments);
-    return () => {
-      doc.$.unsubscribe();
-    };
   }, [db]);
 
   const navigateToDoc = (id: string): boolean =>

@@ -15,11 +15,10 @@ export const LocalDocumentRendererContainer: FunctionComponent<NavigationProps> 
   const [document, setDocument] = useState<DocumentObject>();
 
   useEffect(() => {
-    const doc = db!.documents.findOne({ id: { $eq: id } });
-    doc.$.subscribe(setDocument);
-    return () => {
-      doc.$.unsubscribe();
-    };
+    const subscription = db!.documents
+      .findOne({ id: { $eq: id } })
+      .$.subscribe(setDocument);
+    return () => subscription.unsubscribe();
   }, [db, id]);
 
   const output = document ? (
