@@ -3,6 +3,7 @@
   "scripts": {
     "start": "expo start",
     "test": "jest",
+    "test:watch": "jest --watch",
     "storybook": "EXPO_START_STORYBOOK=true expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -12,6 +13,8 @@
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
+    "@govtechsg/dnsprove": "^2.0.5",
+    "@govtechsg/oa-verify": "^2.0.2",
     "@govtechsg/open-attestation": "^1.1.41",
     "expo": "^35.0.0",
     "expo-camera": "^7.0.0",
