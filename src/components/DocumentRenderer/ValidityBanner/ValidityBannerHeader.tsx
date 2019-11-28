@@ -107,6 +107,7 @@ export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
               letterSpacing: 0.7,
               marginLeft: 10
             }}
+            testID="validity-header-label"
           >
             {status.label}
           </Text>
@@ -121,6 +122,7 @@ export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
             name={isExpanded ? "chevron-up" : "chevron-down"}
             size={16}
             color="#4f4f4f"
+            testID="validity-header-icon"
           />
         </View>
       </RectButton>

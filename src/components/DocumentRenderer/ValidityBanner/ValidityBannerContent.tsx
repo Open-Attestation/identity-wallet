@@ -35,6 +35,7 @@ export const ValidityBannerContent: FunctionComponent<ValidityBannerContent> = (
         paddingBottom: 12,
         backgroundColor
       }}
+      testID="validity-banner-content"
     >
       {children}
     </View>

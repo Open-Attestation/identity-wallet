@@ -39,7 +39,10 @@ export const ValidityCheckItem: FunctionComponent<ValidityCheckItem> = ({
       <View style={{ marginRight: 8 }}>
         <ValidityIcon checkStatus={checkStatus} size={12} />
       </View>
-      <Text style={{ color: messageColor, fontSize: 12 }}>
+      <Text
+        style={{ color: messageColor, fontSize: 12 }}
+        testID="validity-check-message"
+      >
         {messages[checkStatus]}
       </Text>
     </View>
