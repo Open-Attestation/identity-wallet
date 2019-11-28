@@ -13,11 +13,12 @@ export const DocumentListScreenContainer: FunctionComponent<NavigationProps> = (
   const [documents, setDocuments] = useState<DocumentObject[]>([]);
 
   useEffect(() => {
-    db!.documents
-      .find()
-      .sort({ created: 1 })
-      .$.subscribe(setDocuments);
-  }, [true]);
+    const doc = db!.documents.find().sort({ created: 1 });
+    doc.$.subscribe(setDocuments);
+    return () => {
+      doc.$.unsubscribe();
+    };
+  }, [db]);
 
   const navigateToDoc = (id: string): boolean =>
     navigation.navigate("LocalDocumentScreen", { id });
