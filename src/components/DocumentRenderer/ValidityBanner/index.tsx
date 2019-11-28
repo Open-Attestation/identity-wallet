@@ -30,15 +30,17 @@ interface ValidityBanner {
   issuedCheck: CheckStatus;
   revokedCheck: CheckStatus;
   issuerCheck: CheckStatus;
+  initialIsExpanded?: boolean;
 }
 
 export const ValidityBanner: FunctionComponent<ValidityBanner> = ({
   tamperedCheck,
   issuedCheck,
   revokedCheck,
-  issuerCheck
+  issuerCheck,
+  initialIsExpanded = false
 }) => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(initialIsExpanded);
   const overallValidity = getOverallValidity(
     tamperedCheck,
     issuedCheck,
@@ -66,7 +68,7 @@ export const ValidityBanner: FunctionComponent<ValidityBanner> = ({
         <ValidityCheckItem
           checkStatus={tamperedCheck}
           messages={{
-            checking: <Text>Checking if document has been tampered</Text>,
+            checking: <Text>Checking if document has been tampered with</Text>,
             invalid: <Text>Document has been tampered with</Text>,
             valid: <Text>Document has not been tampered with</Text>,
             unknown: (
@@ -90,7 +92,7 @@ export const ValidityBanner: FunctionComponent<ValidityBanner> = ({
         <ValidityCheckItem
           checkStatus={revokedCheck}
           messages={{
-            checking: <Text>Checking if document was revoked</Text>,
+            checking: <Text>Checking if document has been revoked</Text>,
             invalid: <Text>Document has been revoked</Text>,
             valid: <Text>Document has not been revoked</Text>,
             unknown: <Text>{"Couldn't determine if document was revoked"}</Text>
@@ -107,9 +109,7 @@ export const ValidityBanner: FunctionComponent<ValidityBanner> = ({
               </Text>
             ),
             valid: <Text>{"Document's issuer has been identified"}</Text>,
-            unknown: (
-              <Text>{"Couldn't determine if document&apos;s issuer"}</Text>
-            )
+            unknown: <Text>{"Couldn't determine document&apos;s issuer"}</Text>
           }}
         />
       </ValidityBannerContent>
