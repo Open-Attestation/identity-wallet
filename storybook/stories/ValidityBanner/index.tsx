@@ -6,6 +6,9 @@ import {
   CheckStatus
 } from "../../../src/components/DocumentRenderer/ValidityBanner";
 import { View, Button, Text } from "react-native";
+import { SignedDocument } from "@govtechsg/open-attestation";
+import { checkValidity } from "../../../src/services/DocumentVerifier";
+import sampleDoc from "../../../fixtures/demo-oc.json";
 
 const ValidChecksStory: FunctionComponent = () => {
   const [tamperedCheck, setTamperedCheck] = useState<CheckStatus>("checking");
@@ -163,6 +166,59 @@ const InvalidChecksStory: FunctionComponent = () => {
   );
 };
 
+const ActualChecksStory: FunctionComponent = () => {
+  const [tamperedCheck, setTamperedCheck] = useState<CheckStatus>("checking");
+  const [issuedCheck, setIssuedCheck] = useState<CheckStatus>("checking");
+  const [revokedCheck, setRevokedCheck] = useState<CheckStatus>("checking");
+  const [issuerCheck, setIssuerCheck] = useState<CheckStatus>("checking");
+
+  const start = (): void => {
+    const [verifyHashIssuedRevoked, verifyIdentity] = checkValidity(
+      sampleDoc as SignedDocument
+    );
+
+    verifyHashIssuedRevoked.then(v => {
+      setTamperedCheck(v.hash.checksumMatch ? "valid" : "invalid");
+      setIssuedCheck(v.issued.issuedOnAll ? "valid" : "invalid");
+      setRevokedCheck(v.revoked.revokedOnAny ? "invalid" : "valid");
+    });
+
+    verifyIdentity.then(v => {
+      setIssuerCheck(v.identifiedOnAll ? "valid" : "invalid");
+    });
+  };
+
+  const reset = (): void => {
+    setTamperedCheck("checking");
+    setIssuedCheck("checking");
+    setRevokedCheck("checking");
+    setIssuerCheck("checking");
+  };
+
+  return (
+    <View style={{ width: "100%" }}>
+      <ValidityBanner
+        tamperedCheck={tamperedCheck}
+        issuedCheck={issuedCheck}
+        revokedCheck={revokedCheck}
+        issuerCheck={issuerCheck}
+      />
+      <View
+        style={{
+          flexDirection: "row",
+          marginTop: 8,
+          justifyContent: "space-between",
+          alignSelf: "center",
+          width: "40%"
+        }}
+      >
+        <Button title="Start" onPress={start} />
+        <Button title="Reset" onPress={reset} />
+      </View>
+    </View>
+  );
+};
+
 storiesOf("ValidityBanner", module)
   .addDecorator(CenterDecorator)
   .add("Variants", () => (
@@ -202,4 +258,5 @@ storiesOf("ValidityBanner", module)
 storiesOf("ValidityBanner/Flows", module)
   .addDecorator(CenterDecorator)
   .add("Valid flow", () => <ValidChecksStory />)
-  .add("Invalid flow", () => <InvalidChecksStory />);
+  .add("Invalid flow", () => <InvalidChecksStory />)
+  .add("Actual flow", () => <ActualChecksStory />);
