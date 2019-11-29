@@ -1,6 +1,7 @@
 import React from "react";
 import { render, wait } from "@testing-library/react-native";
 import { ValidityBanner } from "./index";
+import { CheckStatus } from "./types";
 
 jest.useFakeTimers();
 
@@ -10,10 +11,10 @@ describe("ValidityBanner", () => {
       expect.assertions(1);
       const { queryByTestId } = render(
         <ValidityBanner
-          tamperedCheck="valid"
-          issuedCheck="valid"
-          revokedCheck="valid"
-          issuerCheck="valid"
+          tamperedCheck={CheckStatus.VALID}
+          issuedCheck={CheckStatus.VALID}
+          revokedCheck={CheckStatus.VALID}
+          issuerCheck={CheckStatus.VALID}
           initialIsExpanded={false}
         />
       );
@@ -27,10 +28,10 @@ describe("ValidityBanner", () => {
         expect.assertions(1);
         const { queryByTestId } = render(
           <ValidityBanner
-            tamperedCheck="valid"
-            issuedCheck="valid"
-            revokedCheck="valid"
-            issuerCheck="valid"
+            tamperedCheck={CheckStatus.VALID}
+            issuedCheck={CheckStatus.VALID}
+            revokedCheck={CheckStatus.VALID}
+            issuerCheck={CheckStatus.VALID}
             initialIsExpanded={false}
           />
         );
@@ -47,10 +48,10 @@ describe("ValidityBanner", () => {
         expect.assertions(1);
         const { queryByTestId } = render(
           <ValidityBanner
-            tamperedCheck="valid"
-            issuedCheck="valid"
-            revokedCheck="checking"
-            issuerCheck="invalid"
+            tamperedCheck={CheckStatus.VALID}
+            issuedCheck={CheckStatus.VALID}
+            revokedCheck={CheckStatus.CHECKING}
+            issuerCheck={CheckStatus.INVALID}
             initialIsExpanded={false}
           />
         );
@@ -68,10 +69,10 @@ describe("ValidityBanner", () => {
         expect.assertions(1);
         const { queryByTestId } = render(
           <ValidityBanner
-            tamperedCheck="valid"
-            issuedCheck="valid"
-            revokedCheck="checking"
-            issuerCheck="valid"
+            tamperedCheck={CheckStatus.VALID}
+            issuedCheck={CheckStatus.VALID}
+            revokedCheck={CheckStatus.CHECKING}
+            issuerCheck={CheckStatus.VALID}
             initialIsExpanded={false}
           />
         );
@@ -89,10 +90,10 @@ describe("ValidityBanner", () => {
       expect.assertions(1);
       const { queryByTestId } = render(
         <ValidityBanner
-          tamperedCheck="valid"
-          issuedCheck="valid"
-          revokedCheck="valid"
-          issuerCheck="valid"
+          tamperedCheck={CheckStatus.VALID}
+          issuedCheck={CheckStatus.VALID}
+          revokedCheck={CheckStatus.VALID}
+          issuerCheck={CheckStatus.VALID}
           initialIsExpanded={true}
         />
       );

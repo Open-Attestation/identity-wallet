@@ -1,1 +1,5 @@
-export type CheckStatus = "checking" | "valid" | "invalid" | "unknown";
+export enum CheckStatus {
+  CHECKING = "CHECKING",
+  VALID = "VALID",
+  INVALID = "INVALID"
+}

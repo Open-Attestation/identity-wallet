@@ -8,20 +8,19 @@ interface ValidityBannerContent {
 }
 
 export const ValidityBannerContent: FunctionComponent<ValidityBannerContent> = ({
-  checkStatus = "checking",
+  checkStatus = CheckStatus.CHECKING,
   isExpanded = false,
   children
 }) => {
   let backgroundColor;
   switch (checkStatus) {
-    case "valid":
+    case CheckStatus.VALID:
       backgroundColor = "#EFFAF4";
       break;
-    case "invalid":
+    case CheckStatus.INVALID:
       backgroundColor = "#FCF3F3";
       break;
-    case "checking":
-    case "unknown":
+    case CheckStatus.CHECKING:
     default:
       backgroundColor = "#FEF9EB";
       break;

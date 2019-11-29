@@ -13,29 +13,28 @@ interface ValidityBannerHeader {
 }
 
 export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
-  checkStatus = "checking",
+  checkStatus = CheckStatus.CHECKING,
   isExpanded = false,
   progress = 0,
   onPress
 }) => {
   let status;
   switch (checkStatus) {
-    case "valid":
+    case CheckStatus.VALID:
       status = {
         label: "Valid",
         labelColor: "#12964A",
         backgroundColor: "#DAF9E7"
       };
       break;
-    case "invalid":
+    case CheckStatus.INVALID:
       status = {
         label: "Invalid",
         labelColor: "#E74343",
         backgroundColor: "#FCE7E7"
       };
       break;
-    case "checking":
-    case "unknown":
+    case CheckStatus.CHECKING:
     default:
       status = {
         label: "Verifying...",

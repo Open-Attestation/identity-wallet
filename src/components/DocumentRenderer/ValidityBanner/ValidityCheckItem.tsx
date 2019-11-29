@@ -5,7 +5,7 @@ import { ValidityIcon } from "./ValidityIcon";
 
 interface ValidityCheckItem {
   checkStatus: CheckStatus;
-  messages: { [status in CheckStatus]: ReactNode };
+  messages: { [status in CheckStatus]?: ReactNode };
 }
 
 export const ValidityCheckItem: FunctionComponent<ValidityCheckItem> = ({
@@ -14,14 +14,13 @@ export const ValidityCheckItem: FunctionComponent<ValidityCheckItem> = ({
 }) => {
   let messageColor;
   switch (checkStatus) {
-    case "valid":
+    case CheckStatus.VALID:
       messageColor = "#12964A";
       break;
-    case "invalid":
+    case CheckStatus.INVALID:
       messageColor = "#E74343";
       break;
-    case "checking":
-    case "unknown":
+    case CheckStatus.CHECKING:
     default:
       messageColor = "#4F4F4F";
       break;

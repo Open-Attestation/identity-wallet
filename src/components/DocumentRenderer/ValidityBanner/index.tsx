@@ -7,23 +7,47 @@ import { CheckStatus } from "./types";
 
 export * from "./types";
 
-const getOverallValidity: (...args: CheckStatus[]) => CheckStatus = (
-  ...args
-) => {
-  if (args.some(check => check === "invalid")) {
-    return "invalid";
-  } else if (args.some(check => check === "checking")) {
-    return "checking";
-  } else if (args.every(check => check === "valid")) {
-    return "valid";
-  } else {
-    return "unknown";
+const MESSAGES = {
+  TAMPERED_CHECK: {
+    [CheckStatus.CHECKING]: (
+      <Text>Checking if document has been tampered with</Text>
+    ),
+    [CheckStatus.INVALID]: <Text>Document has been tampered with</Text>,
+    [CheckStatus.VALID]: <Text>Document has not been tampered with</Text>
+  },
+  ISSUED_CHECK: {
+    [CheckStatus.CHECKING]: <Text>Checking if document was issued</Text>,
+    [CheckStatus.INVALID]: <Text>Document was not issued</Text>,
+    [CheckStatus.VALID]: <Text>Document was issued</Text>
+  },
+  REVOKED_CHECK: {
+    [CheckStatus.CHECKING]: <Text>Checking if document has been revoked</Text>,
+    [CheckStatus.INVALID]: <Text>Document has been revoked</Text>,
+    [CheckStatus.VALID]: <Text>Document has not been revoked</Text>
+  },
+  ISSUER_CHECK: {
+    [CheckStatus.CHECKING]: <Text>{"Checking the document's issuer"}</Text>,
+    [CheckStatus.INVALID]: (
+      <Text>{"Document's issuer may not be who they say they are"}</Text>
+    ),
+    [CheckStatus.VALID]: <Text>{"Document's issuer has been identified"}</Text>
   }
 };
 
-const calculateProgress: (...args: CheckStatus[]) => number = (...args) => {
-  return args.filter(check => check !== "checking").length / args.length;
+const getOverallValidity: (...args: CheckStatus[]) => CheckStatus = (
+  ...args
+) => {
+  if (args.some(check => check === CheckStatus.INVALID)) {
+    return CheckStatus.INVALID;
+  } else if (args.every(check => check === CheckStatus.VALID)) {
+    return CheckStatus.VALID;
+  } else {
+    return CheckStatus.CHECKING;
+  }
 };
+
+const calculateProgress: (...args: CheckStatus[]) => number = (...args) =>
+  args.filter(check => check !== CheckStatus.CHECKING).length / args.length;
 
 interface ValidityBanner {
   tamperedCheck: CheckStatus;
@@ -67,50 +91,19 @@ export const ValidityBanner: FunctionComponent<ValidityBanner> = ({
       >
         <ValidityCheckItem
           checkStatus={tamperedCheck}
-          messages={{
-            checking: <Text>Checking if document has been tampered with</Text>,
-            invalid: <Text>Document has been tampered with</Text>,
-            valid: <Text>Document has not been tampered with</Text>,
-            unknown: (
-              <Text>
-                {"Couldn't determine if document has been tampered with"}
-              </Text>
-            )
-          }}
+          messages={MESSAGES.TAMPERED_CHECK}
         />
-
         <ValidityCheckItem
           checkStatus={issuedCheck}
-          messages={{
-            checking: <Text>Checking if document was issued</Text>,
-            invalid: <Text>Document was not issued</Text>,
-            valid: <Text>Document was issued</Text>,
-            unknown: <Text>{"Couldn't determine if document was issued"}</Text>
-          }}
+          messages={MESSAGES.ISSUED_CHECK}
         />
-
         <ValidityCheckItem
           checkStatus={revokedCheck}
-          messages={{
-            checking: <Text>Checking if document has been revoked</Text>,
-            invalid: <Text>Document has been revoked</Text>,
-            valid: <Text>Document has not been revoked</Text>,
-            unknown: <Text>{"Couldn't determine if document was revoked"}</Text>
-          }}
+          messages={MESSAGES.REVOKED_CHECK}
         />
-
         <ValidityCheckItem
           checkStatus={issuerCheck}
-          messages={{
-            checking: <Text>{"Checking the document's issuer"}</Text>,
-            invalid: (
-              <Text>
-                {"Document's issuer may not be who they say they are"}
-              </Text>
-            ),
-            valid: <Text>{"Document's issuer has been identified"}</Text>,
-            unknown: <Text>{"Couldn't determine document&apos;s issuer"}</Text>
-          }}
+          messages={MESSAGES.ISSUER_CHECK}
         />
       </ValidityBannerContent>
     </View>

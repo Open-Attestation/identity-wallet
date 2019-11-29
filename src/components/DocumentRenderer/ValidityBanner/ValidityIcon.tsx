@@ -25,7 +25,7 @@ export const ValidityIcon: FunctionComponent<ValidityIcon> = ({
 
   useEffect(() => {
     if (animationTiming.current) {
-      if (checkStatus === "checking") {
+      if (checkStatus === CheckStatus.CHECKING) {
         Animated.loop(animationTiming.current).start();
       } else {
         animationTiming.current.stop();
@@ -36,22 +36,21 @@ export const ValidityIcon: FunctionComponent<ValidityIcon> = ({
 
   let status;
   switch (checkStatus) {
-    case "valid":
+    case CheckStatus.VALID:
       status = {
         iconCategory: Feather,
         iconName: "check-circle",
         iconColor: "#12964A"
       };
       break;
-    case "invalid":
+    case CheckStatus.INVALID:
       status = {
         iconCategory: Feather,
         iconName: "x-circle",
         iconColor: "#E74343"
       };
       break;
-    case "checking":
-    case "unknown":
+    case CheckStatus.CHECKING:
     default:
       status = {
         iconCategory: AntDesign,

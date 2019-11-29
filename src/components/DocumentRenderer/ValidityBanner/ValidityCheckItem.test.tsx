@@ -2,12 +2,12 @@ import React from "react";
 import { render } from "@testing-library/react-native";
 import { Text } from "react-native";
 import { ValidityCheckItem } from "./ValidityCheckItem";
+import { CheckStatus } from "./types";
 
 const messages = {
-  checking: <Text>Checking</Text>,
-  invalid: <Text>Invalid</Text>,
-  valid: <Text>Valid</Text>,
-  unknown: <Text>Unknown</Text>
+  [CheckStatus.CHECKING]: <Text>Checking</Text>,
+  [CheckStatus.INVALID]: <Text>Invalid</Text>,
+  [CheckStatus.VALID]: <Text>Valid</Text>
 };
 
 describe("ValidityCheckItem", () => {
@@ -15,7 +15,10 @@ describe("ValidityCheckItem", () => {
     it("should render with the correct message", () => {
       expect.assertions(1);
       const { queryByTestId } = render(
-        <ValidityCheckItem checkStatus="checking" messages={messages} />
+        <ValidityCheckItem
+          checkStatus={CheckStatus.CHECKING}
+          messages={messages}
+        />
       );
       expect(queryByTestId("validity-check-message")).toHaveTextContent(
         "Checking"
@@ -27,7 +30,10 @@ describe("ValidityCheckItem", () => {
     it("should render with the correct message", () => {
       expect.assertions(1);
       const { queryByTestId } = render(
-        <ValidityCheckItem checkStatus="invalid" messages={messages} />
+        <ValidityCheckItem
+          checkStatus={CheckStatus.INVALID}
+          messages={messages}
+        />
       );
       expect(queryByTestId("validity-check-message")).toHaveTextContent(
         "Invalid"
@@ -39,22 +45,13 @@ describe("ValidityCheckItem", () => {
     it("should render with the correct message", () => {
       expect.assertions(1);
       const { queryByTestId } = render(
-        <ValidityCheckItem checkStatus="valid" messages={messages} />
+        <ValidityCheckItem
+          checkStatus={CheckStatus.VALID}
+          messages={messages}
+        />
       );
       expect(queryByTestId("validity-check-message")).toHaveTextContent(
         "Valid"
-      );
-    });
-  });
-
-  describe("when checkStatus is unknown", () => {
-    it("should render with the correct message", () => {
-      expect.assertions(1);
-      const { queryByTestId } = render(
-        <ValidityCheckItem checkStatus="unknown" messages={messages} />
-      );
-      expect(queryByTestId("validity-check-message")).toHaveTextContent(
-        "Unknown"
       );
     });
   });
