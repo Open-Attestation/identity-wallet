@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { act } from "@testing-library/react-native";
-import { DbContext } from "./db";
-import { DocumentObject } from "../types";
+import { DbContext } from "../../context/db";
+import { DocumentObject } from "../../types";
 
 const mockSubscribe = jest.fn();
 const documents = {

@@ -5,21 +5,12 @@ import {
   MockDbProvider,
   whenDbFoundDocuments,
   resetDb
-} from "../../context/db.testhelper";
+} from "../../test/helpers/db";
+import { mockNavigation, resetNavigation } from "../../test/helpers/navigation";
 import demoDoc1 from "../../../fixtures/demo-caas.json";
 import demoDoc2 from "../../../fixtures/demo-oc.json";
 
 jest.mock("../../common/navigation");
-
-const mockNavigation: any = {
-  navigate: jest.fn(),
-  dispatch: jest.fn()
-};
-
-const resetNavigation = (): void => {
-  mockNavigation.navigate.mockReset();
-  mockNavigation.dispatch.mockReset();
-};
 
 const sampleDocuments = [
   {
