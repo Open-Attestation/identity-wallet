@@ -3,9 +3,7 @@ import { View, Text } from "react-native";
 import { ValidityBannerHeader } from "./ValidityBannerHeader";
 import { ValidityBannerContent } from "./ValidityBannerContent";
 import { ValidityCheckItem } from "./ValidityCheckItem";
-import { CheckStatus } from "./types";
-
-export * from "./types";
+import { CheckStatus } from "../../../constants/verifier";
 
 const MESSAGES = {
   TAMPERED_CHECK: {
@@ -28,21 +26,9 @@ const MESSAGES = {
   ISSUER_CHECK: {
     [CheckStatus.CHECKING]: <Text>{"Checking the document's issuer"}</Text>,
     [CheckStatus.INVALID]: (
-      <Text>{"Document's issuer may not be who they say they are"}</Text>
+      <Text>{"Could not identity the document's issuer"}</Text>
     ),
     [CheckStatus.VALID]: <Text>{"Document's issuer has been identified"}</Text>
-  }
-};
-
-const getOverallValidity: (...args: CheckStatus[]) => CheckStatus = (
-  ...args
-) => {
-  if (args.some(check => check === CheckStatus.INVALID)) {
-    return CheckStatus.INVALID;
-  } else if (args.every(check => check === CheckStatus.VALID)) {
-    return CheckStatus.VALID;
-  } else {
-    return CheckStatus.CHECKING;
   }
 };
 
@@ -54,6 +40,7 @@ interface ValidityBanner {
   issuedCheck: CheckStatus;
   revokedCheck: CheckStatus;
   issuerCheck: CheckStatus;
+  overallValidity: CheckStatus;
   initialIsExpanded?: boolean;
 }
 
@@ -62,15 +49,10 @@ export const ValidityBanner: FunctionComponent<ValidityBanner> = ({
   issuedCheck,
   revokedCheck,
   issuerCheck,
+  overallValidity,
   initialIsExpanded = false
 }) => {
   const [isExpanded, setIsExpanded] = useState(initialIsExpanded);
-  const overallValidity = getOverallValidity(
-    tamperedCheck,
-    issuedCheck,
-    revokedCheck,
-    issuerCheck
-  );
 
   return (
     <View>

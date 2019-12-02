@@ -1,11 +1,12 @@
 import React, { FunctionComponent, ReactNode } from "react";
-import { CheckStatus } from "./types";
 import { View, Text } from "react-native";
 import { ValidityIcon } from "./ValidityIcon";
+import { CheckStatus } from "../../../constants/verifier";
+import { GREEN_30, RED_30, DARK } from "../../../common/colors";
 
 interface ValidityCheckItem {
   checkStatus: CheckStatus;
-  messages: { [status in CheckStatus]?: ReactNode };
+  messages: { [status in CheckStatus]: ReactNode };
 }
 
 export const ValidityCheckItem: FunctionComponent<ValidityCheckItem> = ({
@@ -15,14 +16,14 @@ export const ValidityCheckItem: FunctionComponent<ValidityCheckItem> = ({
   let messageColor;
   switch (checkStatus) {
     case CheckStatus.VALID:
-      messageColor = "#12964A";
+      messageColor = GREEN_30;
       break;
     case CheckStatus.INVALID:
-      messageColor = "#E74343";
+      messageColor = RED_30;
       break;
     case CheckStatus.CHECKING:
     default:
-      messageColor = "#4F4F4F";
+      messageColor = DARK;
       break;
   }
 

@@ -1,11 +1,12 @@
-import React, { FunctionComponent, useState, useRef, useEffect } from "react";
+import React, { FunctionComponent, useState, useRef } from "react";
 import { LayoutChangeEvent, View, Text } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { BottomSheet } from "../Layout/BottomSheet";
-import { Document, SignedDocument } from "@govtechsg/open-attestation";
+import { Document, SignedDocument, getData } from "@govtechsg/open-attestation";
 import QRIcon from "../../../assets/icons/qr.svg";
-import { ValidityBanner, CheckStatus } from "./ValidityBanner";
-import { checkValidity } from "../../services/DocumentVerifier";
+import { ValidityBanner } from "./ValidityBanner";
+import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
+import { VERY_LIGHT } from "../../common/colors";
 
 interface DocumentDetailsSheet {
   document: Document;
@@ -24,29 +25,16 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
     }
   };
 
-  const { name } = document.data.issuers[0];
-  const issuerName = name.split(":")[2];
+  const { issuers } = getData(document);
+  const issuerName = issuers[0].name;
 
-  const [tamperedCheck, setTamperedCheck] = useState<CheckStatus>("checking");
-  const [issuedCheck, setIssuedCheck] = useState<CheckStatus>("checking");
-  const [revokedCheck, setRevokedCheck] = useState<CheckStatus>("checking");
-  const [issuerCheck, setIssuerCheck] = useState<CheckStatus>("checking");
-
-  useEffect(() => {
-    const [verifyHashIssuedRevoked, verifyIdentity] = checkValidity(
-      document as SignedDocument
-    );
-
-    verifyHashIssuedRevoked.then(v => {
-      setTamperedCheck(v.hash.checksumMatch ? "valid" : "invalid");
-      setIssuedCheck(v.issued.issuedOnAll ? "valid" : "invalid");
-      setRevokedCheck(v.revoked.revokedOnAny ? "invalid" : "valid");
-    });
-
-    verifyIdentity.then(v => {
-      setIssuerCheck(v.identifiedOnAll ? "valid" : "invalid");
-    });
-  }, [document]);
+  const {
+    tamperedCheck,
+    issuedCheck,
+    revokedCheck,
+    issuerCheck,
+    overallValidity
+  } = useDocumentVerifier(document as SignedDocument);
 
   return (
     <BottomSheet snapPoints={[headerHeight, "83%"]}>
@@ -64,6 +52,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
                 issuedCheck={issuedCheck}
                 revokedCheck={revokedCheck}
                 issuerCheck={issuerCheck}
+                overallValidity={overallValidity}
               />
             </View>
             <View style={{ flexDirection: "row" }}>
@@ -83,7 +72,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
               <RectButton
                 onPress={openSheet}
                 style={{
-                  backgroundColor: "#F2F2F2",
+                  backgroundColor: VERY_LIGHT,
                   height: 48,
                   width: 48,
                   borderRadius: 8,
@@ -101,7 +90,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
             style={{
               width: "100%",
               aspectRatio: 1,
-              backgroundColor: "#f2f2f2",
+              backgroundColor: VERY_LIGHT,
               marginBottom: 24
             }}
           />

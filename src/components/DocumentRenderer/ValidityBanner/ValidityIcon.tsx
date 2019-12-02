@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useRef, useEffect } from "react";
-import { CheckStatus } from "./types";
 import { Animated, Easing } from "react-native";
 import { Feather, AntDesign } from "@expo/vector-icons";
+import { CheckStatus } from "../../../constants/verifier";
+import { GREEN_30, RED_30, LIGHT_ALT } from "../../../common/colors";
 
 interface ValidityIcon {
   checkStatus: CheckStatus;
@@ -40,14 +41,14 @@ export const ValidityIcon: FunctionComponent<ValidityIcon> = ({
       status = {
         iconCategory: Feather,
         iconName: "check-circle",
-        iconColor: "#12964A"
+        iconColor: GREEN_30
       };
       break;
     case CheckStatus.INVALID:
       status = {
         iconCategory: Feather,
         iconName: "x-circle",
-        iconColor: "#E74343"
+        iconColor: RED_30
       };
       break;
     case CheckStatus.CHECKING:
@@ -55,7 +56,7 @@ export const ValidityIcon: FunctionComponent<ValidityIcon> = ({
       status = {
         iconCategory: AntDesign,
         iconName: "loading2",
-        iconColor: "#828282"
+        iconColor: LIGHT_ALT
       };
       break;
   }

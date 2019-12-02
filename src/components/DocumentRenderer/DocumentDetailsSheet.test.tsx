@@ -3,28 +3,16 @@ import { render, wait } from "@testing-library/react-native";
 import sampleDoc from "../../../fixtures/demo-oc.json";
 import { DocumentDetailsSheet } from "./DocumentDetailsSheet";
 
-import { checkValidity } from "../../services/DocumentVerifier";
-jest.mock("../../services/DocumentVerifier");
-const checkValidityMock = checkValidity as jest.Mock;
+import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
+jest.mock("../../common/hooks/useDocumentVerifier");
+const mockUseVerifier = useDocumentVerifier as jest.Mock;
 
 jest.useFakeTimers();
 
 describe("DocumentDetailsSheet", () => {
   it("should show the correct issuer name", async () => {
     expect.assertions(1);
-    checkValidityMock.mockReturnValue([
-      Promise.resolve({
-        hash: { checksumMatch: true },
-        issued: { issuedOnAll: true },
-        revoked: { revokedOnAny: false },
-        valid: true
-      }),
-
-      Promise.resolve({
-        identifiedOnAll: true,
-        details: []
-      })
-    ]);
+    mockUseVerifier.mockReturnValue({});
     const { queryByText } = render(
       <DocumentDetailsSheet document={sampleDoc} />
     );

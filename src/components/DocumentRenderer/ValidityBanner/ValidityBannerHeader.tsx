@@ -1,9 +1,16 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
-import { View, Text } from "react-native";
-import { RectButton } from "react-native-gesture-handler";
+import { View, Text, TouchableHighlight } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { CheckStatus } from "./types";
 import { ValidityIcon } from "./ValidityIcon";
+import { CheckStatus } from "../../../constants/verifier";
+import {
+  GREEN_30,
+  GREEN_20,
+  RED_30,
+  RED_20,
+  DARK,
+  YELLOW_20
+} from "../../../common/colors";
 
 interface ValidityBannerHeader {
   checkStatus?: CheckStatus;
@@ -23,23 +30,23 @@ export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
     case CheckStatus.VALID:
       status = {
         label: "Valid",
-        labelColor: "#12964A",
-        backgroundColor: "#DAF9E7"
+        labelColor: GREEN_30,
+        backgroundColor: GREEN_20
       };
       break;
     case CheckStatus.INVALID:
       status = {
         label: "Invalid",
-        labelColor: "#E74343",
-        backgroundColor: "#FCE7E7"
+        labelColor: RED_30,
+        backgroundColor: RED_20
       };
       break;
     case CheckStatus.CHECKING:
     default:
       status = {
         label: "Verifying...",
-        labelColor: "#4F4F4F",
-        backgroundColor: "#FDF2CE"
+        labelColor: DARK,
+        backgroundColor: YELLOW_20
       };
       break;
   }
@@ -63,9 +70,7 @@ export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
   }, [progress]);
 
   return (
-    <View
-      style={{ position: "relative", backgroundColor: status.backgroundColor }}
-    >
+    <View style={{ position: "relative" }}>
       <View
         style={{
           backgroundColor: status.labelColor,
@@ -74,57 +79,67 @@ export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
           position: "absolute",
           top: -1
         }}
+        testID="validity-header-progress"
       />
 
-      <RectButton
+      <TouchableHighlight
         style={{
-          width: "100%",
           height: 44,
           flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "stretch",
           paddingTop: 8,
           paddingBottom: 8,
           paddingLeft: 24,
-          paddingRight: 24
+          paddingRight: 24,
+          backgroundColor: status.backgroundColor
         }}
+        underlayColor={status.backgroundColor}
         onPress={onPress}
+        testID="validity-header-button"
       >
         <View
           style={{
+            width: "100%",
             flexDirection: "row",
-            alignItems: "center"
+            alignItems: "stretch",
+            justifyContent: "space-between"
           }}
         >
-          <ValidityIcon checkStatus={checkStatus} size={20} />
-          <Text
+          <View
             style={{
-              color: status.labelColor,
-              fontSize: 14,
-              fontWeight: "bold",
-              textTransform: "uppercase",
-              letterSpacing: 0.7,
-              marginLeft: 10
+              flexDirection: "row",
+              alignItems: "center"
             }}
-            testID="validity-header-label"
           >
-            {status.label}
-          </Text>
+            <ValidityIcon checkStatus={checkStatus} size={20} />
+            <Text
+              style={{
+                color: status.labelColor,
+                fontSize: 14,
+                fontWeight: "bold",
+                textTransform: "uppercase",
+                letterSpacing: 0.7,
+                marginLeft: 10
+              }}
+              testID="validity-header-label"
+            >
+              {status.label}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center"
+            }}
+          >
+            <Feather
+              name={isExpanded ? "chevron-up" : "chevron-down"}
+              size={16}
+              color={DARK}
+              testID="validity-header-icon"
+            />
+          </View>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center"
-          }}
-        >
-          <Feather
-            name={isExpanded ? "chevron-up" : "chevron-down"}
-            size={16}
-            color="#4f4f4f"
-            testID="validity-header-icon"
-          />
-        </View>
-      </RectButton>
+      </TouchableHighlight>
     </View>
   );
 };

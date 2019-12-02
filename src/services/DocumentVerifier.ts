@@ -15,10 +15,18 @@ export const checkValidity = (
 
   const verifyHashIssuedRevoked = verify(document, networkName);
   const verifyIdentity = checkValidIdentity(document, networkName);
-  const overallValidity = Promise.all([
-    verifyHashIssuedRevoked,
-    verifyIdentity
-  ]).then(([{ valid }, { identifiedOnAll }]) => valid && identifiedOnAll);
 
-  return [verifyHashIssuedRevoked, verifyIdentity, overallValidity];
+  // If any of the checks are invalid, resolve the overall validity early
+  const overallValidityCheck = Promise.all([
+    new Promise(async (resolve, reject) =>
+      (await verifyHashIssuedRevoked).valid ? resolve() : reject()
+    ),
+    new Promise(async (resolve, reject) =>
+      (await verifyIdentity).identifiedOnAll ? resolve() : reject()
+    )
+  ])
+    .then(() => true)
+    .catch(() => false);
+
+  return [verifyHashIssuedRevoked, verifyIdentity, overallValidityCheck];
 };
