@@ -2,10 +2,19 @@ import React from "react";
 import { View } from "react-native";
 import { storiesOf } from "@storybook/react-native";
 import { ScannedDocumentActionSheet } from "../../../src/components/DocumentRenderer/ScannedDocumentActionSheet";
+import { CheckStatus } from "../../../src/constants/verifier";
 
 const onSave = (): void => alert("Saved");
 const onCancel = (): void => alert("Cancelled");
 const onDone = (): void => alert("Going back");
+
+const mockVerificationStatuses = {
+  tamperedCheck: CheckStatus.VALID,
+  issuedCheck: CheckStatus.VALID,
+  revokedCheck: CheckStatus.VALID,
+  issuerCheck: CheckStatus.VALID,
+  overallValidity: CheckStatus.VALID
+};
 
 storiesOf("DocumentRenderer", module).add(
   "ScannedDocumentActionSheet - Savable",
@@ -18,6 +27,7 @@ storiesOf("DocumentRenderer", module).add(
       }}
     >
       <ScannedDocumentActionSheet
+        verificationStatuses={mockVerificationStatuses}
         issuedBy="caas.gov.sg"
         isSavable={true}
         onSave={onSave}
@@ -38,6 +48,7 @@ storiesOf("DocumentRenderer", module).add(
       }}
     >
       <ScannedDocumentActionSheet
+        verificationStatuses={mockVerificationStatuses}
         issuedBy="caas.gov.sg"
         isSavable={false}
         onDone={onDone}
