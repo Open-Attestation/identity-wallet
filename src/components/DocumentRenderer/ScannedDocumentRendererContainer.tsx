@@ -2,10 +2,9 @@ import React, { FunctionComponent } from "react";
 import { NavigationProps, DocumentObject } from "../../types";
 import { DocumentRenderer } from "./DocumentRenderer";
 import { ScreenView } from "../ScreenView";
-import { SignedDocument, Document, getData } from "@govtechsg/open-attestation";
+import { SignedDocument, getData } from "@govtechsg/open-attestation";
 import { ScannedDocumentActionSheet } from "./ScannedDocumentActionSheet";
 import { useDbContext } from "../../context/db";
-import { get } from "lodash";
 import { resetRouteFn } from "../../common/navigation";
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
 import { CheckStatus } from "../../constants/verifier";
@@ -14,12 +13,12 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
   navigation
 }) => {
   const { db } = useDbContext();
-  const document: Document = navigation.getParam("document");
+  const document: SignedDocument = navigation.getParam("document");
   const isSavable: boolean = navigation.getParam("savable");
   const verificationStatuses = useDocumentVerifier(document as SignedDocument);
 
   const documentData = getData(document);
-  const id = get(document, "signature.targetHash");
+  const id = document.signature.targetHash;
   const issuedBy =
     documentData.issuers[0]?.identityProof?.location ||
     "Issuer's identity not found";
