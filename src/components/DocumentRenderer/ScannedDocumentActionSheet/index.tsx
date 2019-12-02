@@ -3,6 +3,8 @@ import { View, Text } from "react-native";
 import { DARK } from "../../../common/colors";
 import { DarkButton } from "../../Layout/Buttons/DarkButton";
 import { Button } from "../../Layout/Buttons/Button";
+import { VerificationStatuses } from "../../../common/hooks/useDocumentVerifier";
+import { ValidityBanner } from "../ValidityBanner";
 
 export interface SavableActionSheet {
   onSave?: () => void;
@@ -47,6 +49,7 @@ export interface ScannedDocumentActionSheet {
   onSave?: () => void;
   onCancel?: () => void;
   onDone?: () => void;
+  verificationStatuses: VerificationStatuses;
 }
 
 export const ScannedDocumentActionSheet: FunctionComponent<ScannedDocumentActionSheet> = ({
@@ -54,7 +57,8 @@ export const ScannedDocumentActionSheet: FunctionComponent<ScannedDocumentAction
   isSavable,
   onSave,
   onCancel,
-  onDone
+  onDone,
+  verificationStatuses
 }) => {
   return (
     <View
@@ -67,7 +71,8 @@ export const ScannedDocumentActionSheet: FunctionComponent<ScannedDocumentAction
         paddingBottom: 24
       }}
     >
-      <View style={{ marginBottom: 8 }}>
+      <ValidityBanner {...verificationStatuses} />
+      <View style={{ marginTop: 12, marginBottom: 18 }}>
         <Text style={{ color: DARK, marginBottom: 5 }}>Issued by</Text>
         <Text
           style={{
