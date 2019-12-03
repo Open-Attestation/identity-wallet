@@ -2,11 +2,14 @@ import React, { FunctionComponent } from "react";
 import { act } from "@testing-library/react-native";
 import { DbContext } from "../../context/db";
 
-const mockSubscribe = jest.fn();
+export const mockSubscribe = jest.fn();
+export const mockInsert = jest.fn();
+
 const documents = {
   find: () => documents,
   findOne: () => documents,
   sort: () => documents,
+  insert: mockInsert,
   $: {
     subscribe: mockSubscribe
   }
