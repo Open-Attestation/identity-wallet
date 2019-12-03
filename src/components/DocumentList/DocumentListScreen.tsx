@@ -5,13 +5,13 @@ import { DocumentList, DocumentItem } from "./DocumentList";
 import { BottomNav } from "../Layout/BottomNav";
 import { EmptyDocumentList } from "./EmptyDocumentList";
 
-interface DocumentListLayout extends NavigationProps {
+interface DocumentListScreen extends NavigationProps {
   documentItems: DocumentItem[];
   navigateToDoc: (documentId: string) => boolean;
   navigateToScanner: () => void;
 }
 
-export const DocumentListLayout: FunctionComponent<DocumentListLayout> = ({
+export const DocumentListScreen: FunctionComponent<DocumentListScreen> = ({
   navigation,
   navigateToDoc,
   documentItems,
