@@ -9,14 +9,14 @@ import {
 import { MockDbProvider, resetDb, mockInsert } from "../../test/helpers/db";
 import sampleDocument from "../../../fixtures/demo-caas.json";
 import { CheckStatus } from "../../constants/verifier";
-import * as useDocumentVerifier from "../../common/hooks/useDocumentVerifier";
+import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
 
 jest.mock("../DocumentRenderer/WebViewFrame");
 jest.mock("../../common/navigation");
 jest.mock("../../common/hooks/useDocumentVerifier");
 jest.useFakeTimers();
 
-const mockUseDocumentVerifier = useDocumentVerifier.useDocumentVerifier as jest.Mock;
+const mockUseDocumentVerifier = useDocumentVerifier as jest.Mock;
 
 const whenDocumentIsVerified = (): void => {
   mockUseDocumentVerifier.mockReturnValue({
@@ -84,8 +84,8 @@ describe("ScannedDocumentRendererContainer", () => {
     );
     expect(insertedDocument.isVerified).toBe(true);
     expect(insertedDocument.document).toStrictEqual(sampleDocument);
-    expect(insertedDocument.created).toBeTruthy(); // eslint-disable-line jest/no-truthy-falsy
-    expect(insertedDocument.verified).toBeTruthy(); // eslint-disable-line jest/no-truthy-falsy
+    expect(insertedDocument).toHaveProperty("verified");
+    expect(insertedDocument).toHaveProperty("created");
     await wait(() =>
       expect(mockNavigation.dispatch).toHaveBeenCalledWith({
         routeName: "LocalDocumentScreen",
