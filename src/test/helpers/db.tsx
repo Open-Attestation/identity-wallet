@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from "react";
 import { act } from "@testing-library/react-native";
 import { DbContext } from "../../context/db";
-import { DocumentObject } from "../../types";
 
 const mockSubscribe = jest.fn();
 const documents = {
   find: () => documents,
+  findOne: () => documents,
   sort: () => documents,
   $: {
     subscribe: mockSubscribe
@@ -19,11 +19,9 @@ export const MockDbProvider: FunctionComponent = ({ children }) => (
   <DbContext.Provider value={{ db: mockDb }}>{children}</DbContext.Provider>
 );
 
-export const whenDbFoundDocuments = (
-  returnedDocuments: DocumentObject[]
-): void => {
-  const setDocuments = mockSubscribe.mock.calls[0][0];
-  act(() => setDocuments(returnedDocuments));
+export const whenDbSubscriptionReturns = (results: any): void => {
+  const setFunction = mockSubscribe.mock.calls[0][0];
+  act(() => setFunction(results));
 };
 
 export const resetDb = mockSubscribe.mockReset;

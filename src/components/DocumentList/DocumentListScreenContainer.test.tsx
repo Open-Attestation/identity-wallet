@@ -3,7 +3,7 @@ import { render, fireEvent } from "@testing-library/react-native";
 import { DocumentListScreenContainer } from "./DocumentListScreenContainer";
 import {
   MockDbProvider,
-  whenDbFoundDocuments,
+  whenDbSubscriptionReturns,
   resetDb
 } from "../../test/helpers/db";
 import { mockNavigation, resetNavigation } from "../../test/helpers/navigation";
@@ -41,7 +41,7 @@ describe("DocumentListScreenContainer", () => {
         <DocumentListScreenContainer navigation={mockNavigation} />
       </MockDbProvider>
     );
-    whenDbFoundDocuments(sampleDocuments);
+    whenDbSubscriptionReturns(sampleDocuments);
     expect(queryAllByTestId("document-list-item")).not.toBeNull();
     expect(queryAllByTestId("document-list-item")).toHaveLength(2);
   });
@@ -63,7 +63,7 @@ describe("DocumentListScreenContainer", () => {
         <DocumentListScreenContainer navigation={mockNavigation} />
       </MockDbProvider>
     );
-    whenDbFoundDocuments(sampleDocuments);
+    whenDbSubscriptionReturns(sampleDocuments);
     fireEvent.press(queryAllByTestId("document-list-item")[1]);
     expect(mockNavigation.navigate).toHaveBeenCalledWith(
       "LocalDocumentScreen",
