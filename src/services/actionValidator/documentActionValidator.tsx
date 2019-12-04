@@ -23,6 +23,7 @@ const documentActionSchema = yup
       .required()
       .url(),
     key: yup.string(),
+    type: yup.string(),
     permittedActions: yup
       .array()
       .of(yup.string().matches(documentPermittedActionRegex)),

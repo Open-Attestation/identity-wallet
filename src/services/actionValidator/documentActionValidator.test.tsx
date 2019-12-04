@@ -70,12 +70,14 @@ describe("validateDocumentAction", () => {
     const input = {
       uri: "https://test.com/doc/123",
       key: "somepassword",
+      type: "OPEN-ATTESTATION-TYPE-1",
       permittedActions: ["STORE"],
       redirect: "https://tradetrust.io"
     };
     expect(validateDocumentAction(input)).toStrictEqual({
       uri: "https://test.com/doc/123",
       key: "somepassword",
+      type: "OPEN-ATTESTATION-TYPE-1",
       permittedActions: ["STORE"],
       redirect: "https://tradetrust.io"
     });

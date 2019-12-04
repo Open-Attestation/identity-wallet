@@ -16,6 +16,7 @@
     "@govtechsg/dnsprove": "^2.0.5",
     "@govtechsg/oa-verify": "^2.0.2",
     "@govtechsg/open-attestation": "^1.1.41",
+    "@govtechsg/opencerts-encryption": "^1.1.0",
     "expo": "^35.0.0",
     "expo-camera": "^7.0.0",
     "expo-constants": "^7.0.1",
