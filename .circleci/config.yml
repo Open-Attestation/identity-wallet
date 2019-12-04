@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  sonarcloud: sonarsource/sonarcloud@1.0.1
 jobs:
   build:
     docker:
@@ -54,6 +52,8 @@ jobs:
       - run:
           name: expo_publish_channel
           command: expo publish --non-interactive --release-channel storybook-default
+orbs:
+  sonarcloud: sonarsource/sonarcloud@1.0.1
 workflows:
   version: 2
   test_and_publish:
