@@ -1,7 +1,7 @@
 import { Document } from "@govtechsg/open-attestation";
 import { validateAction } from "./actionValidator/validator";
 import { DocumentPermittedAction } from "./actionValidator/documentActionValidator";
-import { decryptString } from "@govtechsg/opencerts-encryption";
+import { decryptString, Cipher } from "@govtechsg/opencerts-encryption";
 
 // The universal transfer method uses the query string's field as the action type
 // and the uriencoded value as the payload
@@ -55,12 +55,12 @@ export const getEncryptedDocument = async ({
   const {
     document: { tag, cipherText, iv }
   } = await fetch(payload.uri).then(res => res.json());
-  const cipher = {
+  const cipher: Cipher = {
     tag,
     cipherText,
     iv,
-    key: payload.key,
-    type: payload.type
+    key: payload.key!,
+    type: payload.type!
   };
   return JSON.parse(decryptString(cipher)) as Document;
 };
