@@ -29,7 +29,6 @@ const whenDocumentIsVerified = (): void => {
 };
 
 describe("ScannedDocumentRendererContainer", () => {
-  // eslint-disable-next-line jest/no-hooks
   beforeEach(() => {
     resetNavigation();
     resetDb();

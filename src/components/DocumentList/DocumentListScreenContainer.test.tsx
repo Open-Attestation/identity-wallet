@@ -28,7 +28,6 @@ const sampleDocuments = [
 ];
 
 describe("DocumentListScreenContainer", () => {
-  // eslint-disable-next-line jest/no-hooks
   beforeEach(() => {
     resetDb();
     resetNavigation();

@@ -10,7 +10,6 @@ jest.mock("expo-permissions", () => ({
 jest.mock("expo-camera");
 
 describe("QrCamera", () => {
-  // eslint-disable-next-line jest/no-hooks
   beforeEach(() => {
     mockPermissions.mockReset();
   });

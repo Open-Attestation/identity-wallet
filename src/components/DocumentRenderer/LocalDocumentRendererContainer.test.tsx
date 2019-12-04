@@ -14,7 +14,6 @@ jest.mock("../../common/navigation");
 jest.useFakeTimers();
 
 describe("LocalDocumentRendererContainer", () => {
-  // eslint-disable-next-line jest/no-hooks
   beforeEach(() => {
     resetDb();
     resetNavigation();
