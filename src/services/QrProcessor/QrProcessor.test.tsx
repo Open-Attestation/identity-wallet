@@ -1,6 +1,6 @@
-import { decodeAction, processQr, getEncryptedDocument } from "./QrProcessor";
-import demoEncrypted from "../../fixtures/demo-encrypted-oc.json";
-import demoOc from "../../fixtures/demo-oc.json";
+import { decodeAction, processQr } from "./index";
+import demoEncrypted from "../../../fixtures/demo-encrypted-oc.json";
+import demoOc from "../../../fixtures/demo-oc.json";
 
 const dataPrefix = "https://openattestation.com/action?document=";
 
@@ -69,50 +69,6 @@ describe("decodeAction", () => {
       };
       expect(decodeAction(input)).toStrictEqual(action);
     });
-  });
-});
-
-describe("getEncryptedDocument", () => {
-  const mockJsonResponse = jest.fn();
-
-  beforeAll(() => {
-    const globalAny: any = global;
-    jest
-      .spyOn(globalAny, "fetch")
-      .mockImplementation()
-      .mockImplementation(async () => ({
-        json: mockJsonResponse
-      }));
-  });
-
-  it("should fetch and decrypt an encrypted document", async () => {
-    expect.assertions(1);
-    mockJsonResponse.mockResolvedValue(demoEncrypted);
-    const results = await getEncryptedDocument({
-      type: "DOCUMENT",
-      payload: {
-        uri: "https://example.com/id",
-        key: "7e22da661c5d574ed611bf507db9350c5d50028df21fd7038fa0bb3b02e4e9b4",
-        type: "OPEN-ATTESTATION-TYPE-1"
-      }
-    });
-    expect(results).toStrictEqual(demoOc);
-  });
-
-  it("should throw on incorrect key", async () => {
-    expect.assertions(1);
-    mockJsonResponse.mockResolvedValue(demoEncrypted);
-    await expect(
-      getEncryptedDocument({
-        type: "DOCUMENT",
-        payload: {
-          uri: "https://example.com/id",
-          key:
-            "7e22da661c5d574ed611bf507db9350c5d50028df21fd7038fa0bb3b02e4e9b5",
-          type: "OPEN-ATTESTATION-TYPE-1"
-        }
-      })
-    ).rejects.toThrow("Error decrypting message");
   });
 });
 
