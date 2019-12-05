@@ -18,7 +18,6 @@ export interface Action {
   payload: {
     uri: string;
     key?: string;
-    type?: string;
     permittedActions?: DocumentPermittedAction[];
     redirect?: string;
   };
@@ -55,12 +54,11 @@ export const processQr = async (
 
   switch (action.type) {
     case ActionType.DOCUMENT:
-      const { uri, key, type } = action.payload;
+      const { uri, key } = action.payload;
       const fetchedDocument = key
         ? await fetchEncryptedDocument({
             uri,
-            key,
-            type: type!
+            key
           })
         : await fetchCleartextDocument({ uri });
 

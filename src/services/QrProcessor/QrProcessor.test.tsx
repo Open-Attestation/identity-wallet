@@ -217,8 +217,7 @@ describe("processQr", () => {
           JSON.stringify({
             uri: "https://example.com/some-id",
             key:
-              "7e22da661c5d574ed611bf507db9350c5d50028df21fd7038fa0bb3b02e4e9b4",
-            type: "OPEN-ATTESTATION-TYPE-1"
+              "7e22da661c5d574ed611bf507db9350c5d50028df21fd7038fa0bb3b02e4e9b4"
           })
         ),
       { onDocumentStore, onDocumentView }
@@ -238,8 +237,7 @@ describe("processQr", () => {
             JSON.stringify({
               uri: "https://example.com/some-id",
               key:
-                "7e22da661c5d574ed611bf507db9350c5d50028df21fd7038fa0bb3b02e4e9b5",
-              type: "OPEN-ATTESTATION-TYPE-1"
+                "7e22da661c5d574ed611bf507db9350c5d50028df21fd7038fa0bb3b02e4e9b5"
             })
           ),
         { onDocumentStore, onDocumentView }

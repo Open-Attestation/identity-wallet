@@ -4,7 +4,6 @@ import { decryptString } from "@govtechsg/oa-encryption";
 interface EncryptedDocumentAction {
   uri: string;
   key: string;
-  type: string;
 }
 
 export const fetchCleartextDocument = async (payload: {
@@ -13,11 +12,10 @@ export const fetchCleartextDocument = async (payload: {
 
 export const fetchEncryptedDocument = async ({
   uri,
-  key,
-  type
+  key
 }: EncryptedDocumentAction): Promise<Document> => {
   const {
-    document: { tag, cipherText, iv }
+    document: { tag, cipherText, iv, type }
   } = await fetch(uri).then(res => res.json());
   const cipher = {
     tag,
