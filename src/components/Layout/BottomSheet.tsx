@@ -38,7 +38,7 @@ export const BottomSheet: FunctionComponent<BottomSheet> = ({
   // this allows snapPoints to be dynamic
   useEffect(() => {
     bottomSheetRef.current && bottomSheetRef.current.snapTo(0);
-  }, [snapPoints]);
+  }, [...snapPoints]); // depends on each snapPoint
 
   const sheetStatus = useRef<SheetStatus>(null);
   const isTransitioning = useRef(false);
