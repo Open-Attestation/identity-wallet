@@ -7,13 +7,18 @@ import QRIcon from "../../../assets/icons/qr.svg";
 import { ValidityBanner } from "./ValidityBanner";
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
 import { VERY_LIGHT } from "../../common/colors";
+import QRCode from "react-native-qrcode-svg";
 
 interface DocumentDetailsSheet {
   document: Document;
+  onGenerateQr: () => void;
+  qrCode?: string;
 }
 
 export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
-  document
+  document,
+  onGenerateQr,
+  qrCode
 }) => {
   const [headerHeight, setHeaderHeight] = useState(0);
   const hasHeaderHeightBeenSet = useRef(false);
@@ -37,7 +42,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   } = useDocumentVerifier(document as SignedDocument);
 
   return (
-    <BottomSheet snapPoints={[headerHeight, "83%"]}>
+    <BottomSheet snapPoints={[headerHeight, "83%"]} onOpenEnd={onGenerateQr}>
       {openSheet => (
         <View testID="document-details">
           <View
@@ -86,14 +91,25 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
               </RectButton>
             </View>
           </View>
-          <View
-            style={{
-              width: "100%",
-              aspectRatio: 1,
-              backgroundColor: VERY_LIGHT,
-              marginBottom: 24
-            }}
-          />
+          {qrCode ? (
+            <View
+              style={{
+                width: "100%",
+                alignItems: "center"
+              }}
+            >
+              <QRCode value={qrCode} size={250} />
+            </View>
+          ) : (
+            <View
+              style={{
+                width: "100%",
+                aspectRatio: 1,
+                backgroundColor: VERY_LIGHT,
+                marginBottom: 24
+              }}
+            />
+          )}
         </View>
       )}
     </BottomSheet>

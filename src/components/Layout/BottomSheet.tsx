@@ -20,12 +20,16 @@ type BottomSheetChildrenFn = (openSheet: () => null | void) => ReactNode;
 interface BottomSheet {
   children: ReactNode | BottomSheetChildrenFn;
   snapPoints?: (number | string)[];
+  onOpenEnd?: () => void;
+  onCloseEnd?: () => void;
 }
 
 type SheetStatus = "opening" | "closing" | null;
 
 export const BottomSheet: FunctionComponent<BottomSheet> = ({
   children,
+  onOpenEnd,
+  onCloseEnd,
   snapPoints = ["20%", "100%"]
 }) => {
   const bottomSheetRef: RefObject<BottomSheetBehavior> = useRef(null);
@@ -116,9 +120,11 @@ export const BottomSheet: FunctionComponent<BottomSheet> = ({
         onOpenEnd={() => {
           sheetStatus.current = null;
           isTransitioning.current = false;
+          if (onOpenEnd) onOpenEnd();
         }}
         onCloseStart={() => {
           sheetStatus.current = "closing";
+          if (onOpenEnd) onOpenEnd();
         }}
         onCloseEnd={() => {
           sheetStatus.current = null;
