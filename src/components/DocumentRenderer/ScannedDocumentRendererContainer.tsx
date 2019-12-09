@@ -6,7 +6,6 @@ import { SignedDocument, getData } from "@govtechsg/open-attestation";
 import { ScannedDocumentActionSheet } from "./ScannedDocumentActionSheet";
 import { useDbContext } from "../../context/db";
 import { resetRouteFn } from "../../common/navigation";
-import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
 import { CheckStatus } from "../../constants/verifier";
 
 export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps> = ({
@@ -15,7 +14,7 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
   const { db } = useDbContext();
   const document: SignedDocument = navigation.getParam("document");
   const isSavable: boolean = navigation.getParam("savable");
-  const verificationStatuses = useDocumentVerifier(document as SignedDocument);
+  const verificationStatuses = navigation.getParam("verificationStatuses");
 
   const documentData = getData(document);
   const id = document.signature.targetHash;
