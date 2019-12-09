@@ -19,8 +19,8 @@ const truthyVerifyResult = [
 ];
 
 const falsyVerifyResult = [
-  { checksumMatch: true },
-  { issuedOnAll: true },
+  { checksumMatch: false },
+  { issuedOnAll: false },
   { revokedOnAny: true }
 ];
 
