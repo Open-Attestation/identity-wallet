@@ -20,10 +20,10 @@ export const LocalDocumentRendererContainer: FunctionComponent<NavigationProps> 
   const [document, setDocument] = useState<DocumentObject | null>(null);
 
   useEffect(() => {
-    const subscription = db?.documents
+    const subscription = db!.documents
       .findOne({ id: { $eq: id } })
       .$.subscribe(setDocument);
-    return () => subscription?.unsubscribe();
+    return () => subscription.unsubscribe();
   }, [db, id]);
 
   const onVerification = async (checkStatus: CheckStatus): Promise<void> => {

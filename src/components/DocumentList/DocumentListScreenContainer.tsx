@@ -11,8 +11,8 @@ export const DocumentListScreenContainer: FunctionComponent<NavigationProps> = (
   const { db } = useDbContext();
   const [documents, setDocuments] = useState<DocumentObject[]>([]);
   useEffect(() => {
-    const subscription = db?.documents.find().$.subscribe(setDocuments);
-    return () => subscription?.unsubscribe();
+    const subscription = db!.documents.find().$.subscribe(setDocuments);
+    return () => subscription.unsubscribe();
   }, [db]);
 
   const navigateToDoc = (id: string): boolean =>
