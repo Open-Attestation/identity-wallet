@@ -12,11 +12,13 @@ interface BarCodeScanningResult {
 export interface QrCamera {
   onQrData: (data: string) => void;
   disabled?: boolean;
+  ratio?: string;
 }
 
 export const QrCamera: FunctionComponent<QrCamera> = ({
   onQrData,
-  disabled
+  disabled = false,
+  ratio = "16:9"
 }) => {
   const [hasCameraPermission, setHasCameraPermission] = useState(false);
   const askForCameraPermission = async (): Promise<void> => {
@@ -41,6 +43,7 @@ export const QrCamera: FunctionComponent<QrCamera> = ({
         <Camera
           style={{ flex: 1 }}
           onBarCodeScanned={onBarCodeScanned}
+          ratio={ratio}
           testID="qr-camera"
         />
       )}

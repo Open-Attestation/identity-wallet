@@ -13,6 +13,7 @@ describe("QrCamera", () => {
   beforeEach(() => {
     mockPermissions.mockReset();
   });
+
   it("should render LoadingView if the camera is disabled", async () => {
     expect.assertions(2);
     mockPermissions.mockResolvedValue({ status: "granted" });
@@ -22,6 +23,7 @@ describe("QrCamera", () => {
     expect(queryByTestId("qr-camera")).toBeNull();
     await wait(() => expect(queryByTestId("loading-view")).not.toBeNull());
   });
+
   it("should render Camera if the camera is enabled", async () => {
     expect.assertions(2);
     mockPermissions.mockReturnValue({ status: "granted" });
@@ -31,6 +33,7 @@ describe("QrCamera", () => {
     expect(queryByTestId("loading-view")).toBeNull();
     await wait(() => expect(queryByTestId("qr-camera")).not.toBeNull());
   });
+
   it("should not render if camera permission is not given", async () => {
     expect.assertions(3);
     mockPermissions.mockReturnValue({ status: "nil" });
