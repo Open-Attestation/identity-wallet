@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, wait, act } from "@testing-library/react-native";
+import { render, fireEvent, wait } from "@testing-library/react-native";
 import { LocalDocumentRendererContainer } from "./LocalDocumentRendererContainer";
 import {
   MockDbProvider,
