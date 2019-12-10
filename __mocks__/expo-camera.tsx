@@ -1,7 +1,22 @@
-import React, { forwardRef, Ref } from "react";
+import React, {
+  forwardRef,
+  Ref,
+  useImperativeHandle,
+  useLayoutEffect
+} from "react";
 import { View } from "react-native";
 
 // eslint-disable-next-line react/display-name
-export const Camera = forwardRef((_, ref: Ref<View>) => (
-  <View testID="qr-camera" ref={ref}></View>
-));
+export const Camera = forwardRef<View, { onCameraReady?: () => void }>(
+  ({ onCameraReady, ...props }, ref: Ref<any>) => {
+    useImperativeHandle(ref, () => ({
+      getSupportedRatiosAsync: () => ["4:3", "16:9"]
+    }));
+
+    useLayoutEffect(() => {
+      onCameraReady?.();
+    }, [onCameraReady]);
+
+    return <View testID="qr-camera" ref={ref} {...props}></View>;
+  }
+);
