@@ -7,7 +7,6 @@ const mockPermissions = Permissions.askAsync as jest.Mock;
 jest.mock("expo-permissions", () => ({
   askAsync: jest.fn()
 }));
-jest.mock("expo-camera");
 
 describe("QrCamera", () => {
   beforeEach(() => {
