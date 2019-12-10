@@ -33,7 +33,7 @@ export const QrCamera: FunctionComponent<QrCamera> = ({
   }, []);
 
   const cameraRef = useRef<Camera>(null);
-  const [ratio, setRatio] = useState("");
+  const [ratio, setRatio] = useState();
   const onCameraReady = async (): Promise<void> => {
     if (Platform.OS === "android" && cameraRef.current) {
       const ratios = await cameraRef.current.getSupportedRatiosAsync();
