@@ -1,4 +1,7 @@
-import React, { FunctionComponent } from "react";
+import React, { forwardRef, Ref } from "react";
 import { View } from "react-native";
 
-export const Camera: FunctionComponent = () => <View testID="qr-camera"></View>;
+// eslint-disable-next-line react/display-name
+export const Camera = forwardRef((_, ref: Ref<View>) => (
+  <View testID="qr-camera" ref={ref}></View>
+));
