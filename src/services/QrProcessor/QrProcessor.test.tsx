@@ -77,11 +77,9 @@ describe("processQr", () => {
 
   beforeAll(() => {
     const globalAny: any = global;
-    jest
-      .spyOn(globalAny, "fetch")
-      .mockImplementation(async () => ({
-        json: mockJsonResponse
-      }));
+    jest.spyOn(globalAny, "fetch").mockImplementation(async () => ({
+      json: mockJsonResponse
+    }));
   });
 
   it("should fetch and call `onDocumentView` for `document` type action", async () => {
