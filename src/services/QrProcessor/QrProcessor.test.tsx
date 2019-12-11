@@ -79,7 +79,6 @@ describe("processQr", () => {
     const globalAny: any = global;
     jest
       .spyOn(globalAny, "fetch")
-      .mockImplementation()
       .mockImplementation(async () => ({
         json: mockJsonResponse
       }));
