@@ -9,7 +9,7 @@ import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
 import { VERY_LIGHT } from "../../common/colors";
 import { CheckStatus } from "../../constants/verifier";
 
-interface DocumentDetailsSheet {
+export interface DocumentDetailsSheet {
   document: Document;
   onVerification: (checkStatus: CheckStatus) => void;
 }
