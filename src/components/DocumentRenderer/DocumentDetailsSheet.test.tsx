@@ -14,7 +14,7 @@ describe("DocumentDetailsSheet", () => {
     expect.assertions(1);
     mockUseVerifier.mockReturnValue({});
     const { queryByText } = render(
-      <DocumentDetailsSheet document={sampleDoc} />
+      <DocumentDetailsSheet document={sampleDoc} onVerification={() => null} />
     );
     await wait(() => {
       expect(queryByText("Govtech")).not.toBeNull();
