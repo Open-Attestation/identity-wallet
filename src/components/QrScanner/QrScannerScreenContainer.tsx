@@ -32,8 +32,8 @@ export const QrScannerScreenContainer: FunctionComponent<QrScannerScreenContaine
     try {
       await processQr(data, { onDocumentStore, onDocumentView });
     } catch (e) {
-      alert(e);
       setScanningDisabled(false);
+      alert(e);
     }
   };
 
