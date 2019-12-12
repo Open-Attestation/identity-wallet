@@ -1,3 +1,5 @@
+import React from "react";
+import { Text } from "react-native";
 import { GREEN_30, GREEN_20, RED_30, RED_20, YELLOW_20, DARK } from "./colors";
 
 export enum CheckStatus {
@@ -59,3 +61,30 @@ export function getStatusProps<T extends {}>(
       };
   }
 }
+
+export const CHECK_MESSAGES = {
+  TAMPERED_CHECK: {
+    [CheckStatus.CHECKING]: (
+      <Text>Checking if document has been tampered with</Text>
+    ),
+    [CheckStatus.INVALID]: <Text>Document has been tampered with</Text>,
+    [CheckStatus.VALID]: <Text>Document has not been tampered with</Text>
+  },
+  ISSUED_CHECK: {
+    [CheckStatus.CHECKING]: <Text>Checking if document was issued</Text>,
+    [CheckStatus.INVALID]: <Text>Document was not issued</Text>,
+    [CheckStatus.VALID]: <Text>Document was issued</Text>
+  },
+  REVOKED_CHECK: {
+    [CheckStatus.CHECKING]: <Text>Checking if document has been revoked</Text>,
+    [CheckStatus.INVALID]: <Text>Document has been revoked</Text>,
+    [CheckStatus.VALID]: <Text>Document has not been revoked</Text>
+  },
+  ISSUER_CHECK: {
+    [CheckStatus.CHECKING]: <Text>{"Checking the document's issuer"}</Text>,
+    [CheckStatus.INVALID]: (
+      <Text>{"Could not identity the document's issuer"}</Text>
+    ),
+    [CheckStatus.VALID]: <Text>{"Document's issuer has been identified"}</Text>
+  }
+};
