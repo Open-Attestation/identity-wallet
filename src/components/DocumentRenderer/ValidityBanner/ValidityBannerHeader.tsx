@@ -3,14 +3,8 @@ import { View, Text, TouchableHighlight } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { ValidityIcon } from "./ValidityIcon";
 import { CheckStatus } from "../../../constants/verifier";
-import {
-  GREEN_30,
-  GREEN_20,
-  RED_30,
-  RED_20,
-  DARK,
-  YELLOW_20
-} from "../../../common/colors";
+import { DARK } from "../../../common/colors";
+import { getStatusProps } from "../../../common/verifier";
 
 interface ValidityBannerHeader {
   checkStatus?: CheckStatus;
@@ -25,31 +19,17 @@ export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
   progress = 0,
   onPress
 }) => {
-  let status;
-  switch (checkStatus) {
-    case CheckStatus.VALID:
-      status = {
-        label: "Valid",
-        labelColor: GREEN_30,
-        backgroundColor: GREEN_20
-      };
-      break;
-    case CheckStatus.INVALID:
-      status = {
-        label: "Invalid",
-        labelColor: RED_30,
-        backgroundColor: RED_20
-      };
-      break;
-    case CheckStatus.CHECKING:
-    default:
-      status = {
-        label: "Verifying...",
-        labelColor: DARK,
-        backgroundColor: YELLOW_20
-      };
-      break;
-  }
+  const { label, color, backgroundColor } = getStatusProps(checkStatus, {
+    [CheckStatus.VALID]: {
+      label: "Valid"
+    },
+    [CheckStatus.INVALID]: {
+      label: "Invalid"
+    },
+    [CheckStatus.CHECKING]: {
+      label: "Verifying..."
+    }
+  });
 
   const [showProgressBar, setShowProgressBar] = useState(true);
   useEffect(() => {
@@ -73,7 +53,7 @@ export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
     <View style={{ position: "relative" }}>
       <View
         style={{
-          backgroundColor: status.labelColor,
+          backgroundColor: color,
           height: showProgressBar ? 1 : 0,
           width: `${progress * 100}%`,
           position: "absolute",
@@ -90,9 +70,9 @@ export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
           paddingBottom: 8,
           paddingLeft: 24,
           paddingRight: 24,
-          backgroundColor: status.backgroundColor
+          backgroundColor
         }}
-        underlayColor={status.backgroundColor}
+        underlayColor={backgroundColor}
         onPress={onPress}
         testID="validity-header-button"
       >
@@ -113,7 +93,7 @@ export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
             <ValidityIcon checkStatus={checkStatus} size={20} />
             <Text
               style={{
-                color: status.labelColor,
+                color,
                 fontSize: 14,
                 fontWeight: "bold",
                 textTransform: "uppercase",
@@ -122,7 +102,7 @@ export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
               }}
               testID="validity-header-label"
             >
-              {status.label}
+              {label}
             </Text>
           </View>
           <View
