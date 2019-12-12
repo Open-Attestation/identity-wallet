@@ -5,7 +5,7 @@ import { SignedDocument } from "@govtechsg/open-attestation";
 import { ScreenView } from "../ScreenView";
 import { ValidityBanner } from "../DocumentRenderer/ValidityBanner";
 import { Header } from "../Layout/Header";
-import { CheckStatus } from "../../constants/verifier";
+import { CheckStatus } from "../../common/verifier";
 
 export const ValidityCheckScreen: FunctionComponent<NavigationProps> = ({
   navigation

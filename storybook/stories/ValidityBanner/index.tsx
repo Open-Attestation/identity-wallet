@@ -5,7 +5,7 @@ import { ValidityBanner } from "../../../src/components/DocumentRenderer/Validit
 import { View, Button, Text } from "react-native";
 import { SignedDocument } from "@govtechsg/open-attestation";
 import sampleDoc from "../../../fixtures/demo-oc.json";
-import { CheckStatus } from "../../../src/constants/verifier";
+import { CheckStatus } from "../../../src/common/verifier";
 import { useDocumentVerifier } from "../../../src/common/hooks/useDocumentVerifier";
 
 const ValidChecksStory: FunctionComponent = () => {

@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { ValidityBannerHeader } from "./ValidityBannerHeader";
 import { ValidityBannerContent } from "./ValidityBannerContent";
 import { ValidityCheckItem } from "./ValidityCheckItem";
-import { CheckStatus } from "../../../constants/verifier";
+import { CheckStatus } from "../../../common/verifier";
 
 const MESSAGES = {
   TAMPERED_CHECK: {

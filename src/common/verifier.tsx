@@ -1,5 +1,10 @@
 import { GREEN_30, GREEN_20, RED_30, RED_20, YELLOW_20, DARK } from "./colors";
-import { CheckStatus } from "../constants/verifier";
+
+export enum CheckStatus {
+  CHECKING = "CHECKING",
+  VALID = "VALID",
+  INVALID = "INVALID"
+}
 
 type StatusProps<T extends {}> = T & {
   color: string;

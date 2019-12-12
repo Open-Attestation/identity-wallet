@@ -1,9 +1,8 @@
 import React, { FunctionComponent, useRef, useEffect } from "react";
 import { Animated, Easing } from "react-native";
 import { Feather, AntDesign } from "@expo/vector-icons";
-import { CheckStatus } from "../../../constants/verifier";
 import { LIGHT_ALT } from "../../../common/colors";
-import { getStatusProps } from "../../../common/verifier";
+import { getStatusProps, CheckStatus } from "../../../common/verifier";
 
 interface ValidityIcon {
   checkStatus: CheckStatus;

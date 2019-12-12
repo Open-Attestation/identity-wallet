@@ -6,7 +6,7 @@ import { SignedDocument, getData } from "@govtechsg/open-attestation";
 import { ScannedDocumentActionSheet } from "./ScannedDocumentActionSheet";
 import { useDbContext } from "../../context/db";
 import { resetRouteFn } from "../../common/navigation";
-import { CheckStatus } from "../../constants/verifier";
+import { CheckStatus } from "../../common/verifier";
 
 export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps> = ({
   navigation

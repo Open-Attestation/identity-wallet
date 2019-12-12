@@ -1,8 +1,7 @@
 import React, { FunctionComponent, ReactNode } from "react";
 import { View, Text } from "react-native";
 import { ValidityIcon } from "./ValidityIcon";
-import { CheckStatus } from "../../../constants/verifier";
-import { getStatusProps } from "../../../common/verifier";
+import { getStatusProps, CheckStatus } from "../../../common/verifier";
 
 interface ValidityCheckItem {
   checkStatus: CheckStatus;

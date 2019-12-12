@@ -8,7 +8,7 @@ import {
 } from "../../test/helpers/navigation";
 import { MockDbProvider, resetDb, mockInsert } from "../../test/helpers/db";
 import sampleDocument from "../../../fixtures/demo-caas.json";
-import { CheckStatus } from "../../constants/verifier";
+import { CheckStatus } from "../../common/verifier";
 
 jest.mock("../DocumentRenderer/WebViewFrame");
 jest.mock("../../common/navigation");

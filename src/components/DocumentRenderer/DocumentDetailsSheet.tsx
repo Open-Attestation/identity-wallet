@@ -7,7 +7,7 @@ import QRIcon from "../../../assets/icons/qr.svg";
 import { ValidityBanner } from "./ValidityBanner";
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
 import { VERY_LIGHT } from "../../common/colors";
-import { CheckStatus } from "../../constants/verifier";
+import { CheckStatus } from "../../common/verifier";
 
 export interface DocumentDetailsSheet {
   document: Document;

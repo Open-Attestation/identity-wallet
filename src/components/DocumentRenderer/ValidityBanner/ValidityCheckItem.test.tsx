@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react-native";
 import { Text } from "react-native";
 import { ValidityCheckItem } from "./ValidityCheckItem";
-import { CheckStatus } from "../../../constants/verifier";
+import { CheckStatus } from "../../../common/verifier";
 
 const messages = {
   [CheckStatus.CHECKING]: <Text>Checking</Text>,

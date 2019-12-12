@@ -1,7 +1,7 @@
 import React from "react";
 import { render, wait, fireEvent } from "@testing-library/react-native";
 import { ValidityBannerHeader } from "./ValidityBannerHeader";
-import { CheckStatus } from "../../../constants/verifier";
+import { CheckStatus } from "../../../common/verifier";
 
 jest.useFakeTimers();
 

@@ -2,9 +2,8 @@ import React, { FunctionComponent, useState, useEffect } from "react";
 import { View, Text, TouchableHighlight } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { ValidityIcon } from "./ValidityIcon";
-import { CheckStatus } from "../../../constants/verifier";
 import { DARK } from "../../../common/colors";
-import { getStatusProps } from "../../../common/verifier";
+import { getStatusProps, CheckStatus } from "../../../common/verifier";
 
 interface ValidityBannerHeader {
   checkStatus?: CheckStatus;
