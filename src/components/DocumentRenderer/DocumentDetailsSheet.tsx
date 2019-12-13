@@ -5,18 +5,26 @@ import { BottomSheet } from "../Layout/BottomSheet";
 import { Document, SignedDocument, getData } from "@govtechsg/open-attestation";
 import QRIcon from "../../../assets/icons/qr.svg";
 import { ValidityBanner } from "../Validity/ValidityBanner";
-import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
+import {
+  useDocumentVerifier,
+  VerificationStatuses
+} from "../../common/hooks/useDocumentVerifier";
 import { VERY_LIGHT } from "../../common/colors";
 import { CheckStatus } from "../Validity";
 
 export interface DocumentDetailsSheet {
   document: Document;
   onVerification: (checkStatus: CheckStatus) => void;
+  /**
+   * If this props is present, skip verification checks
+   */
+  verificationStatuses?: VerificationStatuses;
 }
 
 export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   document,
-  onVerification
+  onVerification,
+  verificationStatuses
 }) => {
   const [headerHeight, setHeaderHeight] = useState(0);
   const hasHeaderHeightBeenSet = useRef(false);
@@ -37,13 +45,13 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
     revokedCheck,
     issuerCheck,
     overallValidity
-  } = useDocumentVerifier(document as SignedDocument);
+  } = useDocumentVerifier(document as SignedDocument, verificationStatuses);
 
   useEffect(() => {
-    if (overallValidity !== CheckStatus.CHECKING) {
+    if (!verificationStatuses && overallValidity !== CheckStatus.CHECKING) {
       onVerification(overallValidity);
     }
-  }, [onVerification, overallValidity]);
+  }, [onVerification, overallValidity, verificationStatuses]);
 
   return (
     <BottomSheet snapPoints={[headerHeight, "83%"]}>

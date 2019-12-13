@@ -11,6 +11,10 @@ const mockCheckValidity = checkValidity as jest.Mock;
 jest.useFakeTimers();
 
 describe("useDocumentVerifier", () => {
+  beforeEach(() => {
+    mockCheckValidity.mockReset();
+  });
+
   it("should return the correct check status as the checks resolve at different times", async () => {
     expect.assertions(3);
     mockCheckValidity.mockReturnValue([
@@ -65,5 +69,28 @@ describe("useDocumentVerifier", () => {
       issuerCheck: CheckStatus.VALID,
       overallValidity: CheckStatus.VALID
     });
+  });
+
+  it("should not perform any checks if the verificationStatuses prop is provided", async () => {
+    expect.assertions(2);
+
+    const { result } = renderHook(() =>
+      useDocumentVerifier(sampleDoc as SignedDocument, {
+        tamperedCheck: CheckStatus.VALID,
+        issuedCheck: CheckStatus.VALID,
+        revokedCheck: CheckStatus.VALID,
+        issuerCheck: CheckStatus.INVALID,
+        overallValidity: CheckStatus.INVALID
+      })
+    );
+
+    expect(result.current).toStrictEqual({
+      tamperedCheck: CheckStatus.VALID,
+      issuedCheck: CheckStatus.VALID,
+      revokedCheck: CheckStatus.VALID,
+      issuerCheck: CheckStatus.INVALID,
+      overallValidity: CheckStatus.INVALID
+    });
+    expect(mockCheckValidity).not.toHaveBeenCalled();
   });
 });
