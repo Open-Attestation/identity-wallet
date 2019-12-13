@@ -1,22 +1,23 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import { View, Text, TouchableHighlight } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { ValidityIcon } from "./ValidityIcon";
+import { ValidityIcon } from "../ValidityIcon";
 import { DARK } from "../../../common/colors";
-import { getStatusProps, CheckStatus } from "../../../common/verifier";
+import { getStatusProps } from "../utils";
+import { CheckStatus } from "../constants";
 
 interface ValidityBannerHeader {
-  checkStatus?: CheckStatus;
+  checkStatus: CheckStatus;
+  onPress: () => void;
   isExpanded?: boolean;
   progress?: number;
-  onPress: () => void;
 }
 
 export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
-  checkStatus = CheckStatus.CHECKING,
+  checkStatus,
+  onPress,
   isExpanded = false,
-  progress = 0,
-  onPress
+  progress = 0
 }) => {
   const { label, color, backgroundColor } = getStatusProps(checkStatus, {
     [CheckStatus.VALID]: {

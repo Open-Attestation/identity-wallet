@@ -10,7 +10,7 @@ import { DocumentRenderer } from "./DocumentRenderer";
 import { DocumentDetailsSheet } from "./DocumentDetailsSheet";
 import { LoadingView } from "../Loading";
 import { ScreenView } from "../ScreenView";
-import { CheckStatus } from "../../common/verifier";
+import { CheckStatus } from "../Validity";
 
 export const LocalDocumentRendererContainer: FunctionComponent<NavigationProps> = ({
   navigation

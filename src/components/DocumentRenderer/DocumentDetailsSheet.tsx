@@ -4,10 +4,10 @@ import { RectButton } from "react-native-gesture-handler";
 import { BottomSheet } from "../Layout/BottomSheet";
 import { Document, SignedDocument, getData } from "@govtechsg/open-attestation";
 import QRIcon from "../../../assets/icons/qr.svg";
-import { ValidityBanner } from "./ValidityBanner";
+import { ValidityBanner } from "../Validity/ValidityBanner";
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
 import { VERY_LIGHT } from "../../common/colors";
-import { CheckStatus } from "../../common/verifier";
+import { CheckStatus } from "../Validity";
 
 export interface DocumentDetailsSheet {
   document: Document;

@@ -2,8 +2,8 @@ import React, { FunctionComponent, useState } from "react";
 import { View } from "react-native";
 import { ValidityBannerHeader } from "./ValidityBannerHeader";
 import { ValidityBannerContent } from "./ValidityBannerContent";
-import { ValidityCheckItem } from "./ValidityCheckItem";
-import { CheckStatus, CHECK_MESSAGES } from "../../../common/verifier";
+import { ValidityCheckItem } from "./ValidityBannerCheckItem";
+import { CheckStatus, CHECK_MESSAGES } from "../constants";
 
 const calculateProgress: (...args: CheckStatus[]) => number = (...args) =>
   args.filter(check => check !== CheckStatus.CHECKING).length / args.length;
@@ -23,7 +23,7 @@ export const ValidityBanner: FunctionComponent<ValidityBanner> = ({
   revokedCheck,
   issuerCheck,
   overallValidity,
-  initialIsExpanded = true
+  initialIsExpanded = false
 }) => {
   const [isExpanded, setIsExpanded] = useState(initialIsExpanded);
 

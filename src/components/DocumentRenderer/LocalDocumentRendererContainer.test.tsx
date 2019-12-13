@@ -9,7 +9,7 @@ import {
 import { mockNavigation, resetNavigation } from "../../test/helpers/navigation";
 import sampleDocument from "../../../fixtures/demo-caas.json";
 import { DocumentDetailsSheet } from "./DocumentDetailsSheet";
-import { CheckStatus } from "../../common/verifier";
+import { CheckStatus } from "../Validity";
 
 jest.mock("../DocumentRenderer/WebViewFrame");
 jest.mock("../../common/navigation");

@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useRef, useEffect, useState } from "react";
 import { View, Animated, LayoutChangeEvent, Easing } from "react-native";
-import { getStatusProps, CheckStatus } from "../../../common/verifier";
+import { getStatusProps } from "../utils";
+import { CheckStatus } from "../constants";
 
 interface ValidityBannerContent {
   checkStatus?: CheckStatus;

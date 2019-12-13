@@ -1,3 +1,3 @@
-import { ValidityCheckScreen } from "../../components/ValidityCheck/ValidityCheckScreen";
+import { ValidityCheckScreen } from "../../components/ValidityCheckScreen/ValidityCheckScreen";
 
 export default ValidityCheckScreen;

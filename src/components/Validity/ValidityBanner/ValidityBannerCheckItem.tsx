@@ -1,18 +1,19 @@
-import React, { FunctionComponent, ReactNode } from "react";
+import React, { FunctionComponent } from "react";
 import { View, Text } from "react-native";
-import { ValidityIcon } from "./ValidityIcon";
-import { getStatusProps, CheckStatus } from "../../../common/verifier";
+import { ValidityIcon } from "../ValidityIcon";
+import { getStatusProps } from "../utils";
+import { CheckStatus } from "../constants";
 
 interface ValidityCheckItem {
   checkStatus: CheckStatus;
-  messages: { [status in CheckStatus]: ReactNode };
+  messages: { [status in CheckStatus]: { message: string } };
 }
 
 export const ValidityCheckItem: FunctionComponent<ValidityCheckItem> = ({
   checkStatus,
   messages
 }) => {
-  const { color } = getStatusProps(checkStatus);
+  const { color, message } = getStatusProps(checkStatus, messages);
 
   return (
     <View
@@ -27,7 +28,7 @@ export const ValidityCheckItem: FunctionComponent<ValidityCheckItem> = ({
         <ValidityIcon checkStatus={checkStatus} size={12} />
       </View>
       <Text style={{ color, fontSize: 12 }} testID="validity-check-message">
-        {messages[checkStatus]}
+        {message}
       </Text>
     </View>
   );

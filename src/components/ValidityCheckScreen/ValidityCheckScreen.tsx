@@ -3,9 +3,11 @@ import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
 import { NavigationProps } from "../../types";
 import { SignedDocument } from "@govtechsg/open-attestation";
 import { ScreenView } from "../ScreenView";
-import { ValidityBanner } from "../DocumentRenderer/ValidityBanner";
 import { Header } from "../Layout/Header";
-import { CheckStatus } from "../../common/verifier";
+import { CheckStatus } from "../Validity/constants";
+import { View } from "react-native";
+import { ValidityCard } from "../Validity/ValidityCard";
+import { replaceRouteFn } from "../../common/navigation";
 
 export const ValidityCheckScreen: FunctionComponent<NavigationProps> = ({
   navigation
@@ -15,21 +17,29 @@ export const ValidityCheckScreen: FunctionComponent<NavigationProps> = ({
   const verificationStatuses = useDocumentVerifier(document as SignedDocument);
 
   useEffect(() => {
+    let cancelled = false;
     if (verificationStatuses.overallValidity === CheckStatus.VALID) {
       setTimeout(() => {
-        navigation.navigate("ScannedDocumentScreen", {
-          document,
-          savable: isSavable,
-          verificationStatuses
-        });
-      }, 500);
+        if (!cancelled) {
+          replaceRouteFn(navigation, "ScannedDocumentScreen", {
+            document,
+            savable: isSavable,
+            verificationStatuses
+          })();
+        }
+      }, 0);
     }
+    return () => {
+      cancelled = true;
+    };
   }, [document, isSavable, navigation, verificationStatuses]);
 
   return (
     <ScreenView>
-      <Header goBack={() => navigation.goBack()} />
-      <ValidityBanner {...verificationStatuses} initialIsExpanded={true} />
+      <Header goBack={() => navigation.goBack()} hasBorder={false} />
+      <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>
+        <ValidityCard {...verificationStatuses} />
+      </View>
     </ScreenView>
   );
 };

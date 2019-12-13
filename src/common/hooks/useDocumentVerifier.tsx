@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { SignedDocument } from "@govtechsg/open-attestation";
 import { checkValidity } from "../../services/DocumentVerifier";
-import { CheckStatus } from "../verifier";
+import { CheckStatus } from "../../components/Validity";
 
 export interface VerificationStatuses {
   tamperedCheck: CheckStatus;
