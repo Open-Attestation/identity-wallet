@@ -47,7 +47,7 @@ describe("ValidityCheckScreen", () => {
     render(<ValidityCheckScreen navigation={mockNavigation} />);
 
     jest.runAllTimers();
-    expect(mockNavigation.navigate).toHaveBeenCalledTimes(1);
+    expect(mockNavigation.dispatch).toHaveBeenCalledTimes(1);
   });
 
   it("should go back when back button is pressed", () => {

@@ -27,7 +27,7 @@ export const ValidityCheckScreen: FunctionComponent<NavigationProps> = ({
             verificationStatuses
           })();
         }
-      }, 0);
+      }, 500);
     }
     return () => {
       cancelled = true;
