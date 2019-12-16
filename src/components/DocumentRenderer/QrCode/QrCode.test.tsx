@@ -5,8 +5,8 @@ import { QrCode } from "./index";
 describe("QrCode", () => {
   it("should not display anything if both qrCode and qrCodeLoading is false", () => {
     expect.assertions(1);
-    const { asJSON } = render(<QrCode />);
-    expect(asJSON().children).toHaveLength(0);
+    const { container } = render(<QrCode />);
+    expect(container.children).toHaveLength(0);
   });
 
   it("should render qrCode when available", () => {
