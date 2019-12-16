@@ -21,18 +21,33 @@ export const DocumentListScreen: FunctionComponent<DocumentListScreen> = ({
   return (
     <ScreenView>
       {documentItems ? (
-        documentItems.length > 0 ? (
-          <DocumentList
-            documents={documentItems}
-            navigateToDoc={navigateToDoc}
-          />
-        ) : (
-          <EmptyDocumentList onAdd={navigateToScanner} />
-        )
+        <ResolvedDocumentList
+          documentItems={documentItems}
+          navigateToDoc={navigateToDoc}
+          navigateToScanner={navigateToScanner}
+        />
       ) : (
         <LoadingView /> // Prevents the flash of the empty state when documentItems hasn't initialized
       )}
       <BottomNav navigation={navigation} />
     </ScreenView>
+  );
+};
+
+interface ResolvedDocumentList {
+  documentItems: DocumentItem[];
+  navigateToDoc: (documentId: string) => boolean;
+  navigateToScanner: () => void;
+}
+
+const ResolvedDocumentList: FunctionComponent<ResolvedDocumentList> = ({
+  documentItems,
+  navigateToDoc,
+  navigateToScanner
+}) => {
+  return documentItems.length > 0 ? (
+    <DocumentList documents={documentItems} navigateToDoc={navigateToDoc} />
+  ) : (
+    <EmptyDocumentList onAdd={navigateToScanner} />
   );
 };
