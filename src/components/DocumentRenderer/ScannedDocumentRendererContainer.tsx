@@ -22,8 +22,7 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
     documentData.issuers[0]?.identityProof?.location ||
     "Issuer's identity not found";
   const navigateToDocument = resetRouteFn(navigation, "LocalDocumentScreen", {
-    id,
-    verificationStatuses
+    id
   });
   const onSave = async (): Promise<void> => {
     try {

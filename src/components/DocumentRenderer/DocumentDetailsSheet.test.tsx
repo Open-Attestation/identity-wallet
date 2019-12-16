@@ -55,28 +55,4 @@ describe("DocumentDetailsSheet", () => {
       expect(onVerification).toHaveBeenCalledTimes(0);
     });
   });
-
-  it("should not call onVerification if verificationStatuses prop is provided", async () => {
-    expect.assertions(1);
-    mockUseVerifier.mockReturnValue({
-      overallValidity: CheckStatus.VALID
-    });
-    const onVerification = jest.fn();
-    render(
-      <DocumentDetailsSheet
-        document={sampleDoc}
-        onVerification={onVerification}
-        verificationStatuses={{
-          tamperedCheck: CheckStatus.VALID,
-          issuedCheck: CheckStatus.VALID,
-          revokedCheck: CheckStatus.VALID,
-          issuerCheck: CheckStatus.VALID,
-          overallValidity: CheckStatus.VALID
-        }}
-      />
-    );
-    await wait(() => {
-      expect(onVerification).toHaveBeenCalledTimes(0);
-    });
-  });
 });

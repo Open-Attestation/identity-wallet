@@ -16,7 +16,6 @@ export const LocalDocumentRendererContainer: FunctionComponent<NavigationProps> 
   navigation
 }) => {
   const id = navigation.getParam("id");
-  const verificationStatuses = navigation.getParam("verificationStatuses");
   const { db } = useDbContext();
   const [document, setDocument] = useState<DocumentObject | null>(null);
 
@@ -46,7 +45,6 @@ export const LocalDocumentRendererContainer: FunctionComponent<NavigationProps> 
       />
       <DocumentDetailsSheet
         document={document.document}
-        verificationStatuses={verificationStatuses}
         onVerification={onVerification}
       />
     </View>

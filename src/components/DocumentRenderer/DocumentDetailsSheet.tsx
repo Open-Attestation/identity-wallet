@@ -5,10 +5,7 @@ import { BottomSheet } from "../Layout/BottomSheet";
 import { Document, SignedDocument, getData } from "@govtechsg/open-attestation";
 import QRIcon from "../../../assets/icons/qr.svg";
 import { ValidityBanner } from "../Validity/ValidityBanner";
-import {
-  useDocumentVerifier,
-  VerificationStatuses
-} from "../../common/hooks/useDocumentVerifier";
+import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
 import { VERY_LIGHT } from "../../common/colors";
 import { CheckStatus } from "../Validity";
 import { QrCode } from "./QrCode";
@@ -17,16 +14,11 @@ import { useQrGenerator } from "../../common/hooks/useQrGenerator";
 export interface DocumentDetailsSheet {
   document: Document;
   onVerification: (checkStatus: CheckStatus) => void;
-  /**
-   * If this props is present, skip verification checks
-   */
-  verificationStatuses?: VerificationStatuses;
 }
 
 export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   document,
-  onVerification,
-  verificationStatuses
+  onVerification
 }) => {
   const { qrCode, qrCodeLoading, generateQr } = useQrGenerator();
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -48,13 +40,13 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
     revokedCheck,
     issuerCheck,
     overallValidity
-  } = useDocumentVerifier(document as SignedDocument, verificationStatuses);
+  } = useDocumentVerifier(document as SignedDocument);
 
   useEffect(() => {
-    if (!verificationStatuses && overallValidity !== CheckStatus.CHECKING) {
+    if (overallValidity !== CheckStatus.CHECKING) {
       onVerification(overallValidity);
     }
-  }, [onVerification, overallValidity, verificationStatuses]);
+  }, [onVerification, overallValidity]);
 
   return (
     <BottomSheet
