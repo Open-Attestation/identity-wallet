@@ -82,4 +82,19 @@ describe("DocumentListScreenContainer", () => {
       }
     );
   });
+
+  it("should navigate to QrScannerScreen when db is empty and add is pressed", () => {
+    expect.assertions(1);
+    const { getByText } = render(
+      <MockDbProvider>
+        <DocumentListScreenContainer navigation={mockNavigation} />
+      </MockDbProvider>
+    );
+    whenDbSubscriptionReturns([]);
+    fireEvent.press(getByText("Add"));
+    expect(mockNavigation.dispatch).toHaveBeenCalledWith({
+      routeName: "QrScannerScreen",
+      type: "Navigation/REPLACE"
+    });
+  });
 });
