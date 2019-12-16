@@ -11,6 +11,8 @@ import {
 } from "../../common/hooks/useDocumentVerifier";
 import { VERY_LIGHT } from "../../common/colors";
 import { CheckStatus } from "../Validity";
+import { QrCode } from "./QrCode";
+import { useQrGenerator } from "../../common/hooks/useQrGenerator";
 
 export interface DocumentDetailsSheet {
   document: Document;
@@ -26,6 +28,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   onVerification,
   verificationStatuses
 }) => {
+  const { qrCode, qrCodeLoading, generateQr } = useQrGenerator();
   const [headerHeight, setHeaderHeight] = useState(0);
   const hasHeaderHeightBeenSet = useRef(false);
   const onHeaderLayout = (event: LayoutChangeEvent): void => {
@@ -54,7 +57,10 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   }, [onVerification, overallValidity, verificationStatuses]);
 
   return (
-    <BottomSheet snapPoints={[headerHeight, "83%"]}>
+    <BottomSheet
+      snapPoints={[headerHeight, "83%"]}
+      onOpenStart={generateQr(document)}
+    >
       {openSheet => (
         <View testID="document-details">
           <View
@@ -103,14 +109,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
               </RectButton>
             </View>
           </View>
-          <View
-            style={{
-              width: "100%",
-              aspectRatio: 1,
-              backgroundColor: VERY_LIGHT,
-              marginBottom: 24
-            }}
-          />
+          <QrCode qrCode={qrCode} qrCodeLoading={qrCodeLoading} />
         </View>
       )}
     </BottomSheet>
