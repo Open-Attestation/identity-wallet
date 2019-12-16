@@ -11,31 +11,31 @@ describe("useQrGenerator", () => {
   it("should have empty qr code that is not loading by default", () => {
     expect.assertions(2);
     const { result } = renderHook(() => useQrGenerator());
-    expect(result.current[0].qrCode).toBe("");
-    expect(result.current[0].qrCodeLoading).toBe(false);
+    expect(result.current.qrCode).toBe("");
+    expect(result.current.qrCodeLoading).toBe(false);
   });
 
   it("should upload document and updates qr code", async () => {
     expect.assertions(3);
     const { result } = renderHook(() => useQrGenerator());
-    const generateQr = result.current[1];
+    const { generateQr } = result.current;
     mockUploadDocument.mockResolvedValue("QR_CODE");
     let deferredGenerateQr: Promise<void>;
     act(() => {
       deferredGenerateQr = generateQr(sampleDoc)();
     });
-    expect(result.current[0].qrCodeLoading).toBe(true);
+    expect(result.current.qrCodeLoading).toBe(true);
     await act(async () => {
       await deferredGenerateQr;
     });
-    expect(result.current[0].qrCode).toBe("QR_CODE");
-    expect(result.current[0].qrCodeLoading).toBe(false);
+    expect(result.current.qrCode).toBe("QR_CODE");
+    expect(result.current.qrCodeLoading).toBe(false);
   });
 
   it("should alert errors", async () => {
     expect.assertions(1);
     const { result } = renderHook(() => useQrGenerator());
-    const generateQr = result.current[1];
+    const { generateQr } = result.current;
     mockUploadDocument.mockRejectedValue(new Error("UPLOAD_ERROR"));
     await act(async () => {
       await generateQr(sampleDoc)();

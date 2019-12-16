@@ -20,7 +20,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   document,
   onVerification
 }) => {
-  const [{ qrCode, qrCodeLoading }, generateQr] = useQrGenerator();
+  const { qrCode, qrCodeLoading, generateQr } = useQrGenerator();
   const [headerHeight, setHeaderHeight] = useState(0);
   const hasHeaderHeightBeenSet = useRef(false);
   const onHeaderLayout = (event: LayoutChangeEvent): void => {

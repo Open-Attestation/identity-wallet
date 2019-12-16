@@ -2,10 +2,13 @@ import { useState } from "react";
 import { uploadDocument } from "../../../services/DocumentSharing";
 import { Document } from "@govtechsg/open-attestation";
 
-export const useQrGenerator = (): [
-  { qrCode?: string; qrCodeLoading?: boolean },
-  (document: Document) => () => Promise<void>
-] => {
+export interface QrGenerator {
+  qrCode: string;
+  qrCodeLoading: boolean;
+  generateQr: (document: Document) => () => Promise<void>;
+}
+
+export const useQrGenerator = (): QrGenerator => {
   const [qrCode, setQrCode] = useState("");
   const [qrCodeLoading, setQrCodeLoading] = useState(false);
 
@@ -20,5 +23,5 @@ export const useQrGenerator = (): [
     setQrCodeLoading(false);
   };
 
-  return [{ qrCode, qrCodeLoading }, generateQr];
+  return { qrCode, qrCodeLoading, generateQr };
 };
