@@ -34,7 +34,6 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": [2, { args: "none" }],
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/no-non-null-assertion": 0,
-    "@typescript-eslint/no-empty-function": 0,
     "@typescript-eslint/explicit-function-return-type": [
       "warn",
       {
@@ -46,5 +45,13 @@ module.exports = {
     "jest/lowercase-name": 0,
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error"
-  }
+  },
+  overrides: [
+    {
+      files: ["**/*.test.tsx", "storybook/**/*.tsx"],
+      rules: {
+        "@typescript-eslint/no-empty-function": "off"
+      }
+    }
+  ]
 };
