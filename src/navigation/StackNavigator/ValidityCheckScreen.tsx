@@ -1,3 +1,3 @@
-import { ValidityCheckScreen } from "../../components/ValidityCheckScreen/ValidityCheckScreen";
+import { ValidityCheckScreenContainer } from "../../components/QrScanner/ValidityCheckScreenContainer";
 
-export default ValidityCheckScreen;
+export default ValidityCheckScreenContainer;

@@ -9,7 +9,7 @@ import { View } from "react-native";
 import { ValidityCard } from "../Validity/ValidityCard";
 import { replaceRouteFn } from "../../common/navigation";
 
-export const ValidityCheckScreen: FunctionComponent<NavigationProps> = ({
+export const ValidityCheckScreenContainer: FunctionComponent<NavigationProps> = ({
   navigation
 }) => {
   const document: SignedDocument = navigation.getParam("document");
