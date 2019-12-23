@@ -15,7 +15,7 @@ import { CheckStatus } from "../Validity";
 export const LocalDocumentRendererContainer: FunctionComponent<NavigationProps> = ({
   navigation
 }) => {
-  const id = navigation.getParam("id");
+  const id: string = navigation.getParam("id");
   const { db } = useDbContext();
   const [document, setDocument] = useState<DocumentObject | null>(null);
 

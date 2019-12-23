@@ -7,6 +7,7 @@ import { ScannedDocumentActionSheet } from "./ScannedDocumentActionSheet";
 import { useDbContext } from "../../context/db";
 import { resetRouteFn } from "../../common/navigation";
 import { CheckStatus } from "../Validity";
+import { VerificationStatuses } from "../../common/hooks/useDocumentVerifier";
 
 export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps> = ({
   navigation
@@ -14,7 +15,9 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
   const { db } = useDbContext();
   const document: SignedDocument = navigation.getParam("document");
   const isSavable: boolean = navigation.getParam("savable");
-  const verificationStatuses = navigation.getParam("verificationStatuses");
+  const verificationStatuses: VerificationStatuses = navigation.getParam(
+    "verificationStatuses"
+  );
 
   const documentData = getData(document);
   const id = document.signature.targetHash;
