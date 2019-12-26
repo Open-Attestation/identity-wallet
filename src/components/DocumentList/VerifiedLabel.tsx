@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { View, Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { LIGHT, LIGHT_RED_TINGE } from "../../common/colors";
+import { LIGHT, LIGHT_RED_TINGE } from "../../common/styles/colors";
 
 export interface VerifiedLabel {
   isVerified?: boolean;

@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
 import { View, Text, TouchableWithoutFeedback } from "react-native";
-import { LIGHT } from "../../common/colors";
+import { LIGHT } from "../../common/styles/colors";
 import { BUILD_NO } from "../../config/index";
 
 const contributors = [

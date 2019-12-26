@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { View, Text } from "react-native";
-import { DARK } from "../../../common/colors";
+import { DARK } from "../../../common/styles/colors";
 import { DarkButton } from "../../Layout/Buttons/DarkButton";
 import { Button } from "../../Layout/Buttons/Button";
 import { VerificationStatuses } from "../../../common/hooks/useDocumentVerifier";

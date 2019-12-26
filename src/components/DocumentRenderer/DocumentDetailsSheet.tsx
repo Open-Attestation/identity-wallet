@@ -5,7 +5,7 @@ import { Document, SignedDocument, getData } from "@govtechsg/open-attestation";
 import QRIcon from "../../../assets/icons/qr.svg";
 import { ValidityBanner } from "../Validity/ValidityBanner";
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
-import { DARK } from "../../common/colors";
+import { DARK } from "../../common/styles/colors";
 import { CheckStatus } from "../Validity";
 import { QrCode } from "./QrCode";
 import { useQrGenerator } from "../../common/hooks/useQrGenerator";

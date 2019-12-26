@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState, useEffect } from "react";
 import { View, Text, TouchableHighlight } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { ValidityIcon } from "../ValidityIcon";
-import { DARK } from "../../../common/colors";
+import { DARK } from "../../../common/styles/colors";
 import { getStatusProps } from "../utils";
 import { CheckStatus } from "../constants";
 

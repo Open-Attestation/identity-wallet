@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { View, Text, TouchableOpacity, TextStyle } from "react-native";
-import { DARK, LIGHT } from "../../common/colors";
+import { DARK, LIGHT } from "../../common/styles/colors";
 import { FontAwesome } from "@expo/vector-icons";
 
 const mainFontStyle: TextStyle = {

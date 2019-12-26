@@ -3,7 +3,7 @@ import { ScreenView } from "../ScreenView";
 import { Header } from "../Layout/Header";
 import { DarkButton } from "../Layout/Buttons/DarkButton";
 import { ScrollView, View, Text } from "react-native";
-import { DARK } from "../../common/colors";
+import { DARK } from "../../common/styles/colors";
 import { BottomNav } from "../Layout/BottomNav";
 import { NavigationProps } from "../../types";
 import { BuildView } from "./BuildView";

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { View, ActivityIndicator } from "react-native";
 import QRCode from "react-native-qrcode-svg";
-import { DARK, VERY_LIGHT } from "../../../common/colors";
+import { DARK, VERY_LIGHT } from "../../../common/styles/colors";
 
 const QR_CODE_SIZE = 250;
 

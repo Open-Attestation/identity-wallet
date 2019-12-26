@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ViewStyle
 } from "react-native";
-import { DARK } from "../../common/colors";
+import { DARK } from "../../common/styles/colors";
 export interface Tab {
   id: string;
   label: string;

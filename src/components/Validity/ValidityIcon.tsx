@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useRef, useEffect } from "react";
 import { Animated, Easing } from "react-native";
 import { Feather, AntDesign } from "@expo/vector-icons";
-import { LIGHT_ALT } from "../../common/colors";
+import { LIGHT_ALT } from "../../common/styles/colors";
 import { getStatusProps } from "./utils";
 import { CheckStatus } from "./constants";
 

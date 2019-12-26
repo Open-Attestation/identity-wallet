@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { truncate } from "lodash";
 import { VerifiedLabel } from "./VerifiedLabel";
-import { DARK, VERY_LIGHT } from "../../common/colors";
+import { DARK, VERY_LIGHT } from "../../common/styles/colors";
 
 export interface DocumentListItem {
   title: string;

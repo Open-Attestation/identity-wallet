@@ -5,7 +5,7 @@ import {
   RED_20,
   YELLOW_20,
   DARK
-} from "../../common/colors";
+} from "../../common/styles/colors";
 import { CheckStatus } from "./constants";
 
 type StatusProps<T extends {}> = T & {

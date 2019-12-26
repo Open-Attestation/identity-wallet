@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { View, ActivityIndicator } from "react-native";
-import { DARK } from "../../common/colors";
+import { DARK } from "../../common/styles/colors";
 
 export const LoadingView: FunctionComponent = () => {
   return (

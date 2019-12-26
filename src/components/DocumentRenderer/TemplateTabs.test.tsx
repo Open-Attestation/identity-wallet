@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { TemplateTabs, Tab } from "./TemplateTabs";
-import { DARK } from "../../common/colors";
+import { DARK } from "../../common/styles/colors";
 
 const sampleTabs: Tab[] = [
   {

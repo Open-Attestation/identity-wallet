@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { View, TouchableOpacity } from "react-native";
-import { DARK } from "../../common/colors";
+import { DARK } from "../../common/styles/colors";
 import { NavigationProps } from "../../types";
 import { replaceRouteFn } from "../../common/navigation";
 

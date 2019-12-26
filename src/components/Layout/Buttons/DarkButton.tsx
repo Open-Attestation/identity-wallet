@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Text } from "react-native";
-import { DARK, LIGHT } from "../../../common/colors";
+import { DARK, LIGHT } from "../../../common/styles/colors";
 import { BaseButton } from "./BaseButton";
 
 export interface DarkButton {

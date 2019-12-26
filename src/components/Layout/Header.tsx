@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactNode } from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { VERY_LIGHT, DARK } from "../../common/colors";
+import { VERY_LIGHT, DARK } from "../../common/styles/colors";
 
 const styles = StyleSheet.create({
   header: {
