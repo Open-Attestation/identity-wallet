@@ -1,9 +1,11 @@
 import React, { FunctionComponent } from "react";
-import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import QRIcon from "../../../assets/icons/qr.svg";
 import { View, TouchableOpacity } from "react-native";
-import { DARK } from "../../common/styles/colors";
+import { color } from "../../common/styles";
 import { NavigationProps } from "../../types";
 import { replaceRouteFn } from "../../common/navigation";
+import { spacing } from "../../common/styles";
 
 export interface NavTab {
   onPress: () => void;
@@ -16,9 +18,9 @@ export const NavTab: FunctionComponent<NavTab> = ({ children, onPress }) => {
       onPress={onPress}
       style={{
         width: 64,
-        height: 32,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        flex: 1
       }}
     >
       {children}
@@ -29,28 +31,58 @@ export const NavTab: FunctionComponent<NavTab> = ({ children, onPress }) => {
 export const BottomNav: FunctionComponent<NavigationProps> = ({
   navigation
 }) => {
+  const currentRoute = navigation.state.routeName;
   return (
     <View
       testID="bottom-nav"
       style={{
         width: "100%",
+        height: 60,
         flexDirection: "row",
         alignContent: "center",
-        justifyContent: "space-around",
-        borderTopColor: DARK,
-        borderTopWidth: 1,
+        borderColor: color("grey", 10),
+        borderWidth: 1,
+        borderBottomWidth: 0,
         borderStyle: "solid",
-        paddingVertical: 5
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+        paddingHorizontal: spacing(7)
       }}
     >
       <NavTab onPress={replaceRouteFn(navigation, "DocumentListScreen")}>
-        <AntDesign name="home" size={24} style={{ color: DARK }} />
+        <Feather
+          name="home"
+          size={20}
+          style={{
+            color:
+              currentRoute === "DocumentListScreen"
+                ? color("orange", 40)
+                : color("grey", 30)
+          }}
+        />
       </NavTab>
       <NavTab onPress={replaceRouteFn(navigation, "QrScannerScreen")}>
-        <FontAwesome name="qrcode" size={24} style={{ color: DARK }} />
+        <QRIcon
+          width={20}
+          height={20}
+          fill={
+            currentRoute === "QrScannerScreen"
+              ? color("orange", 40)
+              : color("grey", 30)
+          }
+        />
       </NavTab>
       <NavTab onPress={replaceRouteFn(navigation, "SettingsScreen")}>
-        <AntDesign name="setting" size={24} style={{ color: DARK }} />
+        <Feather
+          name="settings"
+          size={20}
+          style={{
+            color:
+              currentRoute === "SettingsScreen"
+                ? color("orange", 40)
+                : color("grey", 30)
+          }}
+        />
       </NavTab>
     </View>
   );
