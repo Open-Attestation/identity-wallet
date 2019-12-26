@@ -15,6 +15,7 @@ export const YELLOW_20 = "#FDF2CE";
 
 const palette: { [color in ColorName]: { [tone: string]: string } } = {
   grey: {
+    "0": "#FFFFFF",
     "5": "#FEFCFA",
     "10": "#F2F2F2",
     "20": "#828282",
@@ -44,11 +45,11 @@ const palette: { [color in ColorName]: { [tone: string]: string } } = {
 };
 
 export type ColorName = "grey" | "orange" | "blue" | "green" | "red";
-export type ToneLevel = 5 | 10 | 15 | 20 | 30 | 40 | 50 | 100;
+export type ToneLevel = 0 | 5 | 10 | 15 | 20 | 30 | 40 | 50 | 100;
 
 export function color(
   colorName: "grey",
-  tone: 5 | 10 | 20 | 30 | 40 | 100
+  tone: 0 | 5 | 10 | 20 | 30 | 40 | 100
 ): string;
 export function color(colorName: "orange", tone: 10 | 20 | 30 | 40): string;
 export function color(colorName: "green", tone: 10 | 20 | 30): string;

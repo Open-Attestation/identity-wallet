@@ -40,6 +40,7 @@ export const BottomNav: FunctionComponent<NavigationProps> = ({
         height: 60,
         flexDirection: "row",
         alignContent: "center",
+        backgroundColor: color("grey", 0),
         borderColor: color("grey", 10),
         borderWidth: 1,
         borderBottomWidth: 0,
