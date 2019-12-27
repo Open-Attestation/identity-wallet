@@ -1,8 +1,7 @@
 import React, { FunctionComponent } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { truncate } from "lodash";
+import { Text, TouchableOpacity } from "react-native";
 import { VerifiedLabel } from "./VerifiedLabel";
-import { DARK, VERY_LIGHT } from "../../common/styles/colors";
+import { color, typeScale, spacing } from "../../common/styles";
 
 export interface DocumentListItem {
   title: string;
@@ -19,25 +18,37 @@ export const DocumentListItem: FunctionComponent<DocumentListItem> = ({
 }) => (
   <TouchableOpacity
     onPress={onPress}
-    style={{ width: "100%", margin: 5 }}
+    style={{
+      minHeight: spacing(6),
+      borderRadius: 4,
+      marginBottom: spacing(1.5),
+      backgroundColor: color("grey", 0),
+      borderColor: color("grey", 15),
+      borderWidth: 1,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingHorizontal: spacing(1),
+      paddingVertical: spacing(1)
+    }}
     testID="document-list-item"
   >
-    <View
+    <Text
       style={{
-        backgroundColor: VERY_LIGHT,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: 5
+        color: color("grey", 40),
+        fontWeight: "bold",
+        fontSize: typeScale(0),
+        paddingHorizontal: spacing(1),
+        flexShrink: 1
       }}
     >
-      <Text style={{ color: DARK, fontWeight: "bold" }}>{truncate(title)}</Text>
-      {!isVerified && (
-        <VerifiedLabel
-          isVerified={isVerified}
-          lastVerification={lastVerification}
-        />
-      )}
-    </View>
+      {title}
+    </Text>
+    {!isVerified && (
+      <VerifiedLabel
+        isVerified={isVerified}
+        lastVerification={lastVerification}
+      />
+    )}
   </TouchableOpacity>
 );

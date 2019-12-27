@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { View, Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { LIGHT, LIGHT_RED_TINGE } from "../../common/styles/colors";
+import { color, spacing, typeScale } from "../../common/styles";
 
 export interface VerifiedLabel {
   isVerified?: boolean;
@@ -14,22 +14,26 @@ export const VerifiedLabel: FunctionComponent<VerifiedLabel> = ({
 }) => {
   let labelText;
   let iconName;
+  let labelColor;
   let backgroundColor;
   switch (true) {
     case isVerified:
-      labelText = "VERIFIED";
+      labelText = "Verified";
       iconName = "check-circle";
-      backgroundColor = LIGHT;
+      labelColor = color("green", 30);
+      backgroundColor = color("green", 20);
       break;
     case !isVerified && !lastVerification:
-      labelText = "UNKNOWN";
+      labelText = "Unknown";
       iconName = "alert-circle";
-      backgroundColor = LIGHT_RED_TINGE;
+      labelColor = color("grey", 40);
+      backgroundColor = color("grey", 10);
       break;
     default:
-      labelText = "INVALID";
+      labelText = "Invalid";
       iconName = "x-circle";
-      backgroundColor = LIGHT_RED_TINGE;
+      labelColor = color("red", 30);
+      backgroundColor = color("red", 20);
   }
   return (
     <View
@@ -38,11 +42,24 @@ export const VerifiedLabel: FunctionComponent<VerifiedLabel> = ({
         backgroundColor,
         flexDirection: "row",
         alignItems: "center",
-        padding: 5
+        paddingHorizontal: spacing(1.5),
+        paddingVertical: spacing(1),
+        borderRadius: 2
       }}
     >
-      <Feather name={iconName} />
-      <Text style={{ marginLeft: 5 }}>{labelText}</Text>
+      <Feather name={iconName} size={16} style={{ color: labelColor }} />
+      <Text
+        style={{
+          marginLeft: spacing(1),
+          textTransform: "uppercase",
+          letterSpacing: 0.5,
+          fontWeight: "bold",
+          fontSize: typeScale(-2),
+          color: labelColor
+        }}
+      >
+        {labelText}
+      </Text>
     </View>
   );
 };
