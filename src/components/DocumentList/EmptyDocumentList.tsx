@@ -1,14 +1,7 @@
 import React, { FunctionComponent } from "react";
-import { View, Text, TouchableOpacity, TextStyle } from "react-native";
-import { DARK, LIGHT } from "../../common/styles/colors";
-import { FontAwesome } from "@expo/vector-icons";
-
-const mainFontStyle: TextStyle = {
-  color: DARK,
-  fontSize: 18,
-  textAlign: "center",
-  fontWeight: "bold"
-};
+import { View, Text, TouchableOpacity } from "react-native";
+import QRIcon from "../../../assets/icons/qr.svg";
+import { typeScale, color, shadow, spacing } from "../../common/styles";
 
 interface EmptyDocumentList {
   onAdd: () => void;
@@ -28,36 +21,47 @@ export const EmptyDocumentList: FunctionComponent<EmptyDocumentList> = ({
   >
     <View
       style={{
-        width: "80%",
-        padding: 24,
-        borderRadius: 10,
-        borderStyle: "dashed",
-        borderWidth: 2,
-        borderColor: LIGHT
+        width: 240,
+        borderRadius: 8,
+        backgroundColor: color("grey", 0),
+        ...shadow(1)
       }}
     >
-      <Text style={mainFontStyle}>Add a new document</Text>
-      <Text style={mainFontStyle}>to your wallet</Text>
-      <View style={{ alignItems: "center", marginTop: 12 }}>
-        <TouchableOpacity
-          testID="scanner-button"
+      <Text
+        style={{
+          fontSize: typeScale(2),
+          lineHeight: 1.3 * typeScale(2),
+          padding: spacing(3)
+        }}
+      >
+        Start by adding a licence to your wallet
+      </Text>
+
+      <TouchableOpacity
+        testID="scanner-button"
+        style={{
+          backgroundColor: color("orange", 30),
+          flexDirection: "row",
+          alignItems: "center",
+          height: spacing(6),
+          paddingHorizontal: spacing(3),
+          borderRadius: 8,
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0
+        }}
+        onPress={onAdd}
+      >
+        <QRIcon width={20} height={20} fill={color("grey", 40)} />
+        <Text
           style={{
-            backgroundColor: LIGHT,
-            flexDirection: "row",
-            alignItems: "center",
-            padding: 5,
-            borderRadius: 5
+            color: color("grey", 40),
+            fontWeight: "bold",
+            marginLeft: spacing(1.5)
           }}
-          onPress={onAdd}
         >
-          <View style={{ padding: 5 }}>
-            <FontAwesome name="qrcode" size={24} style={{ color: DARK }} />
-          </View>
-          <View style={{ padding: 5 }}>
-            <Text style={{ color: DARK, fontWeight: "bold" }}>Add</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+          Scan to add
+        </Text>
+      </TouchableOpacity>
     </View>
   </View>
 );
