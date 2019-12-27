@@ -4,17 +4,18 @@ import {
   LayoutChangeEvent,
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  StyleSheet
 } from "react-native";
 import { BottomSheet } from "../Layout/BottomSheet";
 import { Document, SignedDocument, getData } from "@govtechsg/open-attestation";
 import QRIcon from "../../../assets/icons/qr.svg";
 import { ValidityBanner } from "../Validity/ValidityBanner";
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
-import { DARK, color } from "../../common/styles/colors";
 import { CheckStatus } from "../Validity";
 import { QrCode } from "./QrCode";
 import { useQrGenerator } from "../../common/hooks/useQrGenerator";
+import { color, spacing, typeScale, shadow } from "../../common/styles";
 
 interface BackgroundOverlay {
   isVisible: boolean;
@@ -46,6 +47,80 @@ const BackgroundOverlay: FunctionComponent<BackgroundOverlay> = ({
     />
   );
 };
+
+const styles = StyleSheet.create({
+  header: {
+    paddingBottom: spacing(4)
+  },
+  validityBannerWrapper: {
+    marginHorizontal: -spacing(3),
+    marginBottom: spacing(2.5)
+  },
+  keyInformationWrapper: {
+    flexDirection: "row"
+  },
+  heading: {
+    fontSize: typeScale(-2),
+    marginBottom: spacing(1),
+    color: color("grey", 40)
+  },
+  issuerName: {
+    fontSize: typeScale(-1),
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+    color: color("grey", 40)
+  },
+  shareButton: {
+    backgroundColor: "white",
+    minWidth: spacing(6),
+    padding: spacing(1),
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: color("grey", 15),
+    borderWidth: 1,
+    ...shadow(1),
+    overflow: "visible"
+  },
+  shareButtonLabel: {
+    marginTop: spacing(0.5),
+    fontSize: typeScale(-4),
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+    color: color("grey", 40)
+  },
+  qrCodeBg: {
+    height: "50%",
+    backgroundColor: color("blue", 50),
+    marginHorizontal: -spacing(3),
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0
+  },
+  qrCodeWrapper: {
+    backgroundColor: color("grey", 0),
+    borderRadius: 4,
+    ...shadow(1)
+  },
+  contentWrapper: {
+    marginHorizontal: -spacing(3),
+    marginBottom: -spacing(3),
+    paddingTop: spacing(5),
+    paddingBottom: spacing(8),
+    paddingHorizontal: spacing(3),
+    backgroundColor: color("blue", 50),
+    flexGrow: 1
+  },
+  divider: {
+    marginTop: spacing(1),
+    marginBottom: spacing(4),
+    backgroundColor: color("grey", 30),
+    height: 1
+  }
+});
 
 export interface DocumentDetailsSheet {
   document: Document;
@@ -94,20 +169,15 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
       <BottomSheet
         snapPoints={[headerHeight, "86%"]}
         onOpenStart={() => {
-          generateQr(document);
+          generateQr(document)();
           setIsBackgroundOverlayVisible(true);
         }}
         onCloseEnd={() => setIsBackgroundOverlayVisible(false)}
       >
         {openSheet => (
-          <View testID="document-details">
-            <View
-              onLayout={onHeaderLayout}
-              style={{
-                paddingBottom: 32
-              }}
-            >
-              <View style={{ marginHorizontal: -24, marginBottom: 20 }}>
+          <View testID="document-details" style={{ minHeight: "100%" }}>
+            <View onLayout={onHeaderLayout} style={styles.header}>
+              <View style={styles.validityBannerWrapper}>
                 <ValidityBanner
                   tamperedCheck={tamperedCheck}
                   issuedCheck={issuedCheck}
@@ -116,67 +186,37 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
                   overallValidity={overallValidity}
                 />
               </View>
-              <View style={{ flexDirection: "row" }}>
+              <View style={styles.keyInformationWrapper}>
                 <View style={{ flex: 1 }}>
-                  <Text style={{ fontSize: 12, marginBottom: 8 }}>
-                    Issued by
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 14,
-                      fontWeight: "bold",
-                      textTransform: "uppercase",
-                      letterSpacing: 0.5
-                    }}
-                  >
-                    {issuedBy}
-                  </Text>
+                  <Text style={styles.heading}>Issued by</Text>
+                  <Text style={styles.issuerName}>{issuedBy}</Text>
                 </View>
                 <TouchableOpacity
                   onPress={openSheet}
-                  style={{
-                    backgroundColor: "white",
-                    minWidth: 48,
-                    paddingVertical: 8,
-                    paddingHorizontal: 8,
-                    borderRadius: 8,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderColor: "#E8E8E8",
-                    borderWidth: 1,
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 0,
-                      height: 0
-                    },
-                    shadowOpacity: 0.2,
-                    shadowRadius: 3,
-                    elevation: 3,
-                    overflow: "visible"
-                  }}
+                  style={styles.shareButton}
                 >
                   <View
                     accessible
                     style={{ justifyContent: "center", alignItems: "center" }}
                   >
                     <QRIcon width={24} height={24} />
-                    <Text
-                      style={{
-                        marginTop: 4,
-                        fontSize: 8,
-                        fontWeight: "bold",
-                        textTransform: "uppercase",
-                        letterSpacing: 0.5,
-                        color: DARK
-                      }}
-                    >
-                      Share
-                    </Text>
+                    <Text style={styles.shareButtonLabel}>Share</Text>
                   </View>
                 </TouchableOpacity>
               </View>
             </View>
-            <QrCode qrCode={qrCode} qrCodeLoading={qrCodeLoading} />
+            <View style={{ position: "relative" }}>
+              <View style={styles.qrCodeBg} />
+              <View style={styles.qrCodeWrapper}>
+                <QrCode qrCode={qrCode} qrCodeLoading={qrCodeLoading} />
+              </View>
+            </View>
+            <View style={styles.contentWrapper}>
+              {(qrCodeLoading || qrCode !== "") && (
+                <View style={styles.divider} />
+              )}
+              <Text style={{ color: color("grey", 0) }}>Metadata</Text>
+            </View>
           </View>
         )}
       </BottomSheet>
