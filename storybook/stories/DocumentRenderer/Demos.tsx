@@ -5,26 +5,18 @@ import { DocumentRenderer } from "../../../src/components/DocumentRenderer/Docum
 import demoOc from "../../../fixtures/demo-oc.json";
 import demoCaas from "../../../fixtures/demo-caas.json";
 import demoEbl from "../../../fixtures/demo-ebl.json";
-import { SafeAreaView } from "react-native";
 
 const mockBack = (): void => {
   alert("Back!");
 };
 
-storiesOf("DocumentRenderer", module).add("Demo - OpenCerts", () => (
-  <SafeAreaView>
+storiesOf("DocumentRenderer", module)
+  .add("Demo - OpenCerts", () => (
     <DocumentRenderer document={demoOc} goBack={mockBack} />
-  </SafeAreaView>
-));
-
-storiesOf("DocumentRenderer", module).add("Demo - UALP", () => (
-  <SafeAreaView>
+  ))
+  .add("Demo - UALP", () => (
     <DocumentRenderer document={demoCaas} goBack={mockBack} />
-  </SafeAreaView>
-));
-
-storiesOf("DocumentRenderer", module).add("Demo - eBL", () => (
-  <SafeAreaView>
+  ))
+  .add("Demo - eBL", () => (
     <DocumentRenderer document={demoEbl} goBack={mockBack} />
-  </SafeAreaView>
-));
+  ));
