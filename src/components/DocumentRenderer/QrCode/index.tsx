@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 import { View, ActivityIndicator, LayoutChangeEvent } from "react-native";
 import QRCode from "react-native-qrcode-svg";
-import { color, spacing } from "../../../common/styles";
+import { color, size } from "../../../common/styles";
 
 interface QrCode {
   qrCode?: string;
@@ -24,7 +24,7 @@ export const QrCode: FunctionComponent<QrCode> = ({
       <View
         testID="qr-code"
         style={{
-          margin: spacing(3),
+          margin: size(3),
           alignSelf: "stretch"
         }}
       >

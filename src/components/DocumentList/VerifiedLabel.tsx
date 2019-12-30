@@ -1,7 +1,13 @@
 import React, { FunctionComponent } from "react";
 import { View, Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { color, spacing, typeScale } from "../../common/styles";
+import {
+  color,
+  size,
+  fontSize,
+  letterSpacing,
+  borderRadius
+} from "../../common/styles";
 
 export interface VerifiedLabel {
   isVerified?: boolean;
@@ -42,19 +48,19 @@ export const VerifiedLabel: FunctionComponent<VerifiedLabel> = ({
         backgroundColor,
         flexDirection: "row",
         alignItems: "center",
-        paddingHorizontal: spacing(1.5),
-        paddingVertical: spacing(1),
-        borderRadius: 2
+        paddingHorizontal: size(1.5),
+        paddingVertical: size(1),
+        borderRadius: borderRadius(1)
       }}
     >
-      <Feather name={iconName} size={16} style={{ color: labelColor }} />
+      <Feather name={iconName} size={size(2)} style={{ color: labelColor }} />
       <Text
         style={{
-          marginLeft: spacing(1),
+          marginLeft: size(1),
           textTransform: "uppercase",
-          letterSpacing: 0.5,
+          letterSpacing: letterSpacing(1),
           fontWeight: "bold",
-          fontSize: typeScale(-2),
+          fontSize: fontSize(-2),
           color: labelColor
         }}
       >

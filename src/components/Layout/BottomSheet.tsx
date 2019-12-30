@@ -8,7 +8,7 @@ import React, {
 import { View, StyleSheet } from "react-native";
 import BottomSheetBehavior from "reanimated-bottom-sheet";
 import Animated from "react-native-reanimated";
-import { color, spacing } from "../../common/styles";
+import { color, size, borderRadius } from "../../common/styles";
 
 const { call } = Animated;
 
@@ -22,30 +22,27 @@ const styles = StyleSheet.create({
     overflow: "hidden"
   },
   fixedHeader: {
-    position: "absolute",
-    left: "-0.5%",
-    width: "101%",
-    borderRadius: 16,
+    borderRadius: borderRadius(4),
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
-    borderBottomWidth: 0,
     backgroundColor: color("grey", 5),
-    marginTop: spacing(4),
-    height: spacing(2.5),
+    marginTop: size(4),
+    height: size(2.5),
     borderColor: color("grey", 10),
     borderWidth: 1,
+    borderBottomWidth: 0,
     shadowColor: "#000",
     shadowOpacity: 0.2,
     shadowRadius: 16,
-    elevation: 20
+    elevation: 16
   },
   dragIndicator: {
     position: "absolute",
     alignSelf: "center",
-    top: spacing(1),
-    width: spacing(6),
-    height: spacing(0.5),
-    borderRadius: 24,
+    top: size(1),
+    width: size(6),
+    height: size(0.5),
+    borderRadius: borderRadius(5),
     backgroundColor: "#E0E0E0"
   },
   connector: {
@@ -58,8 +55,8 @@ const styles = StyleSheet.create({
   },
   contentWrapper: {
     minHeight: "100%",
-    padding: spacing(3),
-    paddingTop: spacing(0.5),
+    padding: size(3),
+    paddingTop: size(0.5),
     backgroundColor: color("grey", 5)
   }
 });

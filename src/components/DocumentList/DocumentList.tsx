@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { ScrollView } from "react-native";
 import { DocumentListItem } from "./DocumentListItem";
-import { spacing } from "../../common/styles";
+import { size } from "../../common/styles";
 
 export interface DocumentItem {
   id: string;
@@ -33,8 +33,8 @@ export const DocumentList: FunctionComponent<DocumentList> = ({
       testID="document-list"
       style={{
         width: "100%",
-        paddingVertical: spacing(4),
-        paddingHorizontal: spacing(3),
+        paddingVertical: size(4),
+        paddingHorizontal: size(3),
         height: "100%"
       }}
     >

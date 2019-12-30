@@ -1,7 +1,48 @@
 import React, { FunctionComponent } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import QRIcon from "../../../assets/icons/qr.svg";
-import { typeScale, color, shadow, spacing } from "../../common/styles";
+import {
+  fontSize,
+  color,
+  shadow,
+  size,
+  borderRadius
+} from "../../common/styles";
+
+const styles = StyleSheet.create({
+  emptyDocumentList: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  callout: {
+    width: 240,
+    borderRadius: borderRadius(3),
+    backgroundColor: color("grey", 0),
+    ...shadow(1)
+  },
+  calloutText: {
+    fontSize: fontSize(2),
+    lineHeight: 1.3 * fontSize(2),
+    padding: size(3)
+  },
+  calloutButton: {
+    backgroundColor: color("orange", 30),
+    flexDirection: "row",
+    alignItems: "center",
+    height: size(6),
+    paddingHorizontal: size(3),
+    borderRadius: borderRadius(3),
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0
+  },
+  calloutButtonText: {
+    color: color("grey", 40),
+    fontWeight: "bold",
+    marginLeft: size(1.5)
+  }
+});
 
 interface EmptyDocumentList {
   onAdd: () => void;
@@ -10,57 +51,19 @@ interface EmptyDocumentList {
 export const EmptyDocumentList: FunctionComponent<EmptyDocumentList> = ({
   onAdd
 }) => (
-  <View
-    testID="empty-document-list"
-    style={{
-      flex: 1,
-      width: "100%",
-      alignItems: "center",
-      justifyContent: "center"
-    }}
-  >
-    <View
-      style={{
-        width: 240,
-        borderRadius: 8,
-        backgroundColor: color("grey", 0),
-        ...shadow(1)
-      }}
-    >
-      <Text
-        style={{
-          fontSize: typeScale(2),
-          lineHeight: 1.3 * typeScale(2),
-          padding: spacing(3)
-        }}
-      >
+  <View testID="empty-document-list" style={styles.emptyDocumentList}>
+    <View style={styles.callout}>
+      <Text style={styles.calloutText}>
         Start by adding a licence to your wallet
       </Text>
 
       <TouchableOpacity
         testID="scanner-button"
-        style={{
-          backgroundColor: color("orange", 30),
-          flexDirection: "row",
-          alignItems: "center",
-          height: spacing(6),
-          paddingHorizontal: spacing(3),
-          borderRadius: 8,
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0
-        }}
+        style={styles.calloutButton}
         onPress={onAdd}
       >
         <QRIcon width={20} height={20} fill={color("grey", 40)} />
-        <Text
-          style={{
-            color: color("grey", 40),
-            fontWeight: "bold",
-            marginLeft: spacing(1.5)
-          }}
-        >
-          Scan to add
-        </Text>
+        <Text style={styles.calloutButtonText}>Scan to add</Text>
       </TouchableOpacity>
     </View>
   </View>

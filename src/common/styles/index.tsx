@@ -1,6 +1,7 @@
 import { color } from "./colors";
 import { shadow } from "./shadows";
-import { spacing } from "./spacing";
-import { typeScale } from "./typography";
+import { size } from "./sizes";
+import { letterSpacing, fontSize } from "./typography";
+import { borderRadius } from "./borders";
 
-export { color, shadow, spacing, typeScale };
+export { color, shadow, size, letterSpacing, fontSize, borderRadius };

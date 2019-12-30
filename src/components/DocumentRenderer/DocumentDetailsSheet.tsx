@@ -5,7 +5,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  Platform
 } from "react-native";
 import { BottomSheet } from "../Layout/BottomSheet";
 import { Document, SignedDocument, getData } from "@govtechsg/open-attestation";
@@ -15,7 +16,14 @@ import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
 import { CheckStatus } from "../Validity";
 import { QrCode } from "./QrCode";
 import { useQrGenerator } from "../../common/hooks/useQrGenerator";
-import { color, spacing, typeScale, shadow } from "../../common/styles";
+import {
+  color,
+  size,
+  fontSize,
+  shadow,
+  letterSpacing,
+  borderRadius
+} from "../../common/styles";
 
 interface BackgroundOverlay {
   isVisible: boolean;
@@ -48,53 +56,60 @@ const BackgroundOverlay: FunctionComponent<BackgroundOverlay> = ({
   );
 };
 
+const additionalHeaderPadding = Platform.OS === "ios" ? size(7) : size(6);
+
 const styles = StyleSheet.create({
   header: {
-    paddingBottom: spacing(4)
+    paddingBottom: additionalHeaderPadding
   },
   validityBannerWrapper: {
-    marginHorizontal: -spacing(3),
-    marginBottom: spacing(2.5)
+    marginHorizontal: -size(3),
+    marginBottom: size(2.5)
   },
-  keyInformationWrapper: {
+  informationAndShareButtonWrapper: {
     flexDirection: "row"
   },
+  informationWrapper: {
+    flex: 1,
+    marginRight: size(2)
+  },
   heading: {
-    fontSize: typeScale(-2),
-    marginBottom: spacing(1),
+    fontSize: fontSize(-2),
+    marginBottom: size(1),
     color: color("grey", 40)
   },
   issuerName: {
-    fontSize: typeScale(-1),
+    fontSize: fontSize(-1),
     fontWeight: "bold",
     textTransform: "uppercase",
-    letterSpacing: 0.5,
+    letterSpacing: letterSpacing(1),
     color: color("grey", 40)
   },
   shareButton: {
     backgroundColor: "white",
-    minWidth: spacing(6),
-    padding: spacing(1),
-    borderRadius: 8,
+    minWidth: size(6),
+    padding: size(1),
+    borderRadius: borderRadius(3),
     justifyContent: "center",
     alignItems: "center",
     borderColor: color("grey", 15),
     borderWidth: 1,
     ...shadow(1),
+    elevation: 8,
     overflow: "visible"
   },
   shareButtonLabel: {
-    marginTop: spacing(0.5),
-    fontSize: typeScale(-4),
+    marginTop: size(0.5),
+    fontSize: fontSize(-4),
     fontWeight: "bold",
     textTransform: "uppercase",
-    letterSpacing: 0.5,
+    letterSpacing: letterSpacing(1),
     color: color("grey", 40)
   },
   qrCodeBg: {
     height: "50%",
     backgroundColor: color("blue", 50),
-    marginHorizontal: -spacing(3),
+    marginHorizontal: -size(3),
     position: "absolute",
     bottom: 0,
     left: 0,
@@ -102,21 +117,23 @@ const styles = StyleSheet.create({
   },
   qrCodeWrapper: {
     backgroundColor: color("grey", 0),
-    borderRadius: 4,
-    ...shadow(1)
+    borderRadius: borderRadius(2),
+    aspectRatio: 1,
+    ...shadow(1),
+    elevation: 8
   },
   contentWrapper: {
-    marginHorizontal: -spacing(3),
-    marginBottom: -spacing(3),
-    paddingTop: spacing(5),
-    paddingBottom: spacing(8),
-    paddingHorizontal: spacing(3),
+    marginHorizontal: -size(3),
+    marginBottom: -size(3),
+    paddingTop: size(5),
+    paddingBottom: size(8),
+    paddingHorizontal: size(3),
     backgroundColor: color("blue", 50),
     flexGrow: 1
   },
   divider: {
-    marginTop: spacing(1),
-    marginBottom: spacing(4),
+    marginTop: size(1),
+    marginBottom: size(4),
     backgroundColor: color("grey", 30),
     height: 1
   }
@@ -140,7 +157,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   const onHeaderLayout = (event: LayoutChangeEvent): void => {
     if (!hasHeaderHeightBeenSet.current) {
       const { height } = event.nativeEvent.layout;
-      setHeaderHeight(height + 56);
+      setHeaderHeight(height + additionalHeaderPadding);
       hasHeaderHeightBeenSet.current = true;
     }
   };
@@ -167,7 +184,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
     <>
       <BackgroundOverlay isVisible={isBackgroundOverlayVisible} />
       <BottomSheet
-        snapPoints={[headerHeight, "86%"]}
+        snapPoints={[headerHeight, "90%"]}
         onOpenStart={() => {
           generateQr(document)();
           setIsBackgroundOverlayVisible(true);
@@ -186,8 +203,8 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
                   overallValidity={overallValidity}
                 />
               </View>
-              <View style={styles.keyInformationWrapper}>
-                <View style={{ flex: 1 }}>
+              <View style={styles.informationAndShareButtonWrapper}>
+                <View style={styles.informationWrapper}>
                   <Text style={styles.heading}>Issued by</Text>
                   <Text style={styles.issuerName}>{issuedBy}</Text>
                 </View>
@@ -199,7 +216,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
                     accessible
                     style={{ justifyContent: "center", alignItems: "center" }}
                   >
-                    <QRIcon width={24} height={24} />
+                    <QRIcon width={size(3)} height={size(3)} />
                     <Text style={styles.shareButtonLabel}>Share</Text>
                   </View>
                 </TouchableOpacity>
