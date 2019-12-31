@@ -1,22 +1,27 @@
 import React, { FunctionComponent, ReactNode } from "react";
-import { View, TouchableOpacity, StyleSheet, ViewStyle } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  ViewStyle,
+  SafeAreaView
+} from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { color, size } from "../../common/styles";
+import { color, size, shadow } from "../../common/styles";
 
 const styles = StyleSheet.create({
+  safeAreaView: {
+    backgroundColor: color("grey", 0)
+  },
   header: {
     flexDirection: "row",
     height: size(7),
     width: "100%",
-    backgroundColor: color("grey", 0),
-    alignItems: "stretch",
-    elevation: 4
+    alignItems: "stretch"
   },
-  borderBottom: {
-    borderBottomWidth: 1,
-    borderStyle: "solid",
-    borderColor: color("grey", 15),
-    elevation: 0
+  withShadow: {
+    zIndex: 1,
+    ...shadow(1)
   },
   headerBackButton: {
     paddingLeft: size(3),
@@ -51,22 +56,23 @@ export const HeaderBackButton: FunctionComponent<HeaderBackButton> = ({
 
 export interface Header {
   goBack?: () => void;
-  hasBorder?: boolean;
+  hasShadow?: boolean;
   children?: ReactNode;
   style?: ViewStyle;
 }
 
 export const Header: FunctionComponent<Header> = ({
   goBack,
-  hasBorder = true,
+  hasShadow = true,
   children,
   style
 }) => (
-  <View
-    testID="header-bar"
-    style={[styles.header, hasBorder && styles.borderBottom, style]}
+  <SafeAreaView
+    style={[styles.safeAreaView, hasShadow && styles.withShadow, style]}
   >
-    {goBack ? <HeaderBackButton onPress={goBack} /> : null}
-    {children}
-  </View>
+    <View testID="header-bar" style={[styles.header]}>
+      {goBack ? <HeaderBackButton onPress={goBack} /> : null}
+      {children}
+    </View>
+  </SafeAreaView>
 );

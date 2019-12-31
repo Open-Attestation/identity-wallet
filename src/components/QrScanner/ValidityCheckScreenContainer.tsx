@@ -37,7 +37,7 @@ export const ValidityCheckScreenContainer: FunctionComponent<NavigationProps> = 
     <SafeAreaView style={{ flex: 1 }}>
       <Header
         goBack={() => navigation.goBack()}
-        hasBorder={false}
+        hasShadow={false}
         style={{
           backgroundColor: "transparent"
         }}

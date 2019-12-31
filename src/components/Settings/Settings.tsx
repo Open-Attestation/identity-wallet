@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { Header } from "../Layout/Header";
 import { DarkButton } from "../Layout/Buttons/DarkButton";
-import { ScrollView, View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { ScrollView, View, Text, StyleSheet } from "react-native";
 import { BottomNav } from "../Layout/BottomNav";
 import { NavigationProps } from "../../types";
 import { BuildView } from "./BuildView";
@@ -17,8 +17,12 @@ const styles = StyleSheet.create({
   },
   contentWrapper: {
     flex: 1,
-    padding: size(3),
+    paddingHorizontal: size(3),
+    paddingBottom: size(3),
     justifyContent: "space-between"
+  },
+  settingsView: {
+    paddingVertical: size(3)
   },
   settingsItem: {
     flexDirection: "row",
@@ -40,7 +44,7 @@ export const SettingsView: FunctionComponent<{
   onResetDocumentData: () => void;
 }> = ({ onResetDocumentData }) => {
   return (
-    <ScrollView>
+    <ScrollView style={styles.settingsView}>
       <View style={styles.settingsItem}>
         <Text style={styles.settingsItemDescription}>Delete all documents</Text>
         <DarkButton text="Delete" onPress={onResetDocumentData} />
@@ -55,15 +59,13 @@ export const Settings: FunctionComponent<Settings> = ({
 }) => {
   return (
     <>
-      <SafeAreaView style={{ flex: 1 }}>
-        <Header>
-          <Text style={styles.headerText}>Settings</Text>
-        </Header>
-        <View style={styles.contentWrapper}>
-          <SettingsView onResetDocumentData={onResetDocumentData} />
-          <BuildView />
-        </View>
-      </SafeAreaView>
+      <Header>
+        <Text style={styles.headerText}>Settings</Text>
+      </Header>
+      <View style={styles.contentWrapper}>
+        <SettingsView onResetDocumentData={onResetDocumentData} />
+        <BuildView />
+      </View>
       <BottomNav navigation={navigation} />
     </>
   );

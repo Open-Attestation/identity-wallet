@@ -2,12 +2,16 @@ import React, { FunctionComponent } from "react";
 import { Feather } from "@expo/vector-icons";
 import QRIcon from "../../../assets/icons/qr.svg";
 import { View, TouchableOpacity, StyleSheet, SafeAreaView } from "react-native";
-import { color } from "../../common/styles";
+import { color, shadow } from "../../common/styles";
 import { NavigationProps } from "../../types";
 import { replaceRouteFn } from "../../common/navigation";
 import { size } from "../../common/styles";
 
 const styles = StyleSheet.create({
+  safeAreaView: {
+    backgroundColor: color("grey", 0),
+    ...shadow(2)
+  },
   bottomNav: {
     width: "100%",
     height: size(8),
@@ -18,8 +22,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderBottomWidth: 0,
     borderStyle: "solid",
-    paddingHorizontal: size(7),
-    elevation: 8
+    paddingHorizontal: size(7)
   },
   navTab: {
     width: size(8),
@@ -46,7 +49,7 @@ export const BottomNav: FunctionComponent<NavigationProps> = ({
 }) => {
   const currentRoute = navigation.state.routeName;
   return (
-    <SafeAreaView style={{ backgroundColor: color("grey", 0) }}>
+    <SafeAreaView style={styles.safeAreaView}>
       <View testID="bottom-nav" style={styles.bottomNav}>
         <NavTab onPress={replaceRouteFn(navigation, "DocumentListScreen")}>
           <Feather

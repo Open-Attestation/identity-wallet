@@ -50,7 +50,8 @@ const BackgroundOverlay: FunctionComponent<BackgroundOverlay> = ({
         top: 0,
         bottom: 0,
         backgroundColor: color("grey", 100),
-        opacity: fadeAnim
+        opacity: fadeAnim,
+        zIndex: 2
       }}
     />
   );
@@ -94,9 +95,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: color("grey", 15),
     borderWidth: 1,
-    ...shadow(1),
-    elevation: 8,
-    overflow: "visible"
+    ...shadow(2)
   },
   shareButtonLabel: {
     marginTop: size(0.5),
@@ -119,8 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: color("grey", 0),
     borderRadius: borderRadius(2),
     aspectRatio: 1,
-    ...shadow(1),
-    elevation: 8
+    ...shadow(2)
   },
   contentWrapper: {
     marginHorizontal: -size(3),

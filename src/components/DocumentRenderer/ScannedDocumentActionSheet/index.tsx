@@ -4,7 +4,13 @@ import { DarkButton } from "../../Layout/Buttons/DarkButton";
 import { Button } from "../../Layout/Buttons/Button";
 import { VerificationStatuses } from "../../../common/hooks/useDocumentVerifier";
 import { ValidityBanner } from "../../Validity";
-import { color, size, fontSize, letterSpacing } from "../../../common/styles";
+import {
+  color,
+  size,
+  fontSize,
+  letterSpacing,
+  shadow
+} from "../../../common/styles";
 
 const styles = StyleSheet.create({
   actionSheetWrapper: {
@@ -14,10 +20,7 @@ const styles = StyleSheet.create({
     backgroundColor: color("grey", 5),
     borderColor: color("grey", 10),
     borderWidth: 1,
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 16,
-    elevation: 20
+    ...shadow(3)
   },
   validityBannerWrapper: {
     marginHorizontal: -size(3),

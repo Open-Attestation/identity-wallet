@@ -8,7 +8,7 @@ import React, {
 import { View, StyleSheet } from "react-native";
 import BottomSheetBehavior from "reanimated-bottom-sheet";
 import Animated from "react-native-reanimated";
-import { color, size, borderRadius } from "../../common/styles";
+import { color, size, borderRadius, shadow } from "../../common/styles";
 
 const { call } = Animated;
 
@@ -31,10 +31,7 @@ const styles = StyleSheet.create({
     borderColor: color("grey", 10),
     borderWidth: 1,
     borderBottomWidth: 0,
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 16,
-    elevation: 16
+    ...shadow(4)
   },
   dragIndicator: {
     position: "absolute",
