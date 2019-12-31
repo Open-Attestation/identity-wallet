@@ -26,13 +26,13 @@ const styles = StyleSheet.create({
 });
 
 const LoadingView: FunctionComponent = () => (
-  <View style={styles.wrapper}>
+  <View style={styles.wrapper} testID="loading-view">
     <ActivityIndicator size="large" color={color("grey", 0)} />
   </View>
 );
 
 const PermissionsRejectedView: FunctionComponent = () => (
-  <View style={styles.wrapper}>
+  <View style={styles.wrapper} testID="permissions-rejected-view">
     <Text style={styles.rejectedText}>
       You need to grant camera permissions to view documents
     </Text>
