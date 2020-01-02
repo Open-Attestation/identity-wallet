@@ -30,6 +30,7 @@ import {
   letterSpacing,
   borderRadius
 } from "../../common/styles";
+import { InvalidPanel } from "./InvalidPanel";
 import { DocumentObject } from "../../types";
 
 interface BackgroundOverlay {
@@ -227,6 +228,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   } = useDocumentVerifier(document.document as SignedDocument);
   const haveChecksFinished = overallValidity !== CheckStatus.CHECKING;
   const isDocumentValid = overallValidity === CheckStatus.VALID;
+  const isDocumentInvalid = overallValidity === CheckStatus.INVALID;
 
   useEffect(() => {
     if (haveChecksFinished) {
@@ -258,6 +260,8 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
           <QrCode qrCode={qrCode} qrCodeLoading={qrCodeLoading} />
         </View>
       );
+    } else if (isDocumentInvalid) {
+      children = <InvalidPanel />;
     }
     priorityContent = (
       <View style={{ position: "relative" }}>
