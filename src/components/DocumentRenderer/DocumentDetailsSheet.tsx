@@ -32,6 +32,7 @@ import {
 } from "../../common/styles";
 import { InvalidPanel } from "./InvalidPanel";
 import { DocumentObject } from "../../types";
+import { DocumentMetadata } from "./DocumentMetadata";
 
 interface BackgroundOverlay {
   isVisible: boolean;
@@ -312,7 +313,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
             </View>
             {priorityContent}
             <View style={styles.contentWrapper}>
-              <Text style={{ color: color("grey", 0) }}>Metadata</Text>
+              <DocumentMetadata document={document} />
             </View>
           </View>
         )}
