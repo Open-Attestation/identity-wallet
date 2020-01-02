@@ -137,6 +137,47 @@ const styles = StyleSheet.create({
   }
 });
 
+interface ShareButton {
+  isSheetOpen: boolean;
+  openSheet: () => void | null;
+}
+const ShareButton: FunctionComponent<ShareButton> = ({
+  isSheetOpen,
+  openSheet
+}) => {
+  const [fadeAnim] = useState(new Animated.Value(0));
+
+  React.useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: isSheetOpen ? 0 : 1,
+      duration: 300
+    }).start();
+  }, [fadeAnim, isSheetOpen]);
+
+  return (
+    <Animated.View
+      style={{
+        opacity: fadeAnim
+      }}
+      pointerEvents={isSheetOpen ? "none" : "auto"}
+    >
+      <TouchableOpacity
+        onPress={openSheet}
+        style={styles.shareButton}
+        activeOpacity={0.9}
+      >
+        <View
+          accessible
+          style={{ justifyContent: "center", alignItems: "center" }}
+        >
+          <QRIcon width={size(3)} height={size(3)} />
+          <Text style={styles.shareButtonLabel}>Share</Text>
+        </View>
+      </TouchableOpacity>
+    </Animated.View>
+  );
+};
+
 export interface DocumentDetailsSheet {
   document: Document;
   onVerification: (checkStatus: CheckStatus) => void;
@@ -146,9 +187,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   document,
   onVerification
 }) => {
-  const [isBackgroundOverlayVisible, setIsBackgroundOverlayVisible] = useState(
-    false
-  );
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const { qrCode, qrCodeLoading, generateQr } = useQrGenerator();
   const [headerHeight, setHeaderHeight] = useState(0);
   const hasHeaderHeightBeenSet = useRef(false);
@@ -180,14 +219,14 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
 
   return (
     <>
-      <BackgroundOverlay isVisible={isBackgroundOverlayVisible} />
+      <BackgroundOverlay isVisible={isSheetOpen} />
       <BottomSheet
         snapPoints={[headerHeight, "90%"]}
         onOpenStart={() => {
           generateQr(document)();
-          setIsBackgroundOverlayVisible(true);
         }}
-        onCloseEnd={() => setIsBackgroundOverlayVisible(false)}
+        onOpenEnd={() => setIsSheetOpen(true)}
+        onCloseEnd={() => setIsSheetOpen(false)}
       >
         {openSheet => (
           <View testID="document-details" style={{ minHeight: "100%" }}>
@@ -206,18 +245,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
                   <Text style={styles.heading}>Issued by</Text>
                   <Text style={styles.issuerName}>{issuedBy}</Text>
                 </View>
-                <TouchableOpacity
-                  onPress={openSheet}
-                  style={styles.shareButton}
-                >
-                  <View
-                    accessible
-                    style={{ justifyContent: "center", alignItems: "center" }}
-                  >
-                    <QRIcon width={size(3)} height={size(3)} />
-                    <Text style={styles.shareButtonLabel}>Share</Text>
-                  </View>
-                </TouchableOpacity>
+                <ShareButton isSheetOpen={isSheetOpen} openSheet={openSheet} />
               </View>
             </View>
             <View style={{ position: "relative" }}>
