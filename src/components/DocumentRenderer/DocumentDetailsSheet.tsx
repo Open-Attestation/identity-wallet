@@ -1,4 +1,10 @@
-import React, { FunctionComponent, useState, useRef, useEffect } from "react";
+import React, {
+  FunctionComponent,
+  useState,
+  useRef,
+  useEffect,
+  ReactNode
+} from "react";
 import {
   Animated,
   LayoutChangeEvent,
@@ -9,7 +15,7 @@ import {
   Platform
 } from "react-native";
 import { BottomSheet } from "../Layout/BottomSheet";
-import { Document, SignedDocument, getData } from "@govtechsg/open-attestation";
+import { SignedDocument, getData } from "@govtechsg/open-attestation";
 import QRIcon from "../../../assets/icons/qr.svg";
 import { ValidityBanner } from "../Validity/ValidityBanner";
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
@@ -24,6 +30,7 @@ import {
   letterSpacing,
   borderRadius
 } from "../../common/styles";
+import { DocumentObject } from "../../types";
 
 interface BackgroundOverlay {
   isVisible: boolean;
@@ -105,7 +112,7 @@ const styles = StyleSheet.create({
     letterSpacing: letterSpacing(1),
     color: color("grey", 40)
   },
-  qrCodeBg: {
+  priorityContentBg: {
     height: "50%",
     backgroundColor: color("blue", 50),
     marginHorizontal: -size(3),
@@ -127,13 +134,14 @@ const styles = StyleSheet.create({
     paddingBottom: size(8),
     paddingHorizontal: size(3),
     backgroundColor: color("blue", 50),
-    flexGrow: 1
+    flexGrow: 1,
+    position: "relative",
+    top: -1
   },
   divider: {
-    marginTop: size(1),
-    marginBottom: size(4),
+    marginTop: size(6),
     backgroundColor: color("grey", 30),
-    height: 1
+    height: 2
   }
 });
 
@@ -146,12 +154,14 @@ const ShareButton: FunctionComponent<ShareButton> = ({
   openSheet
 }) => {
   const [fadeAnim] = useState(new Animated.Value(0));
+  const [isAnimating, setIsAnimating] = useState(false);
 
   React.useEffect(() => {
+    setIsAnimating(true);
     Animated.timing(fadeAnim, {
       toValue: isSheetOpen ? 0 : 1,
       duration: 300
-    }).start();
+    }).start(() => setIsAnimating(false));
   }, [fadeAnim, isSheetOpen]);
 
   return (
@@ -163,7 +173,12 @@ const ShareButton: FunctionComponent<ShareButton> = ({
     >
       <TouchableOpacity
         onPress={openSheet}
-        style={styles.shareButton}
+        style={[
+          styles.shareButton,
+          isAnimating && {
+            elevation: 0
+          }
+        ]}
         activeOpacity={0.9}
       >
         <View
@@ -179,7 +194,7 @@ const ShareButton: FunctionComponent<ShareButton> = ({
 };
 
 export interface DocumentDetailsSheet {
-  document: Document;
+  document: DocumentObject;
   onVerification: (checkStatus: CheckStatus) => void;
 }
 
@@ -199,7 +214,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
     }
   };
 
-  const { issuers } = getData(document);
+  const { issuers } = getData(document.document);
   const issuedBy =
     issuers[0]?.identityProof?.location || "Issuer's identity not found";
 
@@ -209,13 +224,49 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
     revokedCheck,
     issuerCheck,
     overallValidity
-  } = useDocumentVerifier(document as SignedDocument);
+  } = useDocumentVerifier(document.document as SignedDocument);
+  const haveChecksFinished = overallValidity !== CheckStatus.CHECKING;
+  const isDocumentValid = overallValidity === CheckStatus.VALID;
 
   useEffect(() => {
-    if (overallValidity !== CheckStatus.CHECKING) {
+    if (haveChecksFinished) {
       onVerification(overallValidity);
     }
-  }, [onVerification, overallValidity]);
+  }, [haveChecksFinished, onVerification, overallValidity]);
+
+  useEffect(() => {
+    // In the event that the sheet was opened before document verification completes,
+    // this ensures that a qr will be generated while the sheet is opened.
+    if (isDocumentValid && isSheetOpen && !qrCode && !qrCodeLoading) {
+      generateQr(document.document)();
+    }
+  }, [
+    document,
+    generateQr,
+    isDocumentValid,
+    isSheetOpen,
+    qrCode,
+    qrCodeLoading
+  ]);
+
+  let priorityContent: ReactNode = null;
+  if (haveChecksFinished) {
+    let children: ReactNode = null;
+    if (isDocumentValid) {
+      children = (
+        <View style={styles.qrCodeWrapper}>
+          <QrCode qrCode={qrCode} qrCodeLoading={qrCodeLoading} />
+        </View>
+      );
+    }
+    priorityContent = (
+      <View style={{ position: "relative" }}>
+        <View style={styles.priorityContentBg} />
+        {children}
+        <View style={styles.divider} />
+      </View>
+    );
+  }
 
   return (
     <>
@@ -223,7 +274,9 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
       <BottomSheet
         snapPoints={[headerHeight, "90%"]}
         onOpenStart={() => {
-          generateQr(document)();
+          if (isDocumentValid && !qrCodeLoading) {
+            generateQr(document.document)();
+          }
         }}
         onOpenEnd={() => setIsSheetOpen(true)}
         onCloseEnd={() => setIsSheetOpen(false)}
@@ -245,19 +298,16 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
                   <Text style={styles.heading}>Issued by</Text>
                   <Text style={styles.issuerName}>{issuedBy}</Text>
                 </View>
-                <ShareButton isSheetOpen={isSheetOpen} openSheet={openSheet} />
+                {isDocumentValid && (
+                  <ShareButton
+                    isSheetOpen={isSheetOpen}
+                    openSheet={openSheet}
+                  />
+                )}
               </View>
             </View>
-            <View style={{ position: "relative" }}>
-              <View style={styles.qrCodeBg} />
-              <View style={styles.qrCodeWrapper}>
-                <QrCode qrCode={qrCode} qrCodeLoading={qrCodeLoading} />
-              </View>
-            </View>
+            {priorityContent}
             <View style={styles.contentWrapper}>
-              {(qrCodeLoading || qrCode !== "") && (
-                <View style={styles.divider} />
-              )}
               <Text style={{ color: color("grey", 0) }}>Metadata</Text>
             </View>
           </View>
