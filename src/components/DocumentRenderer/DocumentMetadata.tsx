@@ -1,7 +1,7 @@
-import React, { FunctionComponent, useRef } from "react";
+import React, { FunctionComponent } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { size, color, fontSize } from "../../common/styles";
-import { DocumentObject } from "../../types";
+import { DocumentProperties } from "../../types";
 
 const styles = StyleSheet.create({
   metadataItem: {
@@ -21,15 +21,14 @@ const styles = StyleSheet.create({
 });
 
 export interface DocumentMetadata {
-  document: DocumentObject;
+  document: Pick<DocumentProperties, "verified" | "created">;
 }
 
 export const DocumentMetadata: FunctionComponent<DocumentMetadata> = ({
   document
 }) => {
-  const previousVerifiedDate = useRef(document.verified);
   return (
-    <>
+    <View testID="document-metadata">
       <View style={styles.metadataItem}>
         <Text style={styles.metadataTitle}>Date added</Text>
         <Text style={styles.metadataContent}>
@@ -37,17 +36,13 @@ export const DocumentMetadata: FunctionComponent<DocumentMetadata> = ({
         </Text>
       </View>
       <View style={styles.metadataItem}>
-        <Text style={styles.metadataTitle}>
-          Date last verified / Date previously verified
-        </Text>
+        <Text style={styles.metadataTitle}>Date last verified</Text>
         <Text style={styles.metadataContent}>
           {document.verified
             ? new Date(document.verified).toLocaleString()
             : "-"}
-          {previousVerifiedDate.current &&
-            ` / ${new Date(previousVerifiedDate.current).toLocaleString()})`}
         </Text>
       </View>
-    </>
+    </View>
   );
 };

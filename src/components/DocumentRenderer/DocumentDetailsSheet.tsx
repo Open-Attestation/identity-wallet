@@ -31,7 +31,7 @@ import {
   borderRadius
 } from "../../common/styles";
 import { InvalidPanel } from "./InvalidPanel";
-import { DocumentObject } from "../../types";
+import { DocumentProperties } from "../../types";
 import { DocumentMetadata } from "./DocumentMetadata";
 
 interface BackgroundOverlay {
@@ -196,7 +196,7 @@ const ShareButton: FunctionComponent<ShareButton> = ({
 };
 
 export interface DocumentDetailsSheet {
-  document: DocumentObject;
+  document: DocumentProperties;
   onVerification: (checkStatus: CheckStatus) => void;
 }
 
@@ -287,7 +287,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
         onCloseEnd={() => setIsSheetOpen(false)}
       >
         {openSheet => (
-          <View testID="document-details" style={{ minHeight: "100%" }}>
+          <View style={{ minHeight: "100%" }}>
             <View onLayout={onHeaderLayout} style={styles.header}>
               <View style={styles.validityBannerWrapper}>
                 <ValidityBanner

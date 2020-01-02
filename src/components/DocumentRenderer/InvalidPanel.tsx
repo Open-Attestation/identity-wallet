@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 
 export const InvalidPanel: FunctionComponent = () => {
   return (
-    <View>
+    <View testID="invalid-panel">
       <View style={styles.panelTopBar} />
       <View style={styles.panel}>
         <Text style={styles.panelTitle}>Important</Text>
