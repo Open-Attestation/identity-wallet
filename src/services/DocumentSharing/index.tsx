@@ -16,7 +16,9 @@ export const uploadDocument = async (document: Document): Promise<string> => {
   const payload = encodeURI(
     JSON.stringify({
       uri: `${STORAGE_API_ENDPOINT}${response.id}`,
-      key: response.key
+      key: response.key,
+      // temporary expiry, will need to be returned by the endpoint
+      expiry: Date.now() + 10 * 60 * 1000
     })
   );
   return `https://openattestation.com/action?document=${payload}`;
