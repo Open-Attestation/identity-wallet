@@ -13,7 +13,7 @@ export const db: RxDatabaseCreator = {
 };
 
 export const documentSchema: RxJsonSchema<DocumentProperties> = {
-  version: 0,
+  version: 1,
   type: "object",
   properties: {
     id: {
@@ -33,11 +33,17 @@ export const documentSchema: RxJsonSchema<DocumentProperties> = {
     },
     document: {
       type: "object"
+    },
+    qrCodeUrl: {
+      type: "string"
     }
   }
 };
 
 export const documentsCollection: RxCollectionCreator = {
   name: "documents",
-  schema: documentSchema
+  schema: documentSchema,
+  migrationStrategies: {
+    1: (oldDoc: DocumentProperties) => oldDoc
+  }
 };
