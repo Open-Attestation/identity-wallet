@@ -241,7 +241,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
     // In the event that the sheet was opened before document verification completes,
     // this ensures that a qr will be generated while the sheet is opened.
     if (isDocumentValid && isSheetOpen && !qrCode && !qrCodeLoading) {
-      generateQr(document.document)();
+      generateQr(document.document);
     }
   }, [
     document,
@@ -280,7 +280,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
         snapPoints={[headerHeight, "90%"]}
         onOpenStart={() => {
           if (isDocumentValid && !qrCodeLoading) {
-            generateQr(document.document)();
+            generateQr(document.document);
           }
         }}
         onOpenEnd={() => setIsSheetOpen(true)}

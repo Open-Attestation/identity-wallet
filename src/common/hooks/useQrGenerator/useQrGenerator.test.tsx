@@ -22,7 +22,7 @@ describe("useQrGenerator", () => {
     mockUploadDocument.mockResolvedValue("QR_CODE");
     let deferredGenerateQr: Promise<void>;
     act(() => {
-      deferredGenerateQr = generateQr(sampleDoc)();
+      deferredGenerateQr = generateQr(sampleDoc);
     });
     expect(result.current.qrCodeLoading).toBe(true);
     await act(async () => {
@@ -38,7 +38,7 @@ describe("useQrGenerator", () => {
     const { generateQr } = result.current;
     mockUploadDocument.mockRejectedValue(new Error("UPLOAD_ERROR"));
     await act(async () => {
-      await generateQr(sampleDoc)();
+      await generateQr(sampleDoc);
     });
     const globalAny: any = global;
     expect(globalAny.alert.mock.calls[0][0]).toMatch("UPLOAD_ERROR");

@@ -5,7 +5,7 @@ import { Document } from "@govtechsg/open-attestation";
 export interface QrGenerator {
   qrCode: string;
   qrCodeLoading: boolean;
-  generateQr: (document: Document) => () => Promise<void>;
+  generateQr: (document: Document) => Promise<void>;
 }
 
 export const useQrGenerator = (): QrGenerator => {
@@ -20,7 +20,7 @@ export const useQrGenerator = (): QrGenerator => {
     };
   }, []);
 
-  const generateQr = (document: Document) => async (): Promise<void> => {
+  const generateQr = async (document: Document): Promise<void> => {
     try {
       setQrCodeLoading(true);
       const code = await uploadDocument(document);
