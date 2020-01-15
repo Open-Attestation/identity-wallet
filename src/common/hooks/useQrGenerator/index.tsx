@@ -11,9 +11,9 @@ export interface QrGenerator {
   generateQr: (document: Document) => Promise<void>;
 }
 
-export const useQrGenerator = (): QrGenerator => {
+export const useQrGenerator = (initialQrCode = ""): QrGenerator => {
   const isMounted = useRef(false);
-  const [qrCode, setQrCode] = useState("");
+  const [qrCode, setQrCode] = useState(initialQrCode);
   const [qrCodeLoading, setQrCodeLoading] = useState(false);
 
   useEffect(() => {

@@ -20,6 +20,13 @@ describe("useQrGenerator", () => {
     expect(result.current.qrCodeLoading).toBe(false);
   });
 
+  it("should return the same qr code as the initial qr code by default", () => {
+    expect.assertions(2);
+    const { result } = renderHook(() => useQrGenerator("QR_CODE"));
+    expect(result.current.qrCode).toBe("QR_CODE");
+    expect(result.current.qrCodeLoading).toBe(false);
+  });
+
   it("should upload document and updates qr code", async () => {
     expect.assertions(3);
     const { result } = renderHook(() => useQrGenerator());
