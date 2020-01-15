@@ -2,8 +2,13 @@ import { renderHook, act } from "@testing-library/react-hooks";
 import sampleDoc from "../../../../fixtures/demo-oc.json";
 import { useQrGenerator } from "./index";
 import { uploadDocument } from "../../../services/DocumentSharing";
+import debounce from "lodash/debounce";
 
 jest.mock("../../../services/DocumentSharing");
+jest.mock("lodash/debounce");
+
+const mockDebounce = debounce as jest.Mock;
+mockDebounce.mockImplementation(fn => fn);
 
 const mockUploadDocument = uploadDocument as jest.Mock;
 
