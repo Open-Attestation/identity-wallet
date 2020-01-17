@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react-native";
 import { CenterDecorator } from "../decorators";
 import { View, Button, Text, ScrollView, SafeAreaView } from "react-native";
 import { SignedDocument } from "@govtechsg/open-attestation";
-import sampleDoc from "../../../fixtures/demo-oc.json";
+import sampleDoc from "../../../fixtures/demo-caas.json";
 import { useDocumentVerifier } from "../../../src/common/hooks/useDocumentVerifier";
 import { CheckStatus, ValidityCard } from "../../../src/components/Validity";
 

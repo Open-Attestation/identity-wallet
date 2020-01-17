@@ -5,6 +5,7 @@ import React, {
   useEffect,
   ReactNode
 } from "react";
+import useInterval from "../../common/hooks/useInterval";
 import {
   Animated,
   LayoutChangeEvent,
@@ -33,6 +34,7 @@ import {
 import { InvalidPanel } from "./InvalidPanel";
 import { DocumentProperties } from "../../types";
 import { DocumentMetadata } from "./DocumentMetadata";
+import formatDistanceStrict from "date-fns/formatDistanceStrict";
 
 interface BackgroundOverlay {
   isVisible: boolean;
@@ -144,6 +146,11 @@ const styles = StyleSheet.create({
     marginTop: size(6),
     backgroundColor: color("grey", 30),
     height: 2
+  },
+  ttlText: {
+    alignSelf: "center",
+    color: "#fff",
+    fontSize: fontSize(-2)
   }
 });
 
@@ -205,7 +212,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   onVerification
 }) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const { qrCode, qrCodeLoading, generateQr } = useQrGenerator();
+  const { qrCode, qrCodeLoading, generateQr, ttl } = useQrGenerator();
   const [headerHeight, setHeaderHeight] = useState(0);
   const hasHeaderHeightBeenSet = useRef(false);
   const onHeaderLayout = (event: LayoutChangeEvent): void => {
@@ -231,6 +238,38 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   const isDocumentValid = overallValidity === CheckStatus.VALID;
   const isDocumentInvalid = overallValidity === CheckStatus.INVALID;
 
+  const [ttlDescription, setTtlDescription] = useState("");
+  const hasExpired = ttl && ttl < Date.now(); //not expired until ttl value is retrieved
+  const returnExpiry = (ttl: number | undefined): string => {
+    // function getDuration(milli) {
+    //   const minutes = Math.floor(milli / 60000);
+    //   const hours = Math.round(minutes / 60);
+    //   const days = Math.round(hours / 24);
+
+    //   return (
+    //     (days && { value: days, unit: "days" }) ||
+    //     (hours && { value: hours, unit: "hours" }) || {
+    //       value: minutes,
+    //       unit: "minutes"
+    //     }
+    //   );
+    // }
+    // const tDuration = getDuration(ttl - Date.now());
+    // return `${tDuration.value} ${tDuration.unit}`;
+    console.log("ttl", ttl);
+    if (ttl != undefined) {
+      console.log(
+        formatDistanceStrict(Date.now(), ttl, { roundingMethod: "floor" })
+      );
+      return formatDistanceStrict(Date.now(), ttl, { roundingMethod: "floor" });
+    }
+    return "not undefined";
+  };
+
+  useInterval(() => {
+    setTtlDescription(returnExpiry(ttl));
+  }, 1000);
+
   useEffect(() => {
     if (haveChecksFinished) {
       onVerification(overallValidity);
@@ -255,10 +294,16 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   let priorityContent: ReactNode = null;
   if (haveChecksFinished) {
     let children: ReactNode = null;
-    if (isDocumentValid) {
+    if (isDocumentValid && !hasExpired) {
       children = (
-        <View style={styles.qrCodeWrapper}>
-          <QrCode qrCode={qrCode} qrCodeLoading={qrCodeLoading} />
+        <View>
+          <View style={styles.qrCodeWrapper}>
+            <QrCode qrCode={qrCode} qrCodeLoading={qrCodeLoading} />
+            {ttl ? (
+              <Text style={styles.ttlText}>Expires in {ttlDescription}</Text>
+            ) : null}
+            {/* only load when ttl valid */}
+          </View>
         </View>
       );
     } else if (isDocumentInvalid) {
