@@ -5,15 +5,18 @@ import debounce from "lodash/debounce";
 
 const GENERATE_QR_DEBOUNCE_MS = 500;
 
+type QrCode = { url: string; expiry?: number };
 export interface QrGenerator {
-  qrCode: string;
+  qrCode: QrCode;
   qrCodeLoading: boolean;
   generateQr: (document: Document) => Promise<void>;
 }
 
-export const useQrGenerator = (initialQrCode = ""): QrGenerator => {
+export const useQrGenerator = (
+  initialQrCode: QrCode = { url: "" }
+): QrGenerator => {
   const isMounted = useRef(false);
-  const [qrCode, setQrCode] = useState(initialQrCode);
+  const [qrCode, setQrCode] = useState<QrCode>(initialQrCode);
   const [qrCodeLoading, setQrCodeLoading] = useState(false);
 
   useEffect(() => {

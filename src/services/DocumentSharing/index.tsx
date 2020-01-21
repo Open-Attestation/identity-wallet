@@ -6,20 +6,32 @@ export interface StorageApiResponse {
   key: string;
 }
 
-export const uploadDocument = async (document: Document): Promise<string> => {
+const DEFAULT_TTL_MS = 20 * 1000;
+
+/**
+ * Returns an object containing the URL of the document and the expiry date
+ * @param document
+ * @param ttl TTL in milliseconds
+ */
+export const uploadDocument = async (
+  document: Document,
+  ttl = DEFAULT_TTL_MS
+): Promise<{ url: string; expiry: number }> => {
   const response: StorageApiResponse = await fetch(STORAGE_API_ENDPOINT, {
     method: "POST",
     body: JSON.stringify({
-      document
+      document,
+      ttl
     })
   }).then(res => res.json());
   const payload = encodeURI(
     JSON.stringify({
       uri: `${STORAGE_API_ENDPOINT}${response.id}`,
-      key: response.key,
-      // temporary expiry, will need to be returned by the endpoint
-      expiry: Date.now() + 10 * 60 * 1000
+      key: response.key
     })
   );
-  return `https://openattestation.com/action?document=${payload}`;
+  return {
+    url: `https://openattestation.com/action?document=${payload}`,
+    expiry: Date.now() + ttl
+  };
 };
