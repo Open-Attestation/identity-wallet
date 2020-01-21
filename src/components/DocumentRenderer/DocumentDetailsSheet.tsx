@@ -288,13 +288,11 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
     let children: ReactNode = null;
     if (isDocumentValid && !hasExpired) {
       children = (
-        <View>
-          <View style={styles.qrCodeWrapper}>
-            <QrCode qrCode={qrCode} qrCodeLoading={qrCodeLoading} />
-            {ttlDescription ? (
-              <Text style={styles.ttlText}>Expires in {ttlDescription}</Text>
-            ) : null}
-          </View>
+        <View style={styles.qrCodeWrapper}>
+          <QrCode qrCode={qrCode} qrCodeLoading={qrCodeLoading} />
+          {ttlDescription ? (
+            <Text style={styles.ttlText}>Expires in {ttlDescription}</Text>
+          ) : null}
         </View>
       );
     } else if (isDocumentInvalid) {
