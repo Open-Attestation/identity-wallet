@@ -5,7 +5,6 @@ import React, {
   useEffect,
   ReactNode
 } from "react";
-import useInterval from "../../common/hooks/useInterval";
 import {
   Animated,
   LayoutChangeEvent,
@@ -238,37 +237,29 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   const isDocumentValid = overallValidity === CheckStatus.VALID;
   const isDocumentInvalid = overallValidity === CheckStatus.INVALID;
 
-  const [ttlDescription, setTtlDescription] = useState("");
+  const [ttlDescription, setTtlDescription] = useState<string | undefined>(
+    undefined
+  );
   const hasExpired = ttl && ttl < Date.now(); //not expired until ttl value is retrieved
-  const returnExpiry = (ttl: number | undefined): string => {
-    // function getDuration(milli) {
-    //   const minutes = Math.floor(milli / 60000);
-    //   const hours = Math.round(minutes / 60);
-    //   const days = Math.round(hours / 24);
 
-    //   return (
-    //     (days && { value: days, unit: "days" }) ||
-    //     (hours && { value: hours, unit: "hours" }) || {
-    //       value: minutes,
-    //       unit: "minutes"
-    //     }
-    //   );
-    // }
-    // const tDuration = getDuration(ttl - Date.now());
-    // return `${tDuration.value} ${tDuration.unit}`;
-    console.log("ttl", ttl);
-    if (ttl != undefined) {
-      console.log(
-        formatDistanceStrict(Date.now(), ttl, { roundingMethod: "floor" })
-      );
-      return formatDistanceStrict(Date.now(), ttl, { roundingMethod: "floor" });
+  useEffect(() => {
+    let interval: any;
+    if (ttl && !hasExpired) {
+      interval = setInterval(() => {
+        const description = formatDistanceStrict(Date.now(), ttl, {
+          roundingMethod: "floor"
+        });
+        setTtlDescription(description);
+        if (ttl < Date.now()) {
+          clearInterval(interval);
+        }
+      }, 1000);
     }
-    return "not undefined";
-  };
 
-  useInterval(() => {
-    setTtlDescription(returnExpiry(ttl));
-  }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [ttl, hasExpired]);
 
   useEffect(() => {
     if (haveChecksFinished) {
@@ -293,16 +284,16 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
 
   let priorityContent: ReactNode = null;
   if (haveChecksFinished) {
+    console.log(hasExpired);
     let children: ReactNode = null;
     if (isDocumentValid && !hasExpired) {
       children = (
         <View>
           <View style={styles.qrCodeWrapper}>
             <QrCode qrCode={qrCode} qrCodeLoading={qrCodeLoading} />
-            {ttl ? (
+            {ttlDescription ? (
               <Text style={styles.ttlText}>Expires in {ttlDescription}</Text>
             ) : null}
-            {/* only load when ttl valid */}
           </View>
         </View>
       );

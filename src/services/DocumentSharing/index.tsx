@@ -6,7 +6,9 @@ export interface StorageApiResponse {
   key: string;
 }
 
-export const uploadDocument = async (document: Document): Promise<string> => {
+export const uploadDocument = async (
+  document: Document
+): Promise<Record<string, any>> => {
   const response: StorageApiResponse = await fetch(STORAGE_API_ENDPOINT, {
     method: "POST",
     body: JSON.stringify({
@@ -19,5 +21,9 @@ export const uploadDocument = async (document: Document): Promise<string> => {
       key: response.key
     })
   );
-  return `https://openattestation.com/action?document=${payload}`;
+  console.log(response);
+  return {
+    code: `https://openattestation.com/action?document=${payload}`,
+    ttl: Date.now() + 15 * 1000
+  };
 };

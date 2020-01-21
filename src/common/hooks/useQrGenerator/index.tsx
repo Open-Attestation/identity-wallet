@@ -25,12 +25,12 @@ export const useQrGenerator = (): QrGenerator => {
   const generateQr = (document: Document) => async (): Promise<void> => {
     try {
       setQrCodeLoading(true);
-      const code = await uploadDocument(document);
+      const { code, ttl } = await uploadDocument(document);
       if (!isMounted.current) {
         return;
       }
       setQrCode(code);
-      setTtl(Date.now() + 35 * 1000);
+      setTtl(ttl);
     } catch (e) {
       alert(e.message);
     }
