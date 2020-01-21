@@ -8,6 +8,7 @@ export enum DocumentPermittedAction {
 export interface DocumentAction {
   uri: string;
   key?: string;
+  expiry?: number;
   permittedActions?: DocumentPermittedAction[];
   redirect?: string;
 }
@@ -23,6 +24,7 @@ const documentActionSchema = yup
       .required()
       .url(),
     key: yup.string(),
+    expiry: yup.number(),
     permittedActions: yup
       .array()
       .of(yup.string().matches(documentPermittedActionRegex)),
