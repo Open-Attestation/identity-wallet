@@ -20,8 +20,8 @@ describe("uploadDocument", () => {
       id: "DOCUMENT-ID",
       key: "SECRET-KEY"
     });
-    const qrCode = await uploadDocument(document);
-    expect(qrCode).toStrictEqual(
+    const { code } = await uploadDocument(document);
+    expect(code).toStrictEqual(
       "https://openattestation.com/action?document=%7B%22uri%22:%22https://api-ropsten.opencerts.io/storage/DOCUMENT-ID%22,%22key%22:%22SECRET-KEY%22%7D"
     );
   });

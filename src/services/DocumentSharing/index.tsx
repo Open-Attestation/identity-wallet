@@ -21,7 +21,7 @@ export const uploadDocument = async (
       key: response.key
     })
   );
-  console.log(response);
+  // console.log(response);
   return {
     code: `https://openattestation.com/action?document=${payload}`,
     ttl: Date.now() + 15 * 1000

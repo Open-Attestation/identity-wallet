@@ -19,7 +19,10 @@ describe("useQrGenerator", () => {
     expect.assertions(3);
     const { result } = renderHook(() => useQrGenerator());
     const { generateQr } = result.current;
-    mockUploadDocument.mockResolvedValue("QR_CODE");
+    mockUploadDocument.mockResolvedValue({
+      code: "QR_CODE",
+      ttl: 30 * 24 * 60 * 60 * 1000 //30 days ttl
+    });
     let deferredGenerateQr: Promise<void>;
     act(() => {
       deferredGenerateQr = generateQr(sampleDoc)();
