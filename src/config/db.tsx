@@ -34,8 +34,16 @@ export const documentSchema: RxJsonSchema<DocumentProperties> = {
     document: {
       type: "object"
     },
-    qrCodeUrl: {
-      type: "string"
+    qrCode: {
+      type: "object",
+      properties: {
+        url: {
+          type: "string"
+        },
+        expiry: {
+          type: "number"
+        }
+      }
     }
   }
 };
