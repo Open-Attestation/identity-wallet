@@ -14,8 +14,8 @@ export const QrCode: FunctionComponent<QrCode> = ({
 }) => {
   const [width, setWidth] = useState(0);
   const onLayout = (event: LayoutChangeEvent): void => {
-    const { width } = event.nativeEvent.layout;
-    setWidth(width);
+    const { width: layoutWidth } = event.nativeEvent.layout;
+    setWidth(layoutWidth);
   };
 
   if (qrCodeLoading) {
