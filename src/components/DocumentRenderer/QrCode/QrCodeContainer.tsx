@@ -103,13 +103,6 @@ export const QrCodeContainer = forwardRef<QrCodeContainerRef, QrCodeContainer>(
       }
     }, [qrCode.expiry, startCountdown]);
 
-    // Resets the QR code URL when it expires
-    useEffect(() => {
-      if (secondsLeft === 0) {
-        updateDocumentQr({ url: "" }, document);
-      }
-    }, [document, secondsLeft]);
-
     // Attempts to generate QR
     const triggerGenerateQr = useCallback((): void => {
       if (isConnected && !qrCodeLoading && !refreshPaused) {

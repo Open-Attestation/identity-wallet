@@ -252,8 +252,14 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
     }
   }, [isDocumentValid, isSheetOpen]);
 
+  // Valid when there's a URL and an expiry that's in the future
+  const hasValidQrCode =
+    document.qrCode?.url &&
+    (!document.qrCode.expiry ||
+      (document.qrCode?.expiry && document.qrCode?.expiry > Date.now()));
+
   let priorityContent: ReactNode = null;
-  if (document.qrCode?.url || (!document.qrCode?.url && isDocumentValid)) {
+  if (hasValidQrCode || isDocumentValid) {
     priorityContent = (
       <PriorityContent>
         <QrCodeContainer

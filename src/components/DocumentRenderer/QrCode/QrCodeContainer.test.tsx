@@ -143,27 +143,6 @@ describe("QrCodeContainer", () => {
     expect(mockAtomicUpdate).toHaveBeenCalledTimes(2);
   });
 
-  it("should clear the QR code URL in the DB when document expires", () => {
-    expect.assertions(2);
-    mockUseQrGenerator.mockReturnValue({
-      qrCode: { url: mockQrCode, expiry: 1 },
-      qrCodeLoading: false,
-      generateQr: jest.fn()
-    });
-    mockUseCountdown.mockReturnValue({
-      secondsLeft: 0,
-      startCountdown: jest.fn()
-    });
-    render(
-      <NetworkContext.Provider value={{ isConnected: false }}>
-        <QrCodeContainer document={testDocument} refreshPaused={false} />
-      </NetworkContext.Provider>
-    );
-    expect(mockAtomicUpdate).toHaveBeenCalledTimes(2);
-    const updatedDocument = mockAtomicUpdate.mock.calls[1][0](testDocument);
-    expect(updatedDocument).toHaveProperty("qrCode", { url: "" });
-  });
-
   describe("when online", () => {
     it("should not show the offline banner", () => {
       expect.assertions(1);

@@ -11,6 +11,10 @@ import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
 jest.mock("../../common/hooks/useDocumentVerifier");
 const mockUseVerifier = useDocumentVerifier as jest.Mock;
 
+jest
+  .spyOn(Date, "now")
+  .mockImplementation(() => new Date(2020, 0, 1).getTime());
+
 const mockGenerateQr = jest.fn();
 jest.mock("../../common/hooks/useQrGenerator", () => ({
   useQrGenerator: () => ({
@@ -34,11 +38,29 @@ const testDocument = {
   atomicUpdate: jest.fn()
 };
 
-const testDocumentWithQr = {
+const testDocumentWithQrNoExpiry = {
   ...testDocument,
   qrCode: {
     url:
       "https://openattestation.com/action?document=%7B%22uri%22:%22https://hosted-document.com/doc/foo-bar%22%7D"
+  }
+};
+
+const testDocumentWithQrNotExpired = {
+  ...testDocument,
+  qrCode: {
+    url:
+      "https://openattestation.com/action?document=%7B%22uri%22:%22https://hosted-document.com/doc/foo-bar%22%7D",
+    expiry: new Date(2020, 1, 1).getTime()
+  }
+};
+
+const testDocumentWithQrButExpired = {
+  ...testDocument,
+  qrCode: {
+    url:
+      "https://openattestation.com/action?document=%7B%22uri%22:%22https://hosted-document.com/doc/foo-bar%22%7D",
+    expiry: new Date(2019, 11, 1).getTime()
   }
 };
 
@@ -193,7 +215,7 @@ describe("DocumentDetailsSheet", () => {
       });
     });
 
-    describe("when document has existing qr code", () => {
+    describe("when document has existing qr code without expiry", () => {
       it("should show the qr code when document is valid", async () => {
         expect.assertions(2);
         mockUseVerifier.mockReturnValue({
@@ -201,7 +223,7 @@ describe("DocumentDetailsSheet", () => {
         });
         const { queryByTestId } = render(
           <DocumentDetailsSheet
-            document={testDocumentWithQr}
+            document={testDocumentWithQrNoExpiry}
             onVerification={() => null}
           />
         );
@@ -218,7 +240,7 @@ describe("DocumentDetailsSheet", () => {
         });
         const { queryByTestId } = render(
           <DocumentDetailsSheet
-            document={testDocumentWithQr}
+            document={testDocumentWithQrNoExpiry}
             onVerification={() => null}
           />
         );
@@ -235,13 +257,119 @@ describe("DocumentDetailsSheet", () => {
         });
         const { queryByTestId } = render(
           <DocumentDetailsSheet
-            document={testDocumentWithQr}
+            document={testDocumentWithQrNoExpiry}
             onVerification={() => null}
           />
         );
         await wait(() => {
           expect(queryByTestId("invalid-panel")).toBeNull();
           expect(queryByTestId("qr-code")).not.toBeNull();
+        });
+      });
+    });
+
+    describe("when document has existing qr code that has not expired", () => {
+      it("should show the qr code when document is valid", async () => {
+        expect.assertions(2);
+        mockUseVerifier.mockReturnValue({
+          overallValidity: CheckStatus.VALID
+        });
+        const { queryByTestId } = render(
+          <DocumentDetailsSheet
+            document={testDocumentWithQrNotExpired}
+            onVerification={() => null}
+          />
+        );
+        await wait(() => {
+          expect(queryByTestId("invalid-panel")).toBeNull();
+          expect(queryByTestId("qr-code")).not.toBeNull();
+        });
+      });
+
+      it("should show the qr code when document is invalid", async () => {
+        expect.assertions(2);
+        mockUseVerifier.mockReturnValue({
+          overallValidity: CheckStatus.INVALID
+        });
+        const { queryByTestId } = render(
+          <DocumentDetailsSheet
+            document={testDocumentWithQrNotExpired}
+            onVerification={() => null}
+          />
+        );
+        await wait(() => {
+          expect(queryByTestId("invalid-panel")).toBeNull();
+          expect(queryByTestId("qr-code")).not.toBeNull();
+        });
+      });
+
+      it("should show the qr code when document status is checking", async () => {
+        expect.assertions(2);
+        mockUseVerifier.mockReturnValue({
+          overallValidity: CheckStatus.CHECKING
+        });
+        const { queryByTestId } = render(
+          <DocumentDetailsSheet
+            document={testDocumentWithQrNotExpired}
+            onVerification={() => null}
+          />
+        );
+        await wait(() => {
+          expect(queryByTestId("invalid-panel")).toBeNull();
+          expect(queryByTestId("qr-code")).not.toBeNull();
+        });
+      });
+    });
+
+    describe("when document has existing qr code but has expired", () => {
+      it("should show the qr code when document is valid", async () => {
+        expect.assertions(2);
+        mockUseVerifier.mockReturnValue({
+          overallValidity: CheckStatus.VALID
+        });
+        const { queryByTestId } = render(
+          <DocumentDetailsSheet
+            document={testDocumentWithQrButExpired}
+            onVerification={() => null}
+          />
+        );
+        await wait(() => {
+          expect(queryByTestId("invalid-panel")).toBeNull();
+          expect(queryByTestId("qr-code")).not.toBeNull();
+        });
+      });
+
+      it("should show the qr code when document is invalid", async () => {
+        expect.assertions(2);
+        mockUseVerifier.mockReturnValue({
+          overallValidity: CheckStatus.INVALID
+        });
+        const { queryByTestId } = render(
+          <DocumentDetailsSheet
+            document={testDocumentWithQrButExpired}
+            onVerification={() => null}
+          />
+        );
+        await wait(() => {
+          expect(queryByTestId("invalid-panel")).not.toBeNull();
+          expect(queryByTestId("qr-code")).toBeNull();
+        });
+      });
+
+      it("should show the qr code when document status is checking", async () => {
+        expect.assertions(2);
+        mockUseVerifier.mockReturnValue({
+          overallValidity: CheckStatus.CHECKING
+        });
+        const { queryByTestId } = render(
+          <DocumentDetailsSheet
+            document={testDocumentWithQrButExpired}
+            onVerification={() => null}
+          />
+        );
+        await wait(() => {
+          expect(queryByTestId("invalid-panel")).toBeNull();
+          expect(queryByTestId("qr-code")).toBeNull();
         });
       });
     });
