@@ -7,10 +7,7 @@ export const useCountdown = (): {
   const [secondsLeft, setSecondsLeft] = useState<number | undefined>(undefined);
 
   useEffect(() => {
-    if (
-      secondsLeft === undefined ||
-      (secondsLeft !== undefined && secondsLeft <= 0)
-    ) {
+    if (secondsLeft === undefined || secondsLeft <= 0) {
       return;
     }
     const timeout = setTimeout(() => {
