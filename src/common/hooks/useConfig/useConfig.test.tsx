@@ -22,17 +22,15 @@ describe("useConfig", () => {
   it("should load saved config automatically", async () => {
     expect.assertions(2);
     const { result, waitForNextUpdate } = renderHook(() => useConfig());
-    await act(async () => {
-      await waitForNextUpdate();
-    });
+    await waitForNextUpdate();
     expect(result.current.loaded).toBe(true);
     expect(result.current.config).toStrictEqual({ network: "mainnet" });
   });
   it("should persist updated config", async () => {
     expect.assertions(2);
     const { result, waitForNextUpdate } = renderHook(() => useConfig());
+    await waitForNextUpdate();
     await act(async () => {
-      await waitForNextUpdate();
       await result.current.setValue("network", NetworkTypes.ropsten);
     });
     expect(result.current.config).toStrictEqual({ network: "ropsten" });
