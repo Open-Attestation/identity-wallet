@@ -12,7 +12,7 @@ jest.mock("../useConfig", () => ({
 const mockUploadDocument = uploadDocument as jest.Mock;
 
 describe("useQrGenerator", () => {
-  it("should have empty qr code that is not loading by default", async () => {
+  it("should have empty qr code that is not loading by default", () => {
     expect.assertions(3);
     const { result } = renderHook(() => useQrGenerator());
 
