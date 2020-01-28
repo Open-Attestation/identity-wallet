@@ -30,8 +30,8 @@ describe("useConfig", () => {
     expect.assertions(2);
     const { result, waitForNextUpdate } = renderHook(() => useConfig());
     await waitForNextUpdate();
-    await act(async () => {
-      await result.current.setValue("network", NetworkTypes.ropsten);
+    act(() => {
+      result.current.setValue("network", NetworkTypes.ropsten);
     });
     expect(result.current.config).toStrictEqual({ network: "ropsten" });
     expect(mockSetItem).toHaveBeenCalledWith(
