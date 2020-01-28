@@ -28,15 +28,17 @@ describe("uploadDocument", () => {
   it("should return the correct qr code", async () => {
     expect.assertions(1);
     const document: any = "SAMPLE_DOCUMENT";
+    const expiry = Date.now() + 30000;
     mockJsonResponse.mockResolvedValue({
       id: "DOCUMENT-ID",
-      key: "SECRET-KEY"
+      key: "SECRET-KEY",
+      ttl: expiry
     });
     const qrCode = await uploadDocument(document, 30000);
     expect(qrCode).toStrictEqual({
       url:
         "https://openattestation.com/action?document=%7B%22uri%22:%22https://api-ropsten.opencerts.io/storage/DOCUMENT-ID%22,%22key%22:%22SECRET-KEY%22%7D",
-      expiry: Date.now() + 30000
+      expiry
     });
   });
 

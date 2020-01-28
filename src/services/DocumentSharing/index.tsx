@@ -4,9 +4,10 @@ import { STORAGE_API_ENDPOINT } from "../../config";
 export interface StorageApiResponse {
   id: string;
   key: string;
+  ttl?: number;
 }
 
-const DEFAULT_TTL_MS = 20 * 1000;
+const DEFAULT_TTL_MS = 10 * 60 * 1000;
 
 /**
  * Returns an object containing the URL of the document and the expiry date
@@ -16,7 +17,7 @@ const DEFAULT_TTL_MS = 20 * 1000;
 export const uploadDocument = async (
   document: Document,
   ttl = DEFAULT_TTL_MS
-): Promise<{ url: string; expiry: number }> => {
+): Promise<{ url: string; expiry?: number }> => {
   const response: StorageApiResponse = await fetch(STORAGE_API_ENDPOINT, {
     method: "POST",
     body: JSON.stringify({
@@ -32,6 +33,6 @@ export const uploadDocument = async (
   );
   return {
     url: `https://openattestation.com/action?document=${payload}`,
-    expiry: Date.now() + ttl
+    expiry: response.ttl || undefined
   };
 };
