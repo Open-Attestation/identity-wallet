@@ -1,6 +1,7 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 import { useConfig } from "./index";
 import { AsyncStorage } from "react-native";
+import { NetworkTypes } from "../../../types";
 
 jest.mock("react-native", () => ({
   AsyncStorage: {
@@ -21,25 +22,23 @@ describe("useConfig", () => {
   it("should load saved config automatically", async () => {
     expect.assertions(2);
     const { result, waitForNextUpdate } = renderHook(() => useConfig());
-
     await act(async () => {
       await waitForNextUpdate();
-      await expect(result.current.loaded).toBe(true);
-      await expect(result.current.config).toStrictEqual({ network: "mainnet" });
     });
+    expect(result.current.loaded).toBe(true);
+    expect(result.current.config).toStrictEqual({ network: "mainnet" });
   });
   it("should persist updated config", async () => {
     expect.assertions(2);
     const { result, waitForNextUpdate } = renderHook(() => useConfig());
-
     await act(async () => {
       await waitForNextUpdate();
-      await result.current.setValue("network", "ropsten");
-      await expect(result.current.config).toStrictEqual({ network: "ropsten" });
-      await expect(mockSetItem).toHaveBeenCalledWith(
-        "CONFIG",
-        JSON.stringify({ network: "ropsten" })
-      );
+      await result.current.setValue("network", NetworkTypes.ropsten);
     });
+    expect(result.current.config).toStrictEqual({ network: "ropsten" });
+    expect(mockSetItem).toHaveBeenCalledWith(
+      "CONFIG",
+      JSON.stringify({ network: "ropsten" })
+    );
   });
 });

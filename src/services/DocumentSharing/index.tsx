@@ -3,6 +3,7 @@ import {
   ROPSTEN_STORAGE_API_ENDPOINT,
   MAINNET_STORAGE_API_ENDPOINT
 } from "../../config";
+import { NetworkTypes } from "../../types";
 
 export interface StorageApiResponse {
   id: string;
@@ -20,11 +21,11 @@ const DEFAULT_TTL_MS = 10 * 60 * 1000;
  */
 export const uploadDocument = async (
   document: Document,
-  network: string,
+  network: NetworkTypes,
   ttl = DEFAULT_TTL_MS
 ): Promise<{ url: string; expiry?: number }> => {
   const endpoint =
-    network === "mainnet"
+    network === NetworkTypes.mainnet
       ? MAINNET_STORAGE_API_ENDPOINT
       : ROPSTEN_STORAGE_API_ENDPOINT;
   const response: StorageApiResponse = await fetch(endpoint, {
