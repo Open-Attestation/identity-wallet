@@ -1,5 +1,4 @@
 import React, {
-  useState,
   useImperativeHandle,
   forwardRef,
   useEffect,
@@ -28,9 +27,6 @@ const styles = StyleSheet.create({
   },
   qrCodeWrapper: {
     aspectRatio: 1
-  },
-  feedback: {
-    marginTop: -size(2)
   },
   expiryText: {
     fontSize: fontSize(-3),
@@ -92,13 +88,11 @@ export const QrCodeContainer = forwardRef<QrCodeContainerRef, QrCodeContainer>(
       updateDocumentQr(qrCode, document);
     }, [qrCode, document]);
 
-    const [expiry, setExpiry] = useState<number>();
     const { secondsLeft, startCountdown } = useCountdown();
 
     // Starts the countdown based on the expiry of the QR code
     useEffect(() => {
       if (qrCode.expiry !== undefined) {
-        setExpiry(qrCode.expiry);
         startCountdown(Math.round((qrCode.expiry - Date.now()) / 1000));
       }
     }, [qrCode.expiry, startCountdown]);
@@ -129,8 +123,8 @@ export const QrCodeContainer = forwardRef<QrCodeContainerRef, QrCodeContainer>(
         <View style={styles.qrCodeWrapper}>
           <QrCode qrCode={qrCode.url} qrCodeLoading={qrCodeLoading} />
         </View>
-        <View style={styles.feedback}>
-          {expiry && !qrCodeLoading && (
+        <View style={{ marginTop: qrCode.expiry ? -size(2) : 0 }}>
+          {qrCode.expiry && !qrCodeLoading && (
             <Text style={styles.expiryText}>
               {secondsLeft !== undefined && secondsLeft > 0
                 ? `Expires in ${HumanizeDuration(secondsLeft * 1000, {
