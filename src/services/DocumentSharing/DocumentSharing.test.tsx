@@ -34,7 +34,7 @@ describe("uploadDocument", () => {
       key: "SECRET-KEY",
       ttl: expiry
     });
-    const qrCode = await uploadDocument(document, 30000);
+    const qrCode = await uploadDocument(document, "ropsten", 30000);
     expect(qrCode).toStrictEqual({
       url:
         "https://openattestation.com/action?document=%7B%22uri%22:%22https://api-ropsten.opencerts.io/storage/DOCUMENT-ID%22,%22key%22:%22SECRET-KEY%22%7D",
@@ -46,6 +46,8 @@ describe("uploadDocument", () => {
     expect.assertions(1);
     const document: any = "SAMPLE_DOCUMENT";
     mockJsonResponse.mockRejectedValue(new Error("TEST_ERROR"));
-    await expect(uploadDocument(document)).rejects.toThrow("TEST_ERROR");
+    await expect(uploadDocument(document, "ropsten")).rejects.toThrow(
+      "TEST_ERROR"
+    );
   });
 });
