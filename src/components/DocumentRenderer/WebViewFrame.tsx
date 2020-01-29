@@ -72,6 +72,7 @@ export const WebViewFrame: FunctionComponent<WebViewFrame> = ({
           spacingContainer.style.right = 0;
           spacingContainer.style.zIndex = -99;
           spacingContainer.style.height = "140vh";
+          spacingContainer.style.pointerEvents = "none";
           document.body.appendChild(spacingContainer);
         `}
       onMessage={onTemplateMessageHandler}
