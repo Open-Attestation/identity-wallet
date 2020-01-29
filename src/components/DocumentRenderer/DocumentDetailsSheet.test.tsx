@@ -20,7 +20,7 @@ jest.mock("../../common/hooks/useQrGenerator", () => ({
   useQrGenerator: () => ({
     qrCode: {
       url:
-        "https://openattestation.com/action?document=%7B%22uri%22:%22https://hosted-document.com/doc/foo-bar%22%7D"
+        "https://action.openattestation.com?q%7B%22type%22:%22DOCUMENT%22,%22payload%22:%7B%22uri%22:%22https://hosted-document.com/doc/foo-bar%22%7D%7D"
     },
     generateQr: mockGenerateQr,
     qrCodeLoading: false
@@ -42,7 +42,7 @@ const testDocumentWithQrNoExpiry = {
   ...testDocument,
   qrCode: {
     url:
-      "https://openattestation.com/action?document=%7B%22uri%22:%22https://hosted-document.com/doc/foo-bar%22%7D"
+      "https://action.openattestation.com?q%7B%22type%22:%22DOCUMENT%22,%22payload%22:%7B%22uri%22:%22https://hosted-document.com/doc/foo-bar%22%7D%7D"
   }
 };
 
@@ -50,7 +50,7 @@ const testDocumentWithQrNotExpired = {
   ...testDocument,
   qrCode: {
     url:
-      "https://openattestation.com/action?document=%7B%22uri%22:%22https://hosted-document.com/doc/foo-bar%22%7D",
+      "https://action.openattestation.com?q%7B%22type%22:%22DOCUMENT%22,%22payload%22:%7B%22uri%22:%22https://hosted-document.com/doc/foo-bar%22%7D%7D",
     expiry: new Date(2020, 1, 1).getTime()
   }
 };
@@ -59,7 +59,7 @@ const testDocumentWithQrButExpired = {
   ...testDocument,
   qrCode: {
     url:
-      "https://openattestation.com/action?document=%7B%22uri%22:%22https://hosted-document.com/doc/foo-bar%22%7D",
+      "https://action.openattestation.com?q%7B%22type%22:%22DOCUMENT%22,%22payload%22:%7B%22uri%22:%22https://hosted-document.com/doc/foo-bar%22%7D%7D",
     expiry: new Date(2019, 11, 1).getTime()
   }
 };

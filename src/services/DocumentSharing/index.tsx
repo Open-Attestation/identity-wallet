@@ -38,12 +38,15 @@ export const uploadDocument = async (
   if (response.error) throw new Error(response.error);
   const payload = encodeURI(
     JSON.stringify({
-      uri: `${endpoint}${response.id}`,
-      key: response.key
+      type: "DOCUMENT",
+      payload: {
+        uri: `${endpoint}${response.id}`,
+        key: response.key
+      }
     })
   );
   return {
-    url: `https://openattestation.com/action?document=${payload}`,
+    url: `https://action.openattestation.com?q=${payload}`,
     expiry: response.ttl || undefined
   };
 };

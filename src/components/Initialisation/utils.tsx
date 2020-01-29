@@ -29,6 +29,6 @@ export const reconstructAction = ({
   documentPayload?: string;
 }): string | undefined => {
   if (documentPayload) {
-    return `https://openattestation.com/action?document=${documentPayload}`;
+    return `https://action.openattestation.com?q=${documentPayload}`;
   }
 };
