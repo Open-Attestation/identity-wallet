@@ -50,7 +50,7 @@ describe("InitialisationContainer", () => {
     expect.assertions(3);
     setParam("document", "DOCUMENT_ACTION_PAYLOAD");
     mockReconstructAction.mockReturnValue(
-      "https://openattestation.com/action?document=DOCUMENT_ACTION_PAYLOAD"
+      "https://action.openattestation.com?q=DOCUMENT_ACTION_PAYLOAD"
     );
 
     render(
@@ -64,7 +64,7 @@ describe("InitialisationContainer", () => {
       documentPayload: "DOCUMENT_ACTION_PAYLOAD"
     });
     expect(mockProcessQr.mock.calls[0][0]).toBe(
-      "https://openattestation.com/action?document=DOCUMENT_ACTION_PAYLOAD"
+      "https://action.openattestation.com?q=DOCUMENT_ACTION_PAYLOAD"
     );
 
     // Calling onDocumentStore from processQr
@@ -84,7 +84,7 @@ describe("InitialisationContainer", () => {
     expect.assertions(3);
     setParam("document", "DOCUMENT_ACTION_PAYLOAD");
     mockReconstructAction.mockReturnValue(
-      "https://openattestation.com/action?document=DOCUMENT_ACTION_PAYLOAD"
+      "https://action.openattestation.com?q=DOCUMENT_ACTION_PAYLOAD"
     );
 
     render(
@@ -98,7 +98,7 @@ describe("InitialisationContainer", () => {
       documentPayload: "DOCUMENT_ACTION_PAYLOAD"
     });
     expect(mockProcessQr.mock.calls[0][0]).toBe(
-      "https://openattestation.com/action?document=DOCUMENT_ACTION_PAYLOAD"
+      "https://action.openattestation.com?q=DOCUMENT_ACTION_PAYLOAD"
     );
 
     // Calling onDocumentView from processQr

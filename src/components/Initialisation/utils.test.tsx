@@ -42,9 +42,9 @@ describe("InitialisationContainer/utils", () => {
     it("should return correct action string for document type actions", () => {
       expect.assertions(1);
       const documentPayload =
-        "%7B%22uri%22:%22https://api.myjson.com/bins/95dti%22,%22permittedActions%22:%5B%22STORE%22%5D%7D";
+        "%7B%22type%22:%22DOCUMENT%22,%22payload%22:%7B%22uri%22:%22https://api.myjson.com/bins/95dti%22,%22permittedActions%22:%5B%22STORE%22%5D%7D%7D";
       expect(reconstructAction({ documentPayload })).toBe(
-        "https://openattestation.com/action?document=%7B%22uri%22:%22https://api.myjson.com/bins/95dti%22,%22permittedActions%22:%5B%22STORE%22%5D%7D"
+        "https://action.openattestation.com?q=%7B%22type%22:%22DOCUMENT%22,%22payload%22:%7B%22uri%22:%22https://api.myjson.com/bins/95dti%22,%22permittedActions%22:%5B%22STORE%22%5D%7D%7D"
       );
     });
   });
