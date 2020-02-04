@@ -67,6 +67,6 @@ export const processQr = async (
       }
       break;
     default:
-      throw new Error("Invalid QR Action");
+      alert("The QR code has expired");
   }
 };
