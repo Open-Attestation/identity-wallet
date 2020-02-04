@@ -56,6 +56,15 @@ export const processQr = async (
           })
         : await fetchCleartextDocument({ uri });
 
+      console.log(
+        "Help, line below runs even when data.ttl is undefined",
+        fetchedDocument
+      );
+      if (fetchedDocument.data.ttl && fetchedDocument.data.ttl < Date.now()) {
+        throw new Error("The QR code has expired");
+        // alert('The QR code has expired');
+      }
+
       // TODO Validate if fetchedDocument is a valid document, need to add the method to open-attestation
       if (
         action.payload.permittedActions &&
@@ -67,6 +76,6 @@ export const processQr = async (
       }
       break;
     default:
-      alert("The QR code has expired");
+      throw new Error("Invalid QR Action");
   }
 };

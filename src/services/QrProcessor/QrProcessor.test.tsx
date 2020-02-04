@@ -1,6 +1,7 @@
 import { decodeAction, processQr } from "./index";
 import demoEncrypted from "../../../fixtures/demo-encrypted-oc.json";
 import demoOc from "../../../fixtures/demo-oc.json";
+import demoExpired from "../../../fixtures/demo-encrypted-oc-expired.json";
 
 const dataPrefix = "https://action.openattestation.com?q=";
 
@@ -267,5 +268,29 @@ describe("processQr", () => {
         { onDocumentStore, onDocumentView }
       )
     ).rejects.toThrow("Error decrypting message");
+  });
+
+  it("should throw when processing expired documents", async () => {
+    expect.assertions(1);
+    mockJsonResponse.mockResolvedValue(demoExpired);
+    const onDocumentStore = jest.fn();
+    const onDocumentView = jest.fn();
+    await expect(
+      //unsure of this part
+      processQr(
+        dataPrefix +
+          encodeURI(
+            JSON.stringify({
+              type: "DOCUMENT",
+              payload: {
+                uri: "https://api.myjson.com/bins/kv1de",
+                key:
+                  "7e22da661c5d574ed611bf507db9350c5d50028df21fd7038fa0bb3b02e4e9b5"
+              }
+            })
+          ),
+        { onDocumentStore, onDocumentView }
+      )
+    ).rejects.toThrow("The QR code has expired");
   });
 });

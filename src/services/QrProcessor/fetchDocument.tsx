@@ -15,14 +15,15 @@ export const fetchEncryptedDocument = async ({
   key
 }: EncryptedDocumentAction): Promise<Document> => {
   const {
-    document: { tag, cipherText, iv, type }
+    document: { tag, cipherText, iv, type, ttl }
   } = await fetch(uri).then(res => res.json());
   const cipher = {
     tag,
     cipherText,
     iv,
     key,
-    type
+    type,
+    ttl
   };
   return JSON.parse(decryptString(cipher)) as Document;
 };
