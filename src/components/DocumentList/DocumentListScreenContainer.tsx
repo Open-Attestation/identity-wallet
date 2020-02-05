@@ -5,7 +5,7 @@ import { useDbContext } from "../../context/db";
 import { replaceRouteFn } from "../../common/navigation";
 import { DocumentListScreen } from "./DocumentListScreen";
 
-const getIssuerName = (document: DocumentObject): string => {
+const getIssuerName = (document: DocumentObject): string | undefined => {
   const { issuers } = getData(document.document);
   return issuers[0]?.identityProof?.location;
 };
