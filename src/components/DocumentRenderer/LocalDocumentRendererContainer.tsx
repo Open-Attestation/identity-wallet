@@ -29,8 +29,13 @@ export const LocalDocumentRendererContainer: FunctionComponent<NavigationProps> 
     const updateFunction = (
       oldData: DocumentProperties
     ): DocumentProperties => {
-      oldData.isVerified = checkStatus === CheckStatus.VALID;
-      oldData.verified = Date.now();
+      if (checkStatus === CheckStatus.VALID) {
+        oldData.isVerified = true;
+        oldData.verified = Date.now();
+      } else if (checkStatus === CheckStatus.INVALID) {
+        oldData.isVerified = false;
+        oldData.verified = Date.now();
+      }
       return oldData;
     };
     await document?.atomicUpdate(updateFunction);
