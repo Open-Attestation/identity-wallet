@@ -6,7 +6,7 @@ type StatusProps<T extends {}> = T & {
   backgroundColor: string;
 };
 
-type OverrideStatusProps<T extends {}> = { [status in CheckStatus]: T };
+type OverrideStatusProps<T extends {}> = { [status in CheckStatus]?: T };
 
 /**
  * Returns the status props for the given checkStatus.
@@ -44,6 +44,12 @@ export function getStatusProps<T extends {}>(
         color: color("red", 30),
         backgroundColor: color("red", 20),
         ...overrides?.[CheckStatus.INVALID]
+      };
+    case CheckStatus.ERROR:
+      return {
+        color: color("grey", 30),
+        backgroundColor: color("yellow", 20),
+        ...overrides?.[CheckStatus.ERROR]
       };
     case CheckStatus.CHECKING:
     default:

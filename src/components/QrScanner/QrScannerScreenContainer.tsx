@@ -1,9 +1,8 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import { View } from "react-native";
-import { NavigationProps } from "../../types";
+import { NavigationProps, OAWrappedDocument } from "../../types";
 import { QrCamera } from "./QrCamera";
 import { processQr } from "../../services/QrProcessor";
-import { Document } from "@govtechsg/open-attestation";
 import { BottomNav } from "../Layout/BottomNav";
 
 export interface QrScannerScreenContainer {
@@ -14,13 +13,13 @@ export const QrScannerScreenContainer: FunctionComponent<QrScannerScreenContaine
   navigation
 }) => {
   const [scanningDisabled, setScanningDisabled] = useState(false);
-  const onDocumentStore = (document: Document): void => {
+  const onDocumentStore = (document: OAWrappedDocument): void => {
     navigation.navigate("ValidityCheckScreen", {
       document,
       savable: true
     });
   };
-  const onDocumentView = (document: Document): void => {
+  const onDocumentView = (document: OAWrappedDocument): void => {
     navigation.navigate("ValidityCheckScreen", { document });
   };
   const onQrData = async (data: string): Promise<void> => {

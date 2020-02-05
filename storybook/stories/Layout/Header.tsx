@@ -26,8 +26,8 @@ storiesOf("Layout", module)
       <Header goBack={mockBack}>
         <Text style={textStyle}>Normal header with back</Text>
       </Header>
-      <Header goBack={mockBack} hasBorder={false}>
-        <Text style={textStyle}>Normal header with back, but no border</Text>
+      <Header goBack={mockBack} hasShadow={false}>
+        <Text style={textStyle}>Normal header with back, but no shadow</Text>
       </Header>
       <Header goBack={mockBack}>
         <Text

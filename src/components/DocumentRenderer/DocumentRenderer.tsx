@@ -1,12 +1,12 @@
 // Given a OA document and url, render it with webview
 import React, { FunctionComponent, useState } from "react";
-import { Document } from "@govtechsg/open-attestation";
 import { Tab } from "./TemplateTabs";
 import { WebViewFrame } from "./WebViewFrame";
 import { DocumentRendererHeader } from "./DocumentRendererHeader";
+import { OAWrappedDocument } from "../../types";
 
 interface DocumentRenderer {
-  document: Document;
+  document: OAWrappedDocument;
   goBack?: () => void;
 }
 

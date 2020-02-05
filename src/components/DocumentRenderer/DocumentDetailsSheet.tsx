@@ -15,7 +15,7 @@ import {
   Platform
 } from "react-native";
 import { BottomSheet } from "../Layout/BottomSheet";
-import { WrappedDocument, getData } from "@govtechsg/open-attestation";
+import { getData } from "@govtechsg/open-attestation";
 import QRIcon from "../../../assets/icons/qr.svg";
 import { ValidityBanner } from "../Validity/ValidityBanner";
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
@@ -32,6 +32,7 @@ import { InvalidPanel } from "./InvalidPanel";
 import { DocumentObject, DocumentProperties } from "../../types";
 import { DocumentMetadata } from "./DocumentMetadata";
 import { QrCodeContainerRef, QrCodeContainer } from "./QrCode/QrCodeContainer";
+import { useNetworkContext } from "../../context/network";
 
 interface BackgroundOverlay {
   isVisible: boolean;
@@ -225,20 +226,32 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
     }
   };
 
+  const { isConnected } = useNetworkContext();
+
   const { issuers } = getData(document.document);
   const issuedBy =
     issuers[0]?.identityProof?.location || "Issuer's identity not found";
 
   const {
-    tamperedCheck,
-    issuedCheck,
-    revokedCheck,
-    issuerCheck,
-    overallValidity
-  } = useDocumentVerifier(document.document as WrappedDocument);
+    statuses: {
+      tamperedCheck,
+      issuedCheck,
+      revokedCheck,
+      issuerCheck,
+      overallValidity
+    },
+    verify
+  } = useDocumentVerifier();
   const haveChecksFinished = overallValidity !== CheckStatus.CHECKING;
   const isDocumentValid = overallValidity === CheckStatus.VALID;
   const isDocumentInvalid = overallValidity === CheckStatus.INVALID;
+
+  useEffect(() => {
+    if (isConnected) {
+      verify(document.document);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected]);
 
   useEffect(() => {
     if (haveChecksFinished) {
@@ -296,6 +309,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
                   revokedCheck={revokedCheck}
                   issuerCheck={issuerCheck}
                   overallValidity={overallValidity}
+                  isConnected={isConnected}
                 />
               </View>
               <View style={styles.informationAndShareButtonWrapper}>

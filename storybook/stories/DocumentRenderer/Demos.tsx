@@ -12,11 +12,11 @@ const mockBack = (): void => {
 
 storiesOf("DocumentRenderer", module)
   .add("Demo - OpenCerts", () => (
-    <DocumentRenderer document={demoOc} goBack={mockBack} />
+    <DocumentRenderer document={demoOc as any} goBack={mockBack} />
   ))
   .add("Demo - UALP", () => (
-    <DocumentRenderer document={demoCaas} goBack={mockBack} />
+    <DocumentRenderer document={demoCaas as any} goBack={mockBack} />
   ))
   .add("Demo - eBL", () => (
-    <DocumentRenderer document={demoEbl} goBack={mockBack} />
+    <DocumentRenderer document={demoEbl as any} goBack={mockBack} />
   ));
