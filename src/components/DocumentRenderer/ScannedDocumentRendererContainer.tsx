@@ -1,7 +1,11 @@
 import React, { FunctionComponent } from "react";
-import { NavigationProps, DocumentProperties } from "../../types";
+import {
+  NavigationProps,
+  DocumentProperties,
+  OAWrappedDocument
+} from "../../types";
 import { DocumentRenderer } from "./DocumentRenderer";
-import { SignedDocument, getData } from "@govtechsg/open-attestation";
+import { getData } from "@govtechsg/open-attestation";
 import { ScannedDocumentActionSheet } from "./ScannedDocumentActionSheet";
 import { useDbContext } from "../../context/db";
 import { resetRouteFn } from "../../common/navigation";
@@ -13,7 +17,7 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
   navigation
 }) => {
   const { db } = useDbContext();
-  const document: SignedDocument = navigation.getParam("document");
+  const document: OAWrappedDocument = navigation.getParam("document");
   const isSavable: boolean = navigation.getParam("savable");
   const verificationStatuses: VerificationStatuses = navigation.getParam(
     "verificationStatuses"

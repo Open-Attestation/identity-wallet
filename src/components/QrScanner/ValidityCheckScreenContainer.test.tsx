@@ -22,7 +22,10 @@ describe("ValidityCheckScreenContainer", () => {
 
   it("should not navigate when document is still being checked", () => {
     expect.assertions(1);
-    mockUseVerifier.mockReturnValue({ overallValidity: CheckStatus.CHECKING });
+    mockUseVerifier.mockReturnValue({
+      statuses: { overallValidity: CheckStatus.CHECKING },
+      verify: jest.fn()
+    });
 
     render(<ValidityCheckScreenContainer navigation={mockNavigation} />);
 
@@ -32,7 +35,10 @@ describe("ValidityCheckScreenContainer", () => {
 
   it("should not navigate when document is invalid", () => {
     expect.assertions(1);
-    mockUseVerifier.mockReturnValue({ overallValidity: CheckStatus.INVALID });
+    mockUseVerifier.mockReturnValue({
+      statuses: { overallValidity: CheckStatus.INVALID },
+      verify: jest.fn()
+    });
 
     render(<ValidityCheckScreenContainer navigation={mockNavigation} />);
 
@@ -42,7 +48,10 @@ describe("ValidityCheckScreenContainer", () => {
 
   it("should navigate when document is valid", () => {
     expect.assertions(1);
-    mockUseVerifier.mockReturnValue({ overallValidity: CheckStatus.VALID });
+    mockUseVerifier.mockReturnValue({
+      statuses: { overallValidity: CheckStatus.VALID },
+      verify: jest.fn()
+    });
 
     render(<ValidityCheckScreenContainer navigation={mockNavigation} />);
 

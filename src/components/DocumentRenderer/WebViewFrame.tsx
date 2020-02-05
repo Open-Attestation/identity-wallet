@@ -1,8 +1,9 @@
 // Given a OA document and url, render it with webview
 import React, { FunctionComponent, useRef, useEffect, RefObject } from "react";
-import { getData, Document } from "@govtechsg/open-attestation";
+import { getData } from "@govtechsg/open-attestation";
 import { WebView, WebViewMessageEvent } from "react-native-webview";
 import { get } from "lodash";
+import { OAWrappedDocument } from "../../types";
 
 export interface Tab {
   id: string;
@@ -16,7 +17,7 @@ export interface WebViewFrameRef {
 }
 
 export interface WebViewFrame {
-  document: Document;
+  document: OAWrappedDocument;
   setGoToTab: (goToTab: (tabId: string) => void) => void;
   setTabs: (tabs: Tab[]) => void;
   setActiveTabId: (tabId: string) => void;

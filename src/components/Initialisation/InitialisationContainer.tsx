@@ -1,6 +1,5 @@
 import React, { useEffect, FunctionComponent } from "react";
-import { Document } from "@govtechsg/open-attestation";
-import { NavigationProps } from "../../types";
+import { NavigationProps, OAWrappedDocument } from "../../types";
 import { useDbContext } from "../../context/db";
 import { LoadingView } from "../Loading";
 import { processQr } from "../../services/QrProcessor";
@@ -13,13 +12,13 @@ export const InitialisationContainer: FunctionComponent<NavigationProps> = ({
   const documentPayload: string | undefined = navigation.getParam("document");
   const action = reconstructAction({ documentPayload });
 
-  const onDocumentStore = (document: Document): void => {
+  const onDocumentStore = (document: OAWrappedDocument): void => {
     navigation.navigate("ValidityCheckScreen", {
       document,
       savable: true
     });
   };
-  const onDocumentView = (document: Document): void => {
+  const onDocumentView = (document: OAWrappedDocument): void => {
     navigation.navigate("ValidityCheckScreen", { document });
   };
 

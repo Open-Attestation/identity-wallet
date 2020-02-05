@@ -69,4 +69,44 @@ describe("ValidityBanner", () => {
       );
     });
   });
+
+  describe("when online", () => {
+    it("should not show the offline message", async () => {
+      expect.assertions(1);
+      const { queryAllByTestId } = render(
+        <ValidityBanner
+          tamperedCheck={CheckStatus.VALID}
+          issuedCheck={CheckStatus.VALID}
+          revokedCheck={CheckStatus.VALID}
+          issuerCheck={CheckStatus.VALID}
+          overallValidity={CheckStatus.VALID}
+          initialIsExpanded={false}
+          isConnected={true}
+        />
+      );
+      await wait(() => {
+        expect(queryAllByTestId("offline-message")).toHaveLength(0);
+      });
+    });
+  });
+
+  describe("when offline", () => {
+    it("should show the offline message", async () => {
+      expect.assertions(1);
+      const { queryAllByTestId } = render(
+        <ValidityBanner
+          tamperedCheck={CheckStatus.VALID}
+          issuedCheck={CheckStatus.VALID}
+          revokedCheck={CheckStatus.VALID}
+          issuerCheck={CheckStatus.VALID}
+          overallValidity={CheckStatus.VALID}
+          initialIsExpanded={false}
+          isConnected={false}
+        />
+      );
+      await wait(() => {
+        expect(queryAllByTestId("offline-message")).toHaveLength(2);
+      });
+    });
+  });
 });

@@ -2,7 +2,6 @@ import React, { useState, useEffect, FunctionComponent, useRef } from "react";
 import { storiesOf } from "@storybook/react-native";
 import { CenterDecorator } from "../decorators";
 import { View, Button, Text } from "react-native";
-import { SignedDocument } from "@govtechsg/open-attestation";
 import sampleDoc from "../../../fixtures/demo-oc.json";
 import { useDocumentVerifier } from "../../../src/common/hooks/useDocumentVerifier";
 import { CheckStatus, ValidityBanner } from "../../../src/components/Validity";
@@ -181,12 +180,20 @@ const InvalidChecksStory: FunctionComponent = () => {
 
 const ActualChecksStory: FunctionComponent = () => {
   const {
-    tamperedCheck,
-    issuedCheck,
-    revokedCheck,
-    issuerCheck,
-    overallValidity
-  } = useDocumentVerifier(sampleDoc as SignedDocument);
+    statuses: {
+      tamperedCheck,
+      issuedCheck,
+      revokedCheck,
+      issuerCheck,
+      overallValidity
+    },
+    verify
+  } = useDocumentVerifier();
+
+  useEffect(() => {
+    verify(sampleDoc as any);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View style={{ width: "100%" }}>

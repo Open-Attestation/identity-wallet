@@ -8,6 +8,7 @@ import { NetworkContext } from "../../context/network";
 jest.mock("lodash/debounce", () => (fn: any) => fn);
 
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
+import { DocumentProperties, DocumentObject } from "../../types";
 jest.mock("../../common/hooks/useDocumentVerifier");
 const mockUseVerifier = useDocumentVerifier as jest.Mock;
 
@@ -29,10 +30,11 @@ jest.mock("../../common/hooks/useQrGenerator", () => ({
 
 jest.useFakeTimers();
 
-const testDocument = {
+const testDocument: DocumentProperties &
+  Pick<DocumentObject, "atomicUpdate"> = {
   id: "1",
   created: 1,
-  document: sampleDoc,
+  document: sampleDoc as any,
   verified: 1,
   isVerified: true,
   atomicUpdate: jest.fn()
@@ -67,7 +69,11 @@ const testDocumentWithQrButExpired = {
 describe("DocumentDetailsSheet", () => {
   it("should show the correct issuer name", async () => {
     expect.assertions(1);
-    mockUseVerifier.mockReturnValue({});
+    mockUseVerifier.mockReturnValue({
+      statuses: {
+        overallValidity: CheckStatus.VALID
+      }
+    });
     const { queryByText } = render(
       <DocumentDetailsSheet
         document={testDocument}
@@ -82,7 +88,7 @@ describe("DocumentDetailsSheet", () => {
   it("should call onVerification once checks complete", async () => {
     expect.assertions(1);
     mockUseVerifier.mockReturnValue({
-      overallValidity: CheckStatus.VALID
+      statuses: { overallValidity: CheckStatus.VALID }
     });
     const onVerification = jest.fn();
     render(
@@ -99,7 +105,7 @@ describe("DocumentDetailsSheet", () => {
   it("should not call onVerification if checks are still progress", async () => {
     expect.assertions(1);
     mockUseVerifier.mockReturnValue({
-      overallValidity: CheckStatus.CHECKING
+      statuses: { overallValidity: CheckStatus.CHECKING }
     });
     const onVerification = jest.fn();
     render(
@@ -117,7 +123,7 @@ describe("DocumentDetailsSheet", () => {
     it("should show the share button if document is valid", async () => {
       expect.assertions(1);
       mockUseVerifier.mockReturnValue({
-        overallValidity: CheckStatus.VALID
+        statuses: { overallValidity: CheckStatus.VALID }
       });
       const { queryByText } = render(
         <DocumentDetailsSheet
@@ -133,7 +139,7 @@ describe("DocumentDetailsSheet", () => {
     it("should hide the share button if document is invalid", async () => {
       expect.assertions(1);
       mockUseVerifier.mockReturnValue({
-        overallValidity: CheckStatus.INVALID
+        statuses: { overallValidity: CheckStatus.INVALID }
       });
       const { queryByText } = render(
         <DocumentDetailsSheet
@@ -149,7 +155,7 @@ describe("DocumentDetailsSheet", () => {
     it("should hide the share button if document is still being checked", async () => {
       expect.assertions(1);
       mockUseVerifier.mockReturnValue({
-        overallValidity: CheckStatus.CHECKING
+        statuses: { overallValidity: CheckStatus.CHECKING }
       });
       const { queryByText } = render(
         <DocumentDetailsSheet
@@ -166,7 +172,7 @@ describe("DocumentDetailsSheet", () => {
   it("should show the document metadata", async () => {
     expect.assertions(1);
     mockUseVerifier.mockReturnValue({
-      overallValidity: CheckStatus.CHECKING
+      statuses: { overallValidity: CheckStatus.CHECKING }
     });
     const { queryByTestId } = render(
       <DocumentDetailsSheet
@@ -184,7 +190,7 @@ describe("DocumentDetailsSheet", () => {
       it("should show the invalid panel if the document is invalid", async () => {
         expect.assertions(2);
         mockUseVerifier.mockReturnValue({
-          overallValidity: CheckStatus.INVALID
+          statuses: { overallValidity: CheckStatus.INVALID }
         });
         const { queryByTestId } = render(
           <DocumentDetailsSheet
@@ -201,7 +207,7 @@ describe("DocumentDetailsSheet", () => {
       it("should not show any priority content if document is still checking", async () => {
         expect.assertions(1);
         mockUseVerifier.mockReturnValue({
-          overallValidity: CheckStatus.CHECKING
+          statuses: { overallValidity: CheckStatus.CHECKING }
         });
         const { queryByTestId } = render(
           <DocumentDetailsSheet
@@ -219,7 +225,7 @@ describe("DocumentDetailsSheet", () => {
       it("should show the qr code when document is valid", async () => {
         expect.assertions(2);
         mockUseVerifier.mockReturnValue({
-          overallValidity: CheckStatus.VALID
+          statuses: { overallValidity: CheckStatus.VALID }
         });
         const { queryByTestId } = render(
           <DocumentDetailsSheet
@@ -236,7 +242,7 @@ describe("DocumentDetailsSheet", () => {
       it("should show the qr code when document is invalid", async () => {
         expect.assertions(2);
         mockUseVerifier.mockReturnValue({
-          overallValidity: CheckStatus.INVALID
+          statuses: { overallValidity: CheckStatus.INVALID }
         });
         const { queryByTestId } = render(
           <DocumentDetailsSheet
@@ -253,7 +259,7 @@ describe("DocumentDetailsSheet", () => {
       it("should show the qr code when document status is checking", async () => {
         expect.assertions(2);
         mockUseVerifier.mockReturnValue({
-          overallValidity: CheckStatus.CHECKING
+          statuses: { overallValidity: CheckStatus.CHECKING }
         });
         const { queryByTestId } = render(
           <DocumentDetailsSheet
@@ -272,7 +278,7 @@ describe("DocumentDetailsSheet", () => {
       it("should show the qr code when document is valid", async () => {
         expect.assertions(2);
         mockUseVerifier.mockReturnValue({
-          overallValidity: CheckStatus.VALID
+          statuses: { overallValidity: CheckStatus.VALID }
         });
         const { queryByTestId } = render(
           <DocumentDetailsSheet
@@ -289,7 +295,7 @@ describe("DocumentDetailsSheet", () => {
       it("should show the qr code when document is invalid", async () => {
         expect.assertions(2);
         mockUseVerifier.mockReturnValue({
-          overallValidity: CheckStatus.INVALID
+          statuses: { overallValidity: CheckStatus.INVALID }
         });
         const { queryByTestId } = render(
           <DocumentDetailsSheet
@@ -306,7 +312,7 @@ describe("DocumentDetailsSheet", () => {
       it("should show the qr code when document status is checking", async () => {
         expect.assertions(2);
         mockUseVerifier.mockReturnValue({
-          overallValidity: CheckStatus.CHECKING
+          statuses: { overallValidity: CheckStatus.CHECKING }
         });
         const { queryByTestId } = render(
           <DocumentDetailsSheet
@@ -325,7 +331,7 @@ describe("DocumentDetailsSheet", () => {
       it("should show the qr code when document is valid", async () => {
         expect.assertions(2);
         mockUseVerifier.mockReturnValue({
-          overallValidity: CheckStatus.VALID
+          statuses: { overallValidity: CheckStatus.VALID }
         });
         const { queryByTestId } = render(
           <DocumentDetailsSheet
@@ -342,7 +348,7 @@ describe("DocumentDetailsSheet", () => {
       it("should show the qr code when document is invalid", async () => {
         expect.assertions(2);
         mockUseVerifier.mockReturnValue({
-          overallValidity: CheckStatus.INVALID
+          statuses: { overallValidity: CheckStatus.INVALID }
         });
         const { queryByTestId } = render(
           <DocumentDetailsSheet
@@ -359,7 +365,7 @@ describe("DocumentDetailsSheet", () => {
       it("should show the qr code when document status is checking", async () => {
         expect.assertions(2);
         mockUseVerifier.mockReturnValue({
-          overallValidity: CheckStatus.CHECKING
+          statuses: { overallValidity: CheckStatus.CHECKING }
         });
         const { queryByTestId } = render(
           <DocumentDetailsSheet
@@ -379,7 +385,10 @@ describe("DocumentDetailsSheet", () => {
     it("should generate a QR", async () => {
       expect.assertions(1);
       mockUseVerifier.mockReturnValue({
-        overallValidity: CheckStatus.VALID
+        statuses: {
+          overallValidity: CheckStatus.VALID
+        },
+        verify: jest.fn()
       });
       render(
         <NetworkContext.Provider value={{ isConnected: true }}>

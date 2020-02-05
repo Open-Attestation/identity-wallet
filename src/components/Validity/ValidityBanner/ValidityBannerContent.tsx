@@ -5,16 +5,20 @@ import { CheckStatus } from "../constants";
 import { size } from "../../../common/styles";
 
 interface ValidityBannerContent {
+  isConnected: boolean;
   checkStatus?: CheckStatus;
   isExpanded?: boolean;
 }
 
 export const ValidityBannerContent: FunctionComponent<ValidityBannerContent> = ({
+  isConnected,
   checkStatus = CheckStatus.CHECKING,
   isExpanded = false,
   children
 }) => {
-  const { backgroundColor } = getStatusProps(checkStatus);
+  const { backgroundColor } = getStatusProps(
+    isConnected ? checkStatus : CheckStatus.CHECKING
+  );
 
   const heightAnimation = useRef(new Animated.Value(0));
   const [maxHeight, setMaxHeight] = useState(0);
@@ -43,7 +47,7 @@ export const ValidityBannerContent: FunctionComponent<ValidityBannerContent> = (
       testID="validity-banner-content"
     >
       <View
-        onLayout={maxHeight > 0 ? undefined : handleLayout}
+        onLayout={handleLayout}
         style={{
           paddingTop: size(1),
           paddingBottom: size(1.5),
