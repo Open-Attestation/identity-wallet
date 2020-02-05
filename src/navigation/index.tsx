@@ -9,7 +9,7 @@ import { NetworkContextProvider } from "../context/network";
 
 const SwitchNavigator = createSwitchNavigator(
   {
-    InitialisationScreen: { screen: InitialisationScreen, path: "action" },
+    InitialisationScreen: { screen: InitialisationScreen, path: "/" },
     StackNavigator
   },
   { initialRouteName: "InitialisationScreen" }

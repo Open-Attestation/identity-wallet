@@ -22,13 +22,3 @@ export const initialiseDb = async ({
   }
   onInitDb();
 };
-
-export const reconstructAction = ({
-  documentPayload
-}: {
-  documentPayload?: string;
-}): string | undefined => {
-  if (documentPayload) {
-    return `https://action.openattestation.com?q=${documentPayload}`;
-  }
-};

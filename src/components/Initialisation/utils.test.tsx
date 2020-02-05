@@ -1,4 +1,4 @@
-import { reconstructAction, initialiseDb } from "./utils";
+import { initialiseDb } from "./utils";
 import { DB_CONFIG } from "../../config";
 import * as RxDB from "rxdb";
 
@@ -31,21 +31,6 @@ describe("InitialisationContainer/utils", () => {
       );
       expect(setDb).toHaveBeenCalledWith(mockCreatedDb);
       expect(onInitDb).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe("reconstructAction", () => {
-    it("should return undefined if there are no valid payloads", () => {
-      expect.assertions(1);
-      expect(reconstructAction({})).toBeUndefined();
-    });
-    it("should return correct action string for document type actions", () => {
-      expect.assertions(1);
-      const documentPayload =
-        "%7B%22type%22:%22DOCUMENT%22,%22payload%22:%7B%22uri%22:%22https://api.myjson.com/bins/95dti%22,%22permittedActions%22:%5B%22STORE%22%5D%7D%7D";
-      expect(reconstructAction({ documentPayload })).toBe(
-        "https://action.openattestation.com?q=%7B%22type%22:%22DOCUMENT%22,%22payload%22:%7B%22uri%22:%22https://api.myjson.com/bins/95dti%22,%22permittedActions%22:%5B%22STORE%22%5D%7D%7D"
-      );
     });
   });
 });

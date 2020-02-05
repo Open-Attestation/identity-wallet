@@ -4,14 +4,14 @@ import { NavigationProps } from "../../types";
 import { useDbContext } from "../../context/db";
 import { LoadingView } from "../Loading";
 import { processQr } from "../../services/QrProcessor";
-import { reconstructAction, initialiseDb } from "./utils";
+import { initialiseDb } from "./utils";
 
 export const InitialisationContainer: FunctionComponent<NavigationProps> = ({
   navigation
 }: NavigationProps) => {
   const { db, setDb } = useDbContext();
-  const documentPayload: string | undefined = navigation.getParam("document");
-  const action = reconstructAction({ documentPayload });
+  const query: string | undefined = navigation.getParam("q");
+  const action = `https://action.openattestation.com?q=${query}`;
 
   const onDocumentStore = (document: Document): void => {
     navigation.navigate("ValidityCheckScreen", {
@@ -24,7 +24,7 @@ export const InitialisationContainer: FunctionComponent<NavigationProps> = ({
   };
 
   const onInitDb = async (): Promise<void> => {
-    if (!action) {
+    if (!query) {
       navigation.navigate("StackNavigator");
       return;
     }
