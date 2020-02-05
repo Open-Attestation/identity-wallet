@@ -4,14 +4,13 @@ import { MockDbProvider } from "../../test/helpers/db";
 import { mockNavigation, setParam } from "../../test/helpers/navigation";
 import { processQr } from "../../services/QrProcessor";
 
-import { reconstructAction, initialiseDb } from "./utils";
+import { initialiseDb } from "./utils";
 import { InitialisationContainer } from "./InitialisationContainer";
 
 jest.mock("../../services/QrProcessor");
 jest.mock("rxdb");
 jest.mock("./utils");
 
-const mockReconstructAction = reconstructAction as jest.Mock;
 const mockInitialiseDb = initialiseDb as jest.Mock;
 const mockProcessQr = processQr as jest.Mock;
 
@@ -21,7 +20,6 @@ const getOnInitDb = (mockInitialiseDb: jest.Mock): Function =>
 describe("InitialisationContainer", () => {
   beforeEach(() => {
     mockInitialiseDb.mockReset();
-    mockReconstructAction.mockReset();
     mockProcessQr.mockReset();
   });
   it("should call initialiseDb on mount", () => {
@@ -47,11 +45,8 @@ describe("InitialisationContainer", () => {
   });
 
   it("should navigate to ValidityCheckScreen with savable document action", async () => {
-    expect.assertions(3);
-    setParam("document", "DOCUMENT_ACTION_PAYLOAD");
-    mockReconstructAction.mockReturnValue(
-      "https://action.openattestation.com?q=DOCUMENT_ACTION_PAYLOAD"
-    );
+    expect.assertions(2);
+    setParam("q", "ACTION_QUERY_STRING");
 
     render(
       <MockDbProvider>
@@ -60,11 +55,8 @@ describe("InitialisationContainer", () => {
     );
     const onInitDb = getOnInitDb(mockInitialiseDb);
     await onInitDb();
-    expect(mockReconstructAction).toHaveBeenCalledWith({
-      documentPayload: "DOCUMENT_ACTION_PAYLOAD"
-    });
     expect(mockProcessQr.mock.calls[0][0]).toBe(
-      "https://action.openattestation.com?q=DOCUMENT_ACTION_PAYLOAD"
+      "https://action.openattestation.com?q=ACTION_QUERY_STRING"
     );
 
     // Calling onDocumentStore from processQr
@@ -81,11 +73,8 @@ describe("InitialisationContainer", () => {
   });
 
   it("should navigate to ValidityCheckScreen with non-savable document action", async () => {
-    expect.assertions(3);
-    setParam("document", "DOCUMENT_ACTION_PAYLOAD");
-    mockReconstructAction.mockReturnValue(
-      "https://action.openattestation.com?q=DOCUMENT_ACTION_PAYLOAD"
-    );
+    expect.assertions(2);
+    setParam("document", "ACTION_QUERY_STRING");
 
     render(
       <MockDbProvider>
@@ -94,11 +83,8 @@ describe("InitialisationContainer", () => {
     );
     const onInitDb = getOnInitDb(mockInitialiseDb);
     await onInitDb();
-    expect(mockReconstructAction).toHaveBeenCalledWith({
-      documentPayload: "DOCUMENT_ACTION_PAYLOAD"
-    });
     expect(mockProcessQr.mock.calls[0][0]).toBe(
-      "https://action.openattestation.com?q=DOCUMENT_ACTION_PAYLOAD"
+      "https://action.openattestation.com?q=ACTION_QUERY_STRING"
     );
 
     // Calling onDocumentView from processQr
