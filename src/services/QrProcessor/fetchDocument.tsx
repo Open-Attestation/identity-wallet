@@ -1,5 +1,5 @@
-import { Document } from "@govtechsg/open-attestation";
-import { decryptString } from "@govtechsg/oa-encryption";
+import { Document } from '@govtechsg/open-attestation';
+import { decryptString } from '@govtechsg/oa-encryption';
 
 interface EncryptedDocumentAction {
   uri: string;
@@ -12,18 +12,23 @@ export const fetchCleartextDocument = async (payload: {
 
 export const fetchEncryptedDocument = async ({
   uri,
-  key
+  key,
 }: EncryptedDocumentAction): Promise<Document> => {
   const {
-    document: { tag, cipherText, iv, type, ttl }
+    document: { tag, cipherText, iv, type, ttl },
   } = await fetch(uri).then(res => res.json());
+
+  if (ttl < Date.now()) {
+    throw new Error('The QR code has expired');
+  }
+
   const cipher = {
     tag,
     cipherText,
     iv,
     key,
     type,
-    ttl
+    ttl,
   };
   return JSON.parse(decryptString(cipher)) as Document;
 };

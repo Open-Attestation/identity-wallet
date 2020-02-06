@@ -57,13 +57,6 @@ export const processQr = async (
           })
         : await fetchCleartextDocument({ uri });
 
-      if (
-        fetchedDocument.document &&
-        fetchedDocument.document.ttl < Date.now()
-      ) {
-        throw new Error('The QR code has expired');
-      }
-
       // TODO Validate if fetchedDocument is a valid document, need to add the method to open-attestation
       if (
         action.payload.permittedActions &&
