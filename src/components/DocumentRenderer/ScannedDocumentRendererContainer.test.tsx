@@ -32,7 +32,7 @@ describe("ScannedDocumentRendererContainer", () => {
     expect.assertions(1);
     setParam("document", sampleDocument);
     setParam("savable", false);
-    setParam("verificationStatuses", verificationStatuses);
+    setParam("statuses", verificationStatuses);
     const { queryByTestId } = render(
       <ScannedDocumentRendererContainer navigation={mockNavigation} />
     );
@@ -43,7 +43,7 @@ describe("ScannedDocumentRendererContainer", () => {
     expect.assertions(2);
     setParam("document", sampleDocument);
     setParam("savable", true);
-    setParam("verificationStatuses", verificationStatuses);
+    setParam("statuses", verificationStatuses);
     const { queryByText } = render(
       <ScannedDocumentRendererContainer navigation={mockNavigation} />
     );
@@ -55,7 +55,7 @@ describe("ScannedDocumentRendererContainer", () => {
     expect.assertions(2);
     setParam("document", sampleDocument);
     setParam("savable", false);
-    setParam("verificationStatuses", verificationStatuses);
+    setParam("statuses", verificationStatuses);
     const { queryByText } = render(
       <ScannedDocumentRendererContainer navigation={mockNavigation} />
     );
@@ -67,7 +67,7 @@ describe("ScannedDocumentRendererContainer", () => {
     expect.assertions(6);
     setParam("document", sampleDocument);
     setParam("savable", true);
-    setParam("verificationStatuses", verificationStatuses);
+    setParam("statuses", verificationStatuses);
     const { getByText } = render(
       <MockDbProvider>
         <ScannedDocumentRendererContainer navigation={mockNavigation} />
