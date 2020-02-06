@@ -19,9 +19,7 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
   const { db } = useDbContext();
   const document: OAWrappedDocument = navigation.getParam("document");
   const isSavable: boolean = navigation.getParam("savable");
-  const verificationStatuses: VerificationStatuses = navigation.getParam(
-    "verificationStatuses"
-  );
+  const statuses: VerificationStatuses = navigation.getParam("statuses");
 
   const { issuers } = getData(document);
   const id = document.signature.targetHash;
@@ -37,7 +35,7 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
         created: Date.now(),
         document,
         verified: Date.now(),
-        isVerified: verificationStatuses.overallValidity === CheckStatus.VALID
+        isVerified: statuses.overallValidity === CheckStatus.VALID
       };
       await db!.documents.insert(documentToInsert);
       navigateToDocument();
@@ -57,7 +55,7 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
         goBack={() => navigation.goBack()}
       />
       <ScannedDocumentActionSheet
-        verificationStatuses={verificationStatuses}
+        verificationStatuses={statuses}
         issuedBy={issuedBy}
         isSavable={isSavable}
         onCancel={() => navigation.goBack()}
