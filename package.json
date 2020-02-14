@@ -15,8 +15,9 @@
   "dependencies": {
     "@govtechsg/dnsprove": "^2.0.5",
     "@govtechsg/oa-encryption": "^1.3.0",
-    "@govtechsg/oa-verify": "^3.0.3",
+    "@govtechsg/oa-verify": "^3.1.1",
     "@govtechsg/open-attestation": "^3.1.1",
+    "@govtechsg/opencerts-verify": "^1.0.3",
     "@react-native-community/netinfo": "~3.2.1",
     "expo": "^35.0.0",
     "expo-camera": "^7.0.0",

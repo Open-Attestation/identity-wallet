@@ -1,16 +1,9 @@
-import {
-  useEffect,
-  useState,
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useRef
-} from "react";
-import { CheckStatus } from "../../../components/Validity";
-import { checkValidity } from "../../../services/DocumentVerifier";
-import { useConfig } from "../useConfig";
-import { VerificationFragmentStatus } from "@govtechsg/oa-verify";
-import { OAWrappedDocument } from "../../../types";
+import {Dispatch, SetStateAction, useCallback, useEffect, useRef, useState} from "react";
+import {CheckStatus} from "../../../components/Validity";
+import {checkValidity} from "../../../services/DocumentVerifier";
+import {useConfig} from "../useConfig";
+import {VerificationFragmentStatus} from "@govtechsg/oa-verify";
+import {OAWrappedDocument, VerifierTypes} from "../../../types";
 
 export interface VerificationStatuses {
   tamperedCheck: CheckStatus;
@@ -38,7 +31,7 @@ export const handleVerificationFragment = (
 
 export const useDocumentVerifier = (): DocumentVerifier => {
   const {
-    config: { network }
+    config: { network, verifier }
   } = useConfig();
   const cancelled = useRef(false);
   const [tamperedCheck, setTamperedCheck] = useState(CheckStatus.CHECKING);
@@ -53,6 +46,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
       cancelled.current = true;
     };
   }, []);
+  console.log({ verifierInMF: verifier, network });
 
   const verify = useCallback(
     async (document: OAWrappedDocument) => {
@@ -65,7 +59,8 @@ export const useDocumentVerifier = (): DocumentVerifier => {
       const overallValidityCheck = await checkValidity(
         document,
         network,
-        ([verifyHash, verifyIssued, verifyRevoked, verifyIdentity]) => {
+        VerifierTypes.OpenCerts,
+        ([verifyHash, verifyIssued, verifyRevoked, verifyIdentity, oc]) => {
           verifyHash.then(({ status }) => {
             !cancelled.current &&
               handleVerificationFragment(status, setTamperedCheck);
@@ -78,9 +73,17 @@ export const useDocumentVerifier = (): DocumentVerifier => {
             !cancelled.current &&
               handleVerificationFragment(status, setRevokedCheck);
           });
-          verifyIdentity.then(({ status }) => {
+          Promise.all([
+            verifyIdentity,
+            oc || Promise.resolve({ status: "SKIPPED" })
+          ]).then(([p1, p2]) => {
             !cancelled.current &&
-              handleVerificationFragment(status, setIssuerCheck);
+              handleVerificationFragment(
+                p1.status === "VALID" || p2.status === "VALID"
+                  ? "VALID"
+                  : "ERROR",
+                setIssuerCheck
+              );
           });
         }
       );
@@ -89,7 +92,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
         handleVerificationFragment(overallValidityCheck, setOverallValidity);
       }
     },
-    [network]
+    [network, verifier]
   );
 
   return {

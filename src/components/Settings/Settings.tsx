@@ -1,13 +1,13 @@
-import React, { FunctionComponent } from "react";
-import { Header } from "../Layout/Header";
-import { DarkButton } from "../Layout/Buttons/DarkButton";
-import { ScrollView, View, Text, StyleSheet } from "react-native";
-import { BottomNav } from "../Layout/BottomNav";
-import { NavigationProps } from "../../types";
-import { BuildView } from "./BuildView";
-import { fontSize, size } from "../../common/styles";
-import { useConfig, Config } from "../../common/hooks/useConfig";
-import { NetworkTypes } from "../../types";
+import React, {FunctionComponent} from "react";
+import {Header} from "../Layout/Header";
+import {DarkButton} from "../Layout/Buttons/DarkButton";
+import {ScrollView, StyleSheet, Text, View} from "react-native";
+import {BottomNav} from "../Layout/BottomNav";
+import {NavigationProps, NetworkTypes, VerifierTypes} from "../../types";
+import {BuildView} from "./BuildView";
+import {fontSize, size} from "../../common/styles";
+import {Config, useConfig} from "../../common/hooks/useConfig";
+
 const styles = StyleSheet.create({
   headerText: {
     fontWeight: "bold",
@@ -45,7 +45,8 @@ export const SettingsView: FunctionComponent<{
   config: Config;
   onResetDocumentData: () => void;
   onToggleNetwork: () => void;
-}> = ({ config, onResetDocumentData, onToggleNetwork }) => {
+  onToggleVerifier: () => void;
+}> = ({ config, onResetDocumentData, onToggleNetwork, onToggleVerifier }) => {
   return (
     <ScrollView style={styles.settingsView}>
       <View style={styles.settingsItem}>
@@ -59,6 +60,15 @@ export const SettingsView: FunctionComponent<{
         <DarkButton
           text={config.network.toUpperCase()}
           onPress={onToggleNetwork}
+        />
+      </View>
+      <View style={styles.settingsItem}>
+        <Text style={styles.settingsItemDescription}>
+          Switch Verifier
+        </Text>
+        <DarkButton
+          text={config.verifier}
+          onPress={onToggleVerifier}
         />
       </View>
     </ScrollView>
@@ -78,6 +88,14 @@ export const Settings: FunctionComponent<Settings> = ({
         : NetworkTypes.ropsten
     );
   };
+  const onToggleVerifier = (): void => {
+    setValue(
+      "verifier",
+      config.verifier === VerifierTypes.OpenAttestation
+        ? VerifierTypes.OpenCerts
+        : VerifierTypes.OpenAttestation
+    );
+  };
   return (
     <>
       <Header>
@@ -87,6 +105,7 @@ export const Settings: FunctionComponent<Settings> = ({
         <SettingsView
           onResetDocumentData={onResetDocumentData}
           onToggleNetwork={onToggleNetwork}
+          onToggleVerifier={onToggleVerifier}
           config={config}
         />
         <BuildView />
