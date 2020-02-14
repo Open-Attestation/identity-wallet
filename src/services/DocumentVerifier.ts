@@ -1,10 +1,11 @@
 import {
-  verificationBuilder,
   openAttestationVerifiers,
-  VerificationManagerOptions,
-  VerificationFragmentStatus
+  verificationBuilder,
+  VerificationFragmentStatus,
+  VerificationManagerOptions
 } from "@govtechsg/oa-verify";
-import { OAWrappedDocument } from "../types";
+import { OAWrappedDocument, VerifierTypes } from "../types";
+import { registryVerifier } from "@govtechsg/opencerts-verify";
 
 const verifiers = [
   ...openAttestationVerifiers.slice(0, 2),
@@ -15,9 +16,18 @@ const defaultVerify = verificationBuilder(verifiers);
 export const checkValidity = async (
   document: OAWrappedDocument,
   network = "ropsten",
-  promisesCallback: VerificationManagerOptions["promisesCallback"],
-  verify = defaultVerify
+  verifier = VerifierTypes.OpenAttestation,
+  promisesCallback: VerificationManagerOptions["promisesCallback"]
 ): Promise<VerificationFragmentStatus> => {
+  console.log({ verifier });
+  const v =
+    verifier === VerifierTypes.OpenAttestation
+      ? verifiers
+      : [...verifiers, registryVerifier];
+
+  console.log({ v });
+  const verify = verificationBuilder(v);
+
   const overallResult = await verify(document, {
     network,
     promisesCallback

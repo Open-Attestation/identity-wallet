@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AsyncStorage } from "react-native";
-import { NetworkTypes } from "../../../types";
+import { NetworkTypes, VerifierTypes } from "../../../types";
 
 export interface Config {
   network: NetworkTypes;
+  verifier: VerifierTypes;
 }
 interface ConfigHook {
   config: Config;
@@ -12,7 +13,10 @@ interface ConfigHook {
 }
 
 const CONFIG_KEY = "CONFIG";
-const DEFAULT_CONFIG: Config = { network: NetworkTypes.ropsten };
+const DEFAULT_CONFIG: Config = {
+  network: NetworkTypes.ropsten,
+  verifier: VerifierTypes.OpenAttestation
+};
 
 export const useConfig = (): ConfigHook => {
   const [config, setConfig] = useState(DEFAULT_CONFIG);
@@ -30,7 +34,17 @@ export const useConfig = (): ConfigHook => {
   const loadConfigFromState = async (): Promise<void> => {
     const configStr = await AsyncStorage.getItem(CONFIG_KEY);
     if (configStr) {
-      setConfig(JSON.parse(configStr));
+      const storedConfig = JSON.parse(configStr);
+      for (const setting in DEFAULT_CONFIG) {
+        if (
+          storedConfig[setting] === undefined ||
+          storedConfig[setting] === null
+        ) {
+          // @ts-ignore I dunno how to type this part =)
+          storedConfig[setting] = DEFAULT_CONFIG[setting];
+        }
+      }
+      setConfig(storedConfig);
     } else {
       await AsyncStorage.setItem(CONFIG_KEY, JSON.stringify(DEFAULT_CONFIG));
     }
