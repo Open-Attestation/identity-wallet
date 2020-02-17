@@ -2,16 +2,16 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { Settings } from "./Settings";
 import { mockNavigation, resetNavigation } from "../../test/helpers/navigation";
-import { useConfig } from "../../common/hooks/useConfig";
+import { useConfigContext } from "../../context/config";
 
 jest.mock("../../common/navigation");
-jest.mock("../../common/hooks/useConfig");
+jest.mock("../../context/config");
 
-const mockUseConfig = useConfig as jest.Mock;
+const mockUseConfigContext = useConfigContext as jest.Mock;
 const mockSetValue = jest.fn();
-mockUseConfig.mockReturnValue({
+mockUseConfigContext.mockReturnValue({
   config: { network: "ropsten" },
-  setValue: mockSetValue
+  setConfigValue: mockSetValue
 });
 
 describe("Settings", () => {

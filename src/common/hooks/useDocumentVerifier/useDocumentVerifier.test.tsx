@@ -4,8 +4,9 @@ import { SignedDocument } from "@govtechsg/open-attestation";
 import { renderHook } from "@testing-library/react-hooks";
 import { CheckStatus } from "../../../components/Validity/";
 import { checkValidity } from "../../../services/DocumentVerifier";
-jest.mock("../useConfig", () => ({
-  useConfig: () => ({ config: { network: "mainnet" } })
+
+jest.mock("../../../context/config", () => ({
+  useConfigContext: () => ({ config: { network: "mainnet" } })
 }));
 jest.mock("../../../services/DocumentVerifier");
 const mockCheckValidity = checkValidity as jest.Mock;
