@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { SignedDocument } from "@govtechsg/open-attestation";
 import { CheckStatus } from "../../../components/Validity";
 import { checkValidity } from "../../../services/DocumentVerifier";
-import { useConfig } from "../useConfig";
+import { useConfigContext } from "../../../context/config";
 
 export interface VerificationStatuses {
   tamperedCheck: CheckStatus;
@@ -17,7 +17,7 @@ export const useDocumentVerifier = (
 ): VerificationStatuses => {
   const {
     config: { network }
-  } = useConfig();
+  } = useConfigContext();
   const [tamperedCheck, setTamperedCheck] = useState(CheckStatus.CHECKING);
   const [issuedCheck, setIssuedCheck] = useState(CheckStatus.CHECKING);
   const [revokedCheck, setRevokedCheck] = useState(CheckStatus.CHECKING);

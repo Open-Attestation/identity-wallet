@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { uploadDocument } from "../../../services/DocumentSharing";
 import { Document } from "@govtechsg/open-attestation";
 import debounce from "lodash/debounce";
-import { useConfig } from "../useConfig";
+import { useConfigContext } from "../../../context/config";
 
 const GENERATE_QR_DEBOUNCE_MS = 500;
 
@@ -18,7 +18,7 @@ export const useQrGenerator = (
 ): QrGenerator => {
   const {
     config: { network }
-  } = useConfig();
+  } = useConfigContext();
   const isMounted = useRef(false);
   const [qrCode, setQrCode] = useState<QrCode>(initialQrCode);
   const [qrCodeLoading, setQrCodeLoading] = useState(false);

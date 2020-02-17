@@ -5,8 +5,8 @@ import { uploadDocument } from "../../../services/DocumentSharing";
 
 jest.mock("../../../services/DocumentSharing");
 jest.mock("lodash/debounce", () => (fn: any) => fn);
-jest.mock("../useConfig", () => ({
-  useConfig: () => ({ config: { network: "mainnet" } })
+jest.mock("../../../context/config", () => ({
+  useConfigContext: () => ({ config: { network: "mainnet" } })
 }));
 
 const mockUploadDocument = uploadDocument as jest.Mock;

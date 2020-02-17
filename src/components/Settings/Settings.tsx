@@ -6,8 +6,9 @@ import { BottomNav } from "../Layout/BottomNav";
 import { NavigationProps } from "../../types";
 import { BuildView } from "./BuildView";
 import { fontSize, size } from "../../common/styles";
-import { useConfig, Config } from "../../common/hooks/useConfig";
 import { NetworkTypes } from "../../types";
+import { useConfigContext, Config } from "../../context/config";
+
 const styles = StyleSheet.create({
   headerText: {
     fontWeight: "bold",
@@ -69,9 +70,9 @@ export const Settings: FunctionComponent<Settings> = ({
   onResetDocumentData,
   navigation
 }) => {
-  const { config, setValue } = useConfig();
+  const { config, setConfigValue } = useConfigContext();
   const onToggleNetwork = (): void => {
-    setValue(
+    setConfigValue(
       "network",
       config.network === NetworkTypes.ropsten
         ? NetworkTypes.mainnet
