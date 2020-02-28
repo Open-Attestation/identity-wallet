@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect } from "react";
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
 import { NavigationProps } from "../../types";
-import { SignedDocument } from "@govtechsg/open-attestation";
+import { WrappedDocument } from "@govtechsg/open-attestation";
 import { Header } from "../Layout/Header";
 import { CheckStatus } from "../Validity/constants";
 import { View, SafeAreaView } from "react-native";
@@ -11,9 +11,9 @@ import { replaceRouteFn } from "../../common/navigation";
 export const ValidityCheckScreenContainer: FunctionComponent<NavigationProps> = ({
   navigation
 }) => {
-  const document: SignedDocument = navigation.getParam("document");
+  const document: WrappedDocument = navigation.getParam("document");
   const isSavable: boolean = navigation.getParam("savable");
-  const verificationStatuses = useDocumentVerifier(document as SignedDocument);
+  const verificationStatuses = useDocumentVerifier(document as WrappedDocument);
 
   useEffect(() => {
     let cancelled = false;

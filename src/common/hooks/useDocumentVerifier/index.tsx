@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SignedDocument } from "@govtechsg/open-attestation";
+import { WrappedDocument } from "@govtechsg/open-attestation";
 import { CheckStatus } from "../../../components/Validity";
 import { checkValidity } from "../../../services/DocumentVerifier";
 import { useConfigContext } from "../../../context/config";
@@ -13,7 +13,7 @@ export interface VerificationStatuses {
 }
 
 export const useDocumentVerifier = (
-  document: SignedDocument
+  document: WrappedDocument
 ): VerificationStatuses => {
   const {
     config: { network }
