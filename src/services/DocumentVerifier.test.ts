@@ -1,5 +1,5 @@
 import sampleDoc from "../../fixtures/demo-caas.json";
-import { SignedDocument } from "@govtechsg/open-attestation";
+import { WrappedDocument } from "@govtechsg/open-attestation";
 import { checkValidity } from "./DocumentVerifier";
 
 import { verifyWithIndividualChecks } from "@govtechsg/oa-verify";
@@ -48,7 +48,7 @@ describe("ValidityChecker", () => {
           verifyRevoked,
           verifyIdentity,
           overallValidityCheck
-        ] = checkValidity(sampleDoc as SignedDocument);
+        ] = checkValidity(sampleDoc as WrappedDocument);
 
         const result = await Promise.all([
           verifyHash,
@@ -76,7 +76,7 @@ describe("ValidityChecker", () => {
           verifyRevoked,
           verifyIdentity,
           overallValidityCheck
-        ] = checkValidity(sampleDoc as SignedDocument);
+        ] = checkValidity(sampleDoc as WrappedDocument);
 
         const result = await Promise.all([
           verifyHash,
@@ -104,7 +104,7 @@ describe("ValidityChecker", () => {
           verifyRevoked,
           verifyIdentity,
           overallValidityCheck
-        ] = checkValidity(sampleDoc as SignedDocument);
+        ] = checkValidity(sampleDoc as WrappedDocument);
 
         const result = await Promise.all([
           verifyHash,
@@ -134,7 +134,7 @@ describe("ValidityChecker", () => {
           verifyRevoked,
           verifyIdentity,
           overallValidityCheck
-        ] = checkValidity(sampleDoc as SignedDocument);
+        ] = checkValidity(sampleDoc as WrappedDocument);
         overallValidityCheck.then(() => (hasResolvedOverallValidity = true));
 
         await Promise.all([verifyHash, verifyIssued, verifyRevoked]);
@@ -163,7 +163,7 @@ describe("ValidityChecker", () => {
           verifyRevoked,
           verifyIdentity,
           overallValidityCheck
-        ] = checkValidity(sampleDoc as SignedDocument);
+        ] = checkValidity(sampleDoc as WrappedDocument);
         const verifyHashIssuedRevoked = Promise.all([
           verifyHash,
           verifyIssued,
@@ -196,7 +196,7 @@ describe("ValidityChecker", () => {
           verifyRevoked,
           verifyIdentity,
           overallValidityCheck
-        ] = checkValidity(sampleDoc as SignedDocument);
+        ] = checkValidity(sampleDoc as WrappedDocument);
 
         const result = await Promise.all([
           verifyHash,

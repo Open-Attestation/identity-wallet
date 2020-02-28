@@ -15,7 +15,7 @@ import {
   Platform
 } from "react-native";
 import { BottomSheet } from "../Layout/BottomSheet";
-import { SignedDocument, getData } from "@govtechsg/open-attestation";
+import { WrappedDocument, getData } from "@govtechsg/open-attestation";
 import QRIcon from "../../../assets/icons/qr.svg";
 import { ValidityBanner } from "../Validity/ValidityBanner";
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
@@ -235,7 +235,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
     revokedCheck,
     issuerCheck,
     overallValidity
-  } = useDocumentVerifier(document.document as SignedDocument);
+  } = useDocumentVerifier(document.document as WrappedDocument);
   const haveChecksFinished = overallValidity !== CheckStatus.CHECKING;
   const isDocumentValid = overallValidity === CheckStatus.VALID;
   const isDocumentInvalid = overallValidity === CheckStatus.INVALID;

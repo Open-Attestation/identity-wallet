@@ -1,5 +1,5 @@
 import { getDocumentStoreRecords } from "@govtechsg/dnsprove";
-import { getData, SignedDocument } from "@govtechsg/open-attestation";
+import { getData, WrappedDocument } from "@govtechsg/open-attestation";
 import { get } from "lodash";
 
 // Taken from https://github.com/TradeTrust/tradetrust-website/blob/master/src/services/verify/index.js
@@ -58,7 +58,7 @@ const issuersIdentitiesAllVerified = (identities: any[] = []): boolean =>
   identities.every(identity => identity.identified);
 
 export const checkValidIdentity = async (
-  document: SignedDocument,
+  document: WrappedDocument,
   networkName: string
 ): Promise<{ identifiedOnAll: boolean; details: [] }> => {
   const documentData = getData(document);

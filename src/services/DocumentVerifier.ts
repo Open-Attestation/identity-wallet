@@ -1,5 +1,5 @@
 import { verifyWithIndividualChecks } from "@govtechsg/oa-verify";
-import { SignedDocument } from "@govtechsg/open-attestation";
+import { WrappedDocument } from "@govtechsg/open-attestation";
 import { checkValidIdentity } from "./IdentityVerifier";
 
 // Ensures TS infers the type of the array as a tuple instead
@@ -11,7 +11,7 @@ function tuple<T extends any[]>(...data: T): T {
 // Let TS infer the return type
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const checkValidity = (
-  document: SignedDocument,
+  document: WrappedDocument,
   network = "ropsten" // TODO: handle this based on some user selection of the network
 ) => {
   const isMainnet = network === "mainnet";

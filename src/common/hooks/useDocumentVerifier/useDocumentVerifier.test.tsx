@@ -1,6 +1,6 @@
 import sampleDoc from "../../../../fixtures/demo-oc.json";
 import { useDocumentVerifier } from "./index";
-import { SignedDocument } from "@govtechsg/open-attestation";
+import { WrappedDocument } from "@govtechsg/open-attestation";
 import { renderHook } from "@testing-library/react-hooks";
 import { CheckStatus } from "../../../components/Validity/";
 import { checkValidity } from "../../../services/DocumentVerifier";
@@ -25,7 +25,7 @@ describe("useDocumentVerifier", () => {
     ]);
 
     const { waitForNextUpdate } = renderHook(() =>
-      useDocumentVerifier(sampleDoc as SignedDocument)
+      useDocumentVerifier(sampleDoc as WrappedDocument)
     );
     await waitForNextUpdate();
     expect(mockCheckValidity.mock.calls[0][1]).toBe("mainnet");
@@ -52,7 +52,7 @@ describe("useDocumentVerifier", () => {
     ]);
 
     const { result, waitForNextUpdate } = renderHook(() =>
-      useDocumentVerifier(sampleDoc as SignedDocument)
+      useDocumentVerifier(sampleDoc as WrappedDocument)
     );
 
     expect(result.current).toStrictEqual({
