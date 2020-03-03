@@ -20,11 +20,12 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
   const document: OAWrappedDocument = navigation.getParam("document");
   const isSavable: boolean = navigation.getParam("savable");
   const statuses: VerificationStatuses = navigation.getParam("statuses");
-
+  const issuerName: string = navigation.getParam("issuerName");
   const { issuers } = getData(document);
   const id = document.signature.targetHash;
-  const issuedBy =
-    issuers[0]?.identityProof?.location || "Issuer's identity not found";
+  const issuedBy = issuerName
+    ? issuerName
+    : issuers[0]?.identityProof?.location || "Issuer's identity not found";
   const navigateToDocument = resetRouteFn(navigation, "LocalDocumentScreen", {
     id
   });

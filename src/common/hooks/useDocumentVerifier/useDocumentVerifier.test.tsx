@@ -1,3 +1,8 @@
+// FIX - should return the correct check status as the checks resolve at different times fails
+
+//Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.Timeout - Async callback w
+// as not invoked within the 5000ms timeout specified by jest.setTimeout.Error:
+
 import demoOc from "../../../../fixtures/demo-oc.json";
 import { useDocumentVerifier, handleVerificationFragment } from "./index";
 import { renderHook } from "@testing-library/react-hooks";

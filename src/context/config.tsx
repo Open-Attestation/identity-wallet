@@ -7,10 +7,11 @@ import React, {
 } from "react";
 import { AsyncStorage } from "react-native";
 import { LoadingView } from "../components/Loading";
-import { NetworkTypes } from "../types";
+import { NetworkTypes, VerifierTypes } from "../types";
 
 export interface Config {
   network: NetworkTypes;
+  verifier: VerifierTypes;
 }
 
 interface ConfigContext {
@@ -19,7 +20,10 @@ interface ConfigContext {
 }
 
 const CONFIG_KEY = "CONFIG";
-const DEFAULT_CONFIG: Config = { network: NetworkTypes.ropsten };
+const DEFAULT_CONFIG: Config = {
+  network: NetworkTypes.ropsten,
+  verifier: VerifierTypes.OpenAttestation
+};
 
 const ConfigContext = createContext<ConfigContext>({
   config: DEFAULT_CONFIG,

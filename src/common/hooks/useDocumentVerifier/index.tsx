@@ -1,16 +1,17 @@
 import {
   useEffect,
+  useCallback,
   useState,
   Dispatch,
   SetStateAction,
-  useCallback,
   useRef
 } from "react";
 import { CheckStatus } from "../../../components/Validity";
 import { checkValidity } from "../../../services/DocumentVerifier";
 import { useConfigContext } from "../../../context/config";
 import { VerificationFragmentStatus } from "@govtechsg/oa-verify";
-import { OAWrappedDocument } from "../../../types";
+import { VerifierTypes, OAWrappedDocument } from "../../../types";
+import { isValid as ocIsValid } from "@govtechsg/opencerts-verify";
 
 export interface VerificationStatuses {
   tamperedCheck: CheckStatus;
@@ -23,8 +24,8 @@ export interface VerificationStatuses {
 export interface DocumentVerifier {
   statuses: VerificationStatuses;
   verify: (document: OAWrappedDocument) => void;
+  issuerName: string;
 }
-
 export const handleVerificationFragment = (
   status: VerificationFragmentStatus,
   setStateFn: Dispatch<SetStateAction<CheckStatus>>
@@ -39,14 +40,17 @@ export const handleVerificationFragment = (
 
 export const useDocumentVerifier = (): DocumentVerifier => {
   const {
-    config: { network }
+    config: { network, verifier }
   } = useConfigContext();
+
   const cancelled = useRef(false);
   const [tamperedCheck, setTamperedCheck] = useState(CheckStatus.CHECKING);
   const [issuedCheck, setIssuedCheck] = useState(CheckStatus.CHECKING);
   const [revokedCheck, setRevokedCheck] = useState(CheckStatus.CHECKING);
   const [issuerCheck, setIssuerCheck] = useState(CheckStatus.CHECKING);
   const [overallValidity, setOverallValidity] = useState(CheckStatus.CHECKING);
+  const [issuerName, setIssuerName] = useState(CheckStatus.CHECKING);
+  const isOpenCerts = verifier === VerifierTypes.OpenCerts;
 
   useEffect(() => {
     cancelled.current = false;
@@ -66,6 +70,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
       const isOverallValid = await checkValidity(
         document,
         network,
+        verifier,
         ([verifyHash, verifyIssued, verifyRevoked, verifyIdentity]) => {
           verifyHash.then(({ status }) => {
             !cancelled.current &&
@@ -79,11 +84,23 @@ export const useDocumentVerifier = (): DocumentVerifier => {
             !cancelled.current &&
               handleVerificationFragment(status, setRevokedCheck);
           });
-          verifyIdentity.then(({ status }) => {
-            !cancelled.current &&
-              handleVerificationFragment(status, setIssuerCheck);
+
+          (verifyIdentity as Promise<any>).then(v => {
+            setIssuerName(isOpenCerts ? v[v.length - 1].data[0].name : null);
+            if (isOpenCerts) {
+              !cancelled.current &&
+                setIssuerCheck(
+                  ocIsValid(v) ? CheckStatus.VALID : CheckStatus.INVALID
+                );
+            } else {
+              !cancelled.current &&
+                setIssuerCheck(
+                  v.identifiedOnAll ? CheckStatus.VALID : CheckStatus.INVALID
+                );
+            }
           });
-        }
+        },
+        null //verify param not given
       );
 
       if (!cancelled.current) {
@@ -92,7 +109,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
         );
       }
     },
-    [network]
+    [isOpenCerts, network, verifier]
   );
 
   return {
@@ -103,6 +120,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
       issuerCheck,
       overallValidity
     },
-    verify
+    verify,
+    issuerName
   };
 };

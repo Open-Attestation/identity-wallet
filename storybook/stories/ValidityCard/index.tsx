@@ -1,3 +1,5 @@
+// FIX - actual validity card failing
+
 import React, { useState, useEffect, FunctionComponent, useRef } from "react";
 import { storiesOf } from "@storybook/react-native";
 import { CenterDecorator } from "../decorators";

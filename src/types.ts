@@ -35,3 +35,8 @@ export enum NetworkTypes {
   ropsten = "ropsten",
   mainnet = "mainnet"
 }
+
+export enum VerifierTypes {
+  OpenAttestation = "Open Attestation",
+  OpenCerts = "OpenCerts"
+}
