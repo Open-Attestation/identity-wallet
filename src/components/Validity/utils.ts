@@ -45,12 +45,6 @@ export function getStatusProps<T extends {}>(
         backgroundColor: color("red", 20),
         ...overrides?.[CheckStatus.INVALID]
       };
-    case CheckStatus.ERROR:
-      return {
-        color: color("grey", 30),
-        backgroundColor: color("yellow", 20),
-        ...overrides?.[CheckStatus.ERROR]
-      };
     case CheckStatus.CHECKING:
     default:
       return {

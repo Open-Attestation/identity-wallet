@@ -106,19 +106,19 @@ describe("handleVerificationFragment", () => {
     expect(setStateFn).toHaveBeenCalledWith(CheckStatus.INVALID);
   });
 
-  it("should set state when fragment status is ERROR", () => {
+  it("should set invalid state when fragment status is ERROR", () => {
     expect.assertions(1);
     const setStateFn = jest.fn();
     handleVerificationFragment("ERROR", setStateFn);
 
-    expect(setStateFn).toHaveBeenCalledWith(CheckStatus.ERROR);
+    expect(setStateFn).toHaveBeenCalledWith(CheckStatus.INVALID);
   });
 
-  it("should set error state when fragment status is not one of the check status", () => {
+  it("should set invalid state when fragment status is not one of the check status", () => {
     expect.assertions(1);
     const setStateFn = jest.fn();
     handleVerificationFragment("SKIPPED", setStateFn);
 
-    expect(setStateFn).toHaveBeenCalledWith(CheckStatus.ERROR);
+    expect(setStateFn).toHaveBeenCalledWith(CheckStatus.INVALID);
   });
 });

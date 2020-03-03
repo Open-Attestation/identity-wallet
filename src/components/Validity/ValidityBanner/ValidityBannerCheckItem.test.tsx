@@ -6,8 +6,7 @@ import { CheckStatus } from "../constants";
 const messages = {
   [CheckStatus.CHECKING]: { message: "Checking" },
   [CheckStatus.INVALID]: { message: "Invalid" },
-  [CheckStatus.VALID]: { message: "Valid" },
-  [CheckStatus.ERROR]: { message: "Error" }
+  [CheckStatus.VALID]: { message: "Valid" }
 };
 
 describe("ValidityCheckItem", () => {
@@ -52,21 +51,6 @@ describe("ValidityCheckItem", () => {
       );
       expect(queryByTestId("validity-check-message")).toHaveTextContent(
         "Valid"
-      );
-    });
-  });
-
-  describe("when checkStatus is error", () => {
-    it("should render with the correct message", () => {
-      expect.assertions(1);
-      const { queryByTestId } = render(
-        <ValidityCheckItem
-          checkStatus={CheckStatus.ERROR}
-          messages={messages}
-        />
-      );
-      expect(queryByTestId("validity-check-message")).toHaveTextContent(
-        "Error"
       );
     });
   });

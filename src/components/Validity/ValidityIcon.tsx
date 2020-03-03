@@ -53,11 +53,6 @@ export const ValidityIcon: FunctionComponent<ValidityIcon> = ({
       iconCategory: AntDesign,
       iconName: "loading2",
       color: color("grey", 20)
-    },
-    [CheckStatus.ERROR]: {
-      iconCategory: Feather,
-      iconName: "alert-triangle",
-      color: color("grey", 20)
     }
   });
 

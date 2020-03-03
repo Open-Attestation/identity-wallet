@@ -4,7 +4,7 @@ import { VerificationFragment } from "@govtechsg/oa-verify";
 
 describe("DocumentVerifier", () => {
   describe("checkValidity", () => {
-    it("should return valid when all checks are valid", async () => {
+    it("should return true when all checks are valid", async () => {
       expect.assertions(1);
       const mockVerify = jest.fn(
         (): Promise<VerificationFragment<any>[]> =>
@@ -21,10 +21,10 @@ describe("DocumentVerifier", () => {
         jest.fn(),
         mockVerify
       );
-      expect(result).toBe("VALID");
+      expect(result).toBe(true);
     });
 
-    it("should return error when somes checks errored", async () => {
+    it("should return false when somes checks errored", async () => {
       expect.assertions(1);
       const mockVerify = jest.fn(
         (): Promise<VerificationFragment<any>[]> =>
@@ -41,17 +41,17 @@ describe("DocumentVerifier", () => {
         jest.fn(),
         mockVerify
       );
-      expect(result).toBe("ERROR");
+      expect(result).toBe(false);
     });
 
-    it("should return error when somes checks skipped", async () => {
+    it("should return false when somes checks skipped", async () => {
       expect.assertions(1);
       const mockVerify = jest.fn(
         (): Promise<VerificationFragment<any>[]> =>
           Promise.resolve([
             { name: "", type: "DOCUMENT_INTEGRITY", status: "VALID" },
             { name: "", type: "DOCUMENT_STATUS", status: "VALID" },
-            { name: "", type: "DOCUMENT_STATUS", status: "VALID" },
+            { name: "", type: "DOCUMENT_STATUS", status: "SKIPPED" },
             { name: "", type: "ISSUER_IDENTITY", status: "SKIPPED" }
           ])
       );
@@ -61,10 +61,10 @@ describe("DocumentVerifier", () => {
         jest.fn(),
         mockVerify
       );
-      expect(result).toBe("ERROR");
+      expect(result).toBe(false);
     });
 
-    it("should return invalid when somes checks are invalid", async () => {
+    it("should return false when somes checks are invalid", async () => {
       expect.assertions(1);
       const mockVerify = jest.fn(
         (): Promise<VerificationFragment<any>[]> =>
@@ -81,10 +81,10 @@ describe("DocumentVerifier", () => {
         jest.fn(),
         mockVerify
       );
-      expect(result).toBe("INVALID");
+      expect(result).toBe(false);
     });
 
-    it("should return error when somes checks are invalid and some have errored", async () => {
+    it("should return false when somes checks are invalid and some have errored", async () => {
       expect.assertions(1);
       const mockVerify = jest.fn(
         (): Promise<VerificationFragment<any>[]> =>
@@ -101,7 +101,7 @@ describe("DocumentVerifier", () => {
         jest.fn(),
         mockVerify
       );
-      expect(result).toBe("ERROR");
+      expect(result).toBe(false);
     });
   });
 });

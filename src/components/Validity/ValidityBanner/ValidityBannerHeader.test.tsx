@@ -150,25 +150,6 @@ describe("ValidityBannerHeader", () => {
     });
   });
 
-  describe("when some checks errored", () => {
-    it("should show the error label", async () => {
-      expect.assertions(1);
-      const { queryByTestId } = render(
-        <ValidityBannerHeader
-          isConnected={true}
-          checkStatus={CheckStatus.ERROR}
-          onPress={jest.fn()}
-        />
-      );
-
-      await wait(() => {
-        expect(queryByTestId("validity-header-label")).toHaveTextContent(
-          "Error"
-        );
-      });
-    });
-  });
-
   describe("when offline", () => {
     it("should use the same background color as when checkStatus is checking", () => {
       expect.assertions(1);

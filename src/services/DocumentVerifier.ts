@@ -2,14 +2,12 @@ import {
   verificationBuilder,
   openAttestationVerifiers,
   VerificationManagerOptions,
-  VerificationFragmentStatus
+  isValid
 } from "@govtechsg/oa-verify";
 import { OAWrappedDocument } from "../types";
 
-const verifiers = [
-  ...openAttestationVerifiers.slice(0, 2),
-  ...openAttestationVerifiers.slice(3, 5)
-];
+const verifiers = openAttestationVerifiers;
+verifiers.splice(2, 1); // Remove openAttestationEthereumTokenRegistryMinted
 const defaultVerify = verificationBuilder(verifiers);
 
 export const checkValidity = async (
@@ -17,20 +15,10 @@ export const checkValidity = async (
   network = "ropsten",
   promisesCallback: VerificationManagerOptions["promisesCallback"],
   verify = defaultVerify
-): Promise<VerificationFragmentStatus> => {
+): Promise<boolean> => {
   const overallResult = await verify(document, {
     network,
     promisesCallback
   });
-
-  const statuses = overallResult.map(f => f.status);
-  if (statuses.every(s => s === "VALID")) {
-    return "VALID";
-  } else if (statuses.some(s => s === "ERROR" || s === "SKIPPED")) {
-    // none of the tests should skip
-    return "ERROR";
-  } else if (statuses.some(s => s === "INVALID")) {
-    return "INVALID";
-  }
-  return "ERROR";
+  return isValid(overallResult);
 };

@@ -29,10 +29,11 @@ export const handleVerificationFragment = (
   status: VerificationFragmentStatus,
   setStateFn: Dispatch<SetStateAction<CheckStatus>>
 ): void => {
+  // This filters out unrecognised fragment statuses as INVALID
   if (Object.values(CheckStatus).includes(status as CheckStatus)) {
     setStateFn(status as CheckStatus);
   } else {
-    setStateFn(CheckStatus.ERROR);
+    setStateFn(CheckStatus.INVALID);
   }
 };
 
@@ -62,7 +63,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
       setIssuerCheck(CheckStatus.CHECKING);
       setOverallValidity(CheckStatus.CHECKING);
 
-      const overallValidityCheck = await checkValidity(
+      const isOverallValid = await checkValidity(
         document,
         network,
         ([verifyHash, verifyIssued, verifyRevoked, verifyIdentity]) => {
@@ -86,7 +87,9 @@ export const useDocumentVerifier = (): DocumentVerifier => {
       );
 
       if (!cancelled.current) {
-        handleVerificationFragment(overallValidityCheck, setOverallValidity);
+        setOverallValidity(
+          isOverallValid ? CheckStatus.VALID : CheckStatus.INVALID
+        );
       }
     },
     [network]

@@ -70,9 +70,6 @@ export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
       },
       [CheckStatus.CHECKING]: {
         label: "Verifying..."
-      },
-      [CheckStatus.ERROR]: {
-        label: "Error"
       }
     }
   );

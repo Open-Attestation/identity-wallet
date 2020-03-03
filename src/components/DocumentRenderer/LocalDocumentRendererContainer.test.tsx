@@ -122,30 +122,4 @@ describe("LocalDocumentRendererContainer", () => {
       expect(document).toHaveProperty("isVerified", false);
     });
   });
-
-  it("should not update the document when document status errored", async () => {
-    expect.assertions(3);
-    const atomicUpdate = jest.fn();
-    const document = {
-      document: sampleDocument,
-      isVerified: true,
-      verified: 1,
-      atomicUpdate
-    };
-    render(
-      <MockDbProvider>
-        <LocalDocumentRendererContainer navigation={mockNavigation} />
-      </MockDbProvider>
-    );
-    whenDbSubscriptionReturns(document);
-    await wait(() => {
-      sheetProps.onVerification(CheckStatus.ERROR);
-      expect(atomicUpdate).toHaveBeenCalledTimes(1);
-
-      // Call the update on the old document
-      atomicUpdate.mock.calls[0][0](document);
-      expect(document).toHaveProperty("isVerified", true);
-      expect(document).toHaveProperty("verified", 1);
-    });
-  });
 });
