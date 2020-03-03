@@ -16,8 +16,7 @@ export const ValidityCheckScreenContainer: FunctionComponent<NavigationProps> = 
 
   useEffect(() => {
     verify(document);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [document, verify]);
 
   useEffect(() => {
     let cancelled = false;
