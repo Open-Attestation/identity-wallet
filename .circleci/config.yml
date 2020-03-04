@@ -9,6 +9,9 @@ jobs:
           name: install
           command: npm install
       - run:
+          name: tsc
+          command: "./node_modules/typescript/bin/tsc"
+      - run:
           name: lint
           command: npm run lint
       - run:
