@@ -10,7 +10,7 @@ jobs:
           command: npm install
       - run:
           name: tsc
-          command: "./node_modules/typescript/bin/tsc"
+          command: npx --no-install tsc --noEmit
       - run:
           name: lint
           command: npm run lint
