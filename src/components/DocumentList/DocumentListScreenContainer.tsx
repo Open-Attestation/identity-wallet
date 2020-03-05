@@ -33,7 +33,7 @@ export const DocumentListScreenContainer: FunctionComponent<NavigationProps> = (
     const docClear = getData(doc.document);
     return {
       id: doc.id,
-      title: docClear.name,
+      title: (docClear as any).name, // TODO: figure out typing
       isVerified: doc.isVerified,
       lastVerification: doc.verified,
       issuedBy: getIssuerName(doc)
