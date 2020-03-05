@@ -11,7 +11,7 @@ describe("DocumentRenderer", () => {
   it("should render header and certificate element", () => {
     expect.assertions(2);
     const { queryByTestId } = render(
-      <DocumentRenderer document={sampleDoc} goBack={() => {}} />
+      <DocumentRenderer document={sampleDoc as any} goBack={() => {}} />
     );
     expect(queryByTestId("mock-web-view-frame")).not.toBeNull();
     expect(queryByTestId("header-bar")).not.toBeNull();
@@ -20,7 +20,7 @@ describe("DocumentRenderer", () => {
   it("should render tabs correctly", () => {
     expect.assertions(2);
     const { queryByText } = render(
-      <DocumentRenderer document={sampleDoc} goBack={() => {}} />
+      <DocumentRenderer document={sampleDoc as any} goBack={() => {}} />
     );
     expect(queryByText(mockTabs[0].label)).not.toBeNull();
     expect(queryByText(mockTabs[1].label)).not.toBeNull();
@@ -29,7 +29,7 @@ describe("DocumentRenderer", () => {
   it("should render content correctly", () => {
     expect.assertions(1);
     const { queryByText } = render(
-      <DocumentRenderer document={sampleDoc} goBack={() => {}} />
+      <DocumentRenderer document={sampleDoc as any} goBack={() => {}} />
     );
     expect(queryByText(contentOfTab("tab-1"))).not.toBeNull();
   });
@@ -37,7 +37,7 @@ describe("DocumentRenderer", () => {
   it("should switch view when tabs are pressed", async () => {
     expect.assertions(4);
     const { getByText, queryByText } = render(
-      <DocumentRenderer document={sampleDoc} goBack={() => {}} />
+      <DocumentRenderer document={sampleDoc as any} goBack={() => {}} />
     );
     expect(queryByText(contentOfTab("tab-1"))).not.toBeNull();
     expect(queryByText(contentOfTab("tab-2"))).toBeNull();

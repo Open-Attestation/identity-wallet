@@ -43,7 +43,7 @@ describe("QrCodeContainer", () => {
     });
     const { queryByText } = render(
       <NetworkContext.Provider value={{ isConnected: false }}>
-        <QrCodeContainer document={testDocument} refreshPaused={false} />
+        <QrCodeContainer document={testDocument as any} refreshPaused={false} />
       </NetworkContext.Provider>
     );
 
@@ -63,7 +63,7 @@ describe("QrCodeContainer", () => {
     });
     const { queryByText } = render(
       <NetworkContext.Provider value={{ isConnected: true }}>
-        <QrCodeContainer document={testDocument} refreshPaused={false} />
+        <QrCodeContainer document={testDocument as any} refreshPaused={false} />
       </NetworkContext.Provider>
     );
 
@@ -83,7 +83,7 @@ describe("QrCodeContainer", () => {
     });
     const { queryByText } = render(
       <NetworkContext.Provider value={{ isConnected: false }}>
-        <QrCodeContainer document={testDocument} refreshPaused={false} />
+        <QrCodeContainer document={testDocument as any} refreshPaused={false} />
       </NetworkContext.Provider>
     );
 
@@ -105,7 +105,7 @@ describe("QrCodeContainer", () => {
     });
     const { queryByText } = render(
       <NetworkContext.Provider value={{ isConnected: true }}>
-        <QrCodeContainer document={testDocument} refreshPaused={false} />
+        <QrCodeContainer document={testDocument as any} refreshPaused={false} />
       </NetworkContext.Provider>
     );
 
@@ -125,7 +125,7 @@ describe("QrCodeContainer", () => {
     });
     const { rerender } = render(
       <NetworkContext.Provider value={{ isConnected: false }}>
-        <QrCodeContainer document={testDocument} refreshPaused={false} />
+        <QrCodeContainer document={testDocument as any} refreshPaused={false} />
       </NetworkContext.Provider>
     );
     expect(mockAtomicUpdate).toHaveBeenCalledTimes(1);
@@ -137,7 +137,7 @@ describe("QrCodeContainer", () => {
     });
     rerender(
       <NetworkContext.Provider value={{ isConnected: false }}>
-        <QrCodeContainer document={testDocument} refreshPaused={false} />
+        <QrCodeContainer document={testDocument as any} refreshPaused={false} />
       </NetworkContext.Provider>
     );
     expect(mockAtomicUpdate).toHaveBeenCalledTimes(2);
@@ -148,7 +148,10 @@ describe("QrCodeContainer", () => {
       expect.assertions(1);
       const { queryByTestId } = render(
         <NetworkContext.Provider value={{ isConnected: true }}>
-          <QrCodeContainer document={testDocument} refreshPaused={false} />
+          <QrCodeContainer
+            document={testDocument as any}
+            refreshPaused={false}
+          />
         </NetworkContext.Provider>
       );
       expect(queryByTestId("offline-banner")).toBeNull();
@@ -171,7 +174,10 @@ describe("QrCodeContainer", () => {
       });
       render(
         <NetworkContext.Provider value={{ isConnected: true }}>
-          <QrCodeContainer document={testDocument} refreshPaused={false} />
+          <QrCodeContainer
+            document={testDocument as any}
+            refreshPaused={false}
+          />
         </NetworkContext.Provider>
       );
       expect(mockStartCountdown).toHaveBeenCalledTimes(1);
@@ -193,7 +199,10 @@ describe("QrCodeContainer", () => {
       });
       render(
         <NetworkContext.Provider value={{ isConnected: true }}>
-          <QrCodeContainer document={testDocument} refreshPaused={false} />
+          <QrCodeContainer
+            document={testDocument as any}
+            refreshPaused={false}
+          />
         </NetworkContext.Provider>
       );
       expect(mockGenerateQr).toHaveBeenCalledTimes(1);
@@ -213,7 +222,10 @@ describe("QrCodeContainer", () => {
       });
       render(
         <NetworkContext.Provider value={{ isConnected: true }}>
-          <QrCodeContainer document={testDocument} refreshPaused={true} />
+          <QrCodeContainer
+            document={testDocument as any}
+            refreshPaused={true}
+          />
         </NetworkContext.Provider>
       );
       expect(mockGenerateQr).toHaveBeenCalledTimes(0);
@@ -233,7 +245,10 @@ describe("QrCodeContainer", () => {
       });
       render(
         <NetworkContext.Provider value={{ isConnected: true }}>
-          <QrCodeContainer document={testDocument} refreshPaused={false} />
+          <QrCodeContainer
+            document={testDocument as any}
+            refreshPaused={false}
+          />
         </NetworkContext.Provider>
       );
       expect(mockGenerateQr).toHaveBeenCalledTimes(0);
@@ -253,7 +268,10 @@ describe("QrCodeContainer", () => {
       });
       render(
         <NetworkContext.Provider value={{ isConnected: true }}>
-          <QrCodeContainer document={testDocument} refreshPaused={false} />
+          <QrCodeContainer
+            document={testDocument as any}
+            refreshPaused={false}
+          />
         </NetworkContext.Provider>
       );
       expect(mockGenerateQr).toHaveBeenCalledTimes(0);
@@ -275,7 +293,7 @@ describe("QrCodeContainer", () => {
       render(
         <NetworkContext.Provider value={{ isConnected: true }}>
           <QrCodeContainer
-            document={testDocument}
+            document={testDocument as any}
             refreshPaused={false}
             ref={qrCodeContainerRef}
           />
@@ -293,7 +311,10 @@ describe("QrCodeContainer", () => {
       expect.assertions(1);
       const { queryByTestId } = render(
         <NetworkContext.Provider value={{ isConnected: false }}>
-          <QrCodeContainer document={testDocument} refreshPaused={false} />
+          <QrCodeContainer
+            document={testDocument as any}
+            refreshPaused={false}
+          />
         </NetworkContext.Provider>
       );
       expect(queryByTestId("offline-banner")).not.toBeNull();
@@ -316,7 +337,10 @@ describe("QrCodeContainer", () => {
       });
       render(
         <NetworkContext.Provider value={{ isConnected: false }}>
-          <QrCodeContainer document={testDocument} refreshPaused={false} />
+          <QrCodeContainer
+            document={testDocument as any}
+            refreshPaused={false}
+          />
         </NetworkContext.Provider>
       );
       expect(mockStartCountdown).toHaveBeenCalledTimes(1);
@@ -338,7 +362,10 @@ describe("QrCodeContainer", () => {
       });
       const { queryByText } = render(
         <NetworkContext.Provider value={{ isConnected: false }}>
-          <QrCodeContainer document={testDocument} refreshPaused={false} />
+          <QrCodeContainer
+            document={testDocument as any}
+            refreshPaused={false}
+          />
         </NetworkContext.Provider>
       );
       expect(mockGenerateQr).toHaveBeenCalledTimes(0);
@@ -361,7 +388,7 @@ describe("QrCodeContainer", () => {
       render(
         <NetworkContext.Provider value={{ isConnected: false }}>
           <QrCodeContainer
-            document={testDocument}
+            document={testDocument as any}
             refreshPaused={false}
             ref={qrCodeContainerRef}
           />

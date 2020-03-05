@@ -1,9 +1,8 @@
-import { Document } from "@govtechsg/open-attestation";
 import {
   ROPSTEN_STORAGE_API_ENDPOINT,
   MAINNET_STORAGE_API_ENDPOINT
 } from "../../config";
-import { NetworkTypes } from "../../types";
+import { NetworkTypes, OAWrappedDocument } from "../../types";
 
 export interface StorageApiResponse {
   id: string;
@@ -20,7 +19,7 @@ const DEFAULT_TTL_MS = 10 * 60 * 1000;
  * @param ttl TTL in milliseconds
  */
 export const uploadDocument = async (
-  document: Document,
+  document: OAWrappedDocument,
   network: NetworkTypes,
   ttl = DEFAULT_TTL_MS
 ): Promise<{ url: string; expiry?: number }> => {

@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
 });
 
 interface ValidityBannerHeader {
+  isConnected: boolean;
   checkStatus: CheckStatus;
   onPress: () => void;
   isExpanded?: boolean;
@@ -52,22 +53,26 @@ interface ValidityBannerHeader {
 }
 
 export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
+  isConnected,
   checkStatus,
   onPress,
   isExpanded = false,
   progress = 0
 }) => {
-  const { label, color, backgroundColor } = getStatusProps(checkStatus, {
-    [CheckStatus.VALID]: {
-      label: "Valid"
-    },
-    [CheckStatus.INVALID]: {
-      label: "Invalid"
-    },
-    [CheckStatus.CHECKING]: {
-      label: "Verifying..."
+  const { label, color, backgroundColor } = getStatusProps(
+    isConnected ? checkStatus : CheckStatus.CHECKING,
+    {
+      [CheckStatus.VALID]: {
+        label: "Valid"
+      },
+      [CheckStatus.INVALID]: {
+        label: "Invalid"
+      },
+      [CheckStatus.CHECKING]: {
+        label: "Verifying..."
+      }
     }
-  });
+  );
 
   const [showProgressBar, setShowProgressBar] = useState(true);
   useEffect(() => {
@@ -114,12 +119,21 @@ export const ValidityBannerHeader: FunctionComponent<ValidityBannerHeader> = ({
       >
         <View style={styles.validityStatusWrapper}>
           <View style={styles.validityStatus}>
-            <ValidityIcon checkStatus={checkStatus} size={size(2.5)} />
+            {isConnected ? (
+              <ValidityIcon checkStatus={checkStatus} size={size(2.5)} />
+            ) : (
+              <Feather
+                name="wifi-off"
+                size={size(2.5)}
+                color={colorPalette("grey", 20)}
+                testID="offline-icon"
+              />
+            )}
             <Text
               style={[styles.validityStatusText, { color }]}
               testID="validity-header-label"
             >
-              {label}
+              {isConnected ? label : "Offline"}
             </Text>
           </View>
           <Feather

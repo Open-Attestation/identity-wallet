@@ -2,6 +2,7 @@ import React from "react";
 import { render, wait, fireEvent } from "@testing-library/react-native";
 import { ValidityBannerHeader } from "./ValidityBannerHeader";
 import { CheckStatus } from "../constants";
+import { getStatusProps } from "../utils";
 
 jest.mock("../ValidityIcon", () => ({
   ValidityIcon: () => null
@@ -16,6 +17,7 @@ describe("ValidityBannerHeader", () => {
       const onPress = jest.fn();
       const { getByTestId } = render(
         <ValidityBannerHeader
+          isConnected={true}
           checkStatus={CheckStatus.VALID}
           onPress={onPress}
         />
@@ -30,6 +32,7 @@ describe("ValidityBannerHeader", () => {
       expect.assertions(1);
       const { queryByTestId } = render(
         <ValidityBannerHeader
+          isConnected={true}
           checkStatus={CheckStatus.CHECKING}
           isExpanded={true}
           onPress={jest.fn()}
@@ -49,6 +52,7 @@ describe("ValidityBannerHeader", () => {
       expect.assertions(1);
       const { queryByTestId } = render(
         <ValidityBannerHeader
+          isConnected={true}
           checkStatus={CheckStatus.CHECKING}
           isExpanded={false}
           onPress={jest.fn()}
@@ -68,6 +72,7 @@ describe("ValidityBannerHeader", () => {
       expect.assertions(2);
       const { queryByTestId } = render(
         <ValidityBannerHeader
+          isConnected={true}
           checkStatus={CheckStatus.VALID}
           isExpanded={false}
           onPress={jest.fn()}
@@ -95,6 +100,7 @@ describe("ValidityBannerHeader", () => {
       expect.assertions(1);
       const { queryByTestId } = render(
         <ValidityBannerHeader
+          isConnected={true}
           checkStatus={CheckStatus.CHECKING}
           onPress={jest.fn()}
         />
@@ -112,6 +118,7 @@ describe("ValidityBannerHeader", () => {
       expect.assertions(1);
       const { queryByTestId } = render(
         <ValidityBannerHeader
+          isConnected={true}
           checkStatus={CheckStatus.VALID}
           onPress={jest.fn()}
         />
@@ -129,6 +136,7 @@ describe("ValidityBannerHeader", () => {
       expect.assertions(1);
       const { queryByTestId } = render(
         <ValidityBannerHeader
+          isConnected={true}
           checkStatus={CheckStatus.INVALID}
           onPress={jest.fn()}
         />
@@ -139,6 +147,65 @@ describe("ValidityBannerHeader", () => {
           "Invalid"
         );
       });
+    });
+  });
+
+  describe("when offline", () => {
+    it("should use the same background color as when checkStatus is checking", () => {
+      expect.assertions(1);
+      const { backgroundColor: targetColor } = getStatusProps(
+        CheckStatus.CHECKING
+      );
+      const { queryByTestId } = render(
+        <ValidityBannerHeader
+          isConnected={false}
+          checkStatus={CheckStatus.VALID}
+          onPress={jest.fn()}
+        />
+      );
+      expect(queryByTestId("validity-header-button")).toHaveStyle({
+        backgroundColor: targetColor
+      });
+    });
+
+    it("should show the offline icon", () => {
+      expect.assertions(1);
+      const { queryByTestId } = render(
+        <ValidityBannerHeader
+          isConnected={false}
+          checkStatus={CheckStatus.VALID}
+          onPress={jest.fn()}
+        />
+      );
+      expect(queryByTestId("offline-icon")).not.toBeNull();
+    });
+
+    it("should show the offline text", () => {
+      expect.assertions(1);
+      const { queryByTestId } = render(
+        <ValidityBannerHeader
+          isConnected={false}
+          checkStatus={CheckStatus.VALID}
+          onPress={jest.fn()}
+        />
+      );
+      expect(queryByTestId("validity-header-label")).toHaveTextContent(
+        "Offline"
+      );
+    });
+  });
+
+  describe("when online", () => {
+    it("should not show the offline icon", () => {
+      expect.assertions(1);
+      const { queryByTestId } = render(
+        <ValidityBannerHeader
+          isConnected={true}
+          checkStatus={CheckStatus.VALID}
+          onPress={jest.fn()}
+        />
+      );
+      expect(queryByTestId("offline-icon")).toBeNull();
     });
   });
 });

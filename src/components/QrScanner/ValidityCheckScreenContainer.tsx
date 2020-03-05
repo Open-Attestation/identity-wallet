@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useEffect } from "react";
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
-import { NavigationProps } from "../../types";
-import { WrappedDocument } from "@govtechsg/open-attestation";
+import { NavigationProps, OAWrappedDocument } from "../../types";
 import { Header } from "../Layout/Header";
 import { CheckStatus } from "../Validity/constants";
 import { View, SafeAreaView } from "react-native";
@@ -11,19 +10,23 @@ import { replaceRouteFn } from "../../common/navigation";
 export const ValidityCheckScreenContainer: FunctionComponent<NavigationProps> = ({
   navigation
 }) => {
-  const document: WrappedDocument = navigation.getParam("document");
+  const document: OAWrappedDocument = navigation.getParam("document");
   const isSavable: boolean = navigation.getParam("savable");
-  const verificationStatuses = useDocumentVerifier(document as WrappedDocument);
+  const { statuses, verify } = useDocumentVerifier();
+
+  useEffect(() => {
+    verify(document);
+  }, [document, verify]);
 
   useEffect(() => {
     let cancelled = false;
-    if (verificationStatuses.overallValidity === CheckStatus.VALID) {
+    if (statuses.overallValidity === CheckStatus.VALID) {
       setTimeout(() => {
         if (!cancelled) {
           replaceRouteFn(navigation, "ScannedDocumentScreen", {
             document,
             savable: isSavable,
-            verificationStatuses
+            statuses
           })();
         }
       }, 500);
@@ -31,7 +34,7 @@ export const ValidityCheckScreenContainer: FunctionComponent<NavigationProps> = 
     return () => {
       cancelled = true;
     };
-  }, [document, isSavable, navigation, verificationStatuses]);
+  }, [document, isSavable, navigation, statuses]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -43,7 +46,7 @@ export const ValidityCheckScreenContainer: FunctionComponent<NavigationProps> = 
         }}
       />
       <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>
-        <ValidityCard {...verificationStatuses} />
+        <ValidityCard {...statuses} />
       </View>
     </SafeAreaView>
   );

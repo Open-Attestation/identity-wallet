@@ -4,7 +4,10 @@ import {
   NavigationRoute
 } from "react-navigation";
 import { RxDocument, RxCollection, RxDatabase } from "rxdb";
-import { Document } from "@govtechsg/open-attestation";
+import { v2, WrappedDocument } from "@govtechsg/open-attestation";
+
+export type Document = v2.OpenAttestationDocument;
+export type OAWrappedDocument = WrappedDocument<Document>;
 
 export interface NavigationProps {
   navigation: NavigationScreenProp<NavigationRoute, NavigationParams>;
@@ -13,7 +16,7 @@ export interface NavigationProps {
 export type DocumentProperties = {
   id: string;
   created: number;
-  document: Document;
+  document: OAWrappedDocument;
   verified?: number;
   isVerified?: boolean;
   qrCode?: {

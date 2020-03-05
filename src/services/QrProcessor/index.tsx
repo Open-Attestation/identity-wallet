@@ -1,4 +1,3 @@
-import { Document } from "@govtechsg/open-attestation";
 import { validateAction } from "../actionValidator/validator";
 import {
   DocumentPermittedAction,
@@ -8,6 +7,7 @@ import {
   fetchCleartextDocument,
   fetchEncryptedDocument
 } from "./fetchDocument";
+import { OAWrappedDocument } from "../../types";
 // The universal transfer method uses the query string's field as the action type
 // and the uriencoded value as the payload
 const universalTransferDataRegex = /https:\/\/action.openattestation.com\?q=(.*)/;
@@ -36,8 +36,8 @@ export const decodeAction = (data: string): Action => {
 };
 
 export interface QrHandler {
-  onDocumentStore: (fetchedDocument: Document) => void | Promise<void>;
-  onDocumentView: (fetchedDocument: Document) => void | Promise<void>;
+  onDocumentStore: (fetchedDocument: OAWrappedDocument) => void | Promise<void>;
+  onDocumentView: (fetchedDocument: OAWrappedDocument) => void | Promise<void>;
 }
 
 export const processQr = async (

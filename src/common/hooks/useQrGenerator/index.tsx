@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { uploadDocument } from "../../../services/DocumentSharing";
-import { Document } from "@govtechsg/open-attestation";
 import debounce from "lodash/debounce";
 import { useConfigContext } from "../../../context/config";
+import { OAWrappedDocument } from "../../../types";
 
 const GENERATE_QR_DEBOUNCE_MS = 500;
 
@@ -10,7 +10,7 @@ type QrCode = { url: string; expiry?: number };
 export interface QrGenerator {
   qrCode: QrCode;
   qrCodeLoading: boolean;
-  generateQr: (document: Document) => Promise<void>;
+  generateQr: (document: OAWrappedDocument) => Promise<void>;
 }
 
 export const useQrGenerator = (
@@ -31,7 +31,7 @@ export const useQrGenerator = (
   }, []);
 
   const generateQr = useCallback(
-    debounce(async (document: Document) => {
+    debounce(async (document: OAWrappedDocument) => {
       try {
         setQrCodeLoading(true);
         const code = await uploadDocument(document, network);

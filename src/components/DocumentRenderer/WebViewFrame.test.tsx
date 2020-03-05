@@ -9,7 +9,7 @@ describe("WebViewFrame", () => {
     const setGoToTab = jest.fn();
     render(
       <WebViewFrame
-        document={sampleDoc}
+        document={sampleDoc as any}
         setGoToTab={setGoToTab}
         setTabs={() => {}}
         setActiveTabId={() => {}}

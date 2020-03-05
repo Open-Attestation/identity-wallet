@@ -9,6 +9,9 @@ jobs:
           name: install
           command: npm install
       - run:
+          name: tsc
+          command: npx --no-install tsc --noEmit
+      - run:
           name: lint
           command: npm run lint
       - run:

@@ -1,7 +1,11 @@
 import React, { FunctionComponent } from "react";
-import { NavigationProps, DocumentProperties } from "../../types";
+import {
+  NavigationProps,
+  DocumentProperties,
+  OAWrappedDocument
+} from "../../types";
 import { DocumentRenderer } from "./DocumentRenderer";
-import { WrappedDocument, getData } from "@govtechsg/open-attestation";
+import { getData } from "@govtechsg/open-attestation";
 import { ScannedDocumentActionSheet } from "./ScannedDocumentActionSheet";
 import { useDbContext } from "../../context/db";
 import { resetRouteFn } from "../../common/navigation";
@@ -13,11 +17,9 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
   navigation
 }) => {
   const { db } = useDbContext();
-  const document: WrappedDocument = navigation.getParam("document");
+  const document: OAWrappedDocument = navigation.getParam("document");
   const isSavable: boolean = navigation.getParam("savable");
-  const verificationStatuses: VerificationStatuses = navigation.getParam(
-    "verificationStatuses"
-  );
+  const statuses: VerificationStatuses = navigation.getParam("statuses");
 
   const { issuers } = getData(document);
   const id = document.signature.targetHash;
@@ -33,7 +35,7 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
         created: Date.now(),
         document,
         verified: Date.now(),
-        isVerified: verificationStatuses.overallValidity === CheckStatus.VALID
+        isVerified: statuses.overallValidity === CheckStatus.VALID
       };
       await db!.documents.insert(documentToInsert);
       navigateToDocument();
@@ -53,7 +55,7 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
         goBack={() => navigation.goBack()}
       />
       <ScannedDocumentActionSheet
-        verificationStatuses={verificationStatuses}
+        verificationStatuses={statuses}
         issuedBy={issuedBy}
         isSavable={isSavable}
         onCancel={() => navigation.goBack()}

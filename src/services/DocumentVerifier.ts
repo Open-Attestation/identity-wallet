@@ -1,52 +1,24 @@
-import { verifyWithIndividualChecks } from "@govtechsg/oa-verify";
-import { WrappedDocument } from "@govtechsg/open-attestation";
-import { checkValidIdentity } from "./IdentityVerifier";
+import {
+  verificationBuilder,
+  openAttestationVerifiers,
+  VerificationManagerOptions,
+  isValid
+} from "@govtechsg/oa-verify";
+import { OAWrappedDocument } from "../types";
 
-// Ensures TS infers the type of the array as a tuple instead
-// https://github.com/Microsoft/TypeScript/pull/24897
-function tuple<T extends any[]>(...data: T): T {
-  return data;
-}
+const verifiers = openAttestationVerifiers;
+verifiers.splice(2, 1); // Remove openAttestationEthereumTokenRegistryMinted
+const defaultVerify = verificationBuilder(verifiers);
 
-// Let TS infer the return type
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const checkValidity = (
-  document: WrappedDocument,
-  network = "ropsten" // TODO: handle this based on some user selection of the network
-) => {
-  const isMainnet = network === "mainnet";
-  const networkName = isMainnet ? "homestead" : "ropsten";
-
-  const [verifyHash, verifyIssued, verifyRevoked] = verifyWithIndividualChecks(
-    document,
-    networkName
-  );
-
-  const verifyIdentity = checkValidIdentity(document, networkName);
-
-  // If any of the checks are invalid, resolve the overall validity early
-  const overallValidityCheck = Promise.all([
-    new Promise(async (resolve, reject) =>
-      (await verifyHash).checksumMatch ? resolve() : reject()
-    ),
-    new Promise(async (resolve, reject) =>
-      (await verifyIssued).issuedOnAll ? resolve() : reject()
-    ),
-    new Promise(async (resolve, reject) =>
-      (await verifyRevoked).revokedOnAny ? reject() : resolve()
-    ),
-    new Promise(async (resolve, reject) =>
-      (await verifyIdentity).identifiedOnAll ? resolve() : reject()
-    )
-  ])
-    .then(() => true)
-    .catch(() => false);
-
-  return tuple(
-    verifyHash,
-    verifyIssued,
-    verifyRevoked,
-    verifyIdentity,
-    overallValidityCheck
-  );
+export const checkValidity = async (
+  document: OAWrappedDocument,
+  network = "ropsten",
+  promisesCallback: VerificationManagerOptions["promisesCallback"],
+  verify = defaultVerify
+): Promise<boolean> => {
+  const overallResult = await verify(document, {
+    network,
+    promisesCallback
+  });
+  return isValid(overallResult);
 };

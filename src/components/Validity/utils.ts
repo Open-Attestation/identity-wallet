@@ -6,7 +6,7 @@ type StatusProps<T extends {}> = T & {
   backgroundColor: string;
 };
 
-type OverrideStatusProps<T extends {}> = { [status in CheckStatus]: T };
+type OverrideStatusProps<T extends {}> = { [status in CheckStatus]?: T };
 
 /**
  * Returns the status props for the given checkStatus.

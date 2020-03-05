@@ -1,8 +1,16 @@
-import { useEffect, useState } from "react";
-import { WrappedDocument } from "@govtechsg/open-attestation";
+import {
+  useEffect,
+  useState,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useRef
+} from "react";
 import { CheckStatus } from "../../../components/Validity";
 import { checkValidity } from "../../../services/DocumentVerifier";
 import { useConfigContext } from "../../../context/config";
+import { VerificationFragmentStatus } from "@govtechsg/oa-verify";
+import { OAWrappedDocument } from "../../../types";
 
 export interface VerificationStatuses {
   tamperedCheck: CheckStatus;
@@ -12,12 +20,28 @@ export interface VerificationStatuses {
   overallValidity: CheckStatus;
 }
 
-export const useDocumentVerifier = (
-  document: WrappedDocument
-): VerificationStatuses => {
+export interface DocumentVerifier {
+  statuses: VerificationStatuses;
+  verify: (document: OAWrappedDocument) => void;
+}
+
+export const handleVerificationFragment = (
+  status: VerificationFragmentStatus,
+  setStateFn: Dispatch<SetStateAction<CheckStatus>>
+): void => {
+  // This filters out unrecognised fragment statuses as INVALID
+  if (Object.values(CheckStatus).includes(status as CheckStatus)) {
+    setStateFn(status as CheckStatus);
+  } else {
+    setStateFn(CheckStatus.INVALID);
+  }
+};
+
+export const useDocumentVerifier = (): DocumentVerifier => {
   const {
     config: { network }
   } = useConfigContext();
+  const cancelled = useRef(false);
   const [tamperedCheck, setTamperedCheck] = useState(CheckStatus.CHECKING);
   const [issuedCheck, setIssuedCheck] = useState(CheckStatus.CHECKING);
   const [revokedCheck, setRevokedCheck] = useState(CheckStatus.CHECKING);
@@ -25,60 +49,60 @@ export const useDocumentVerifier = (
   const [overallValidity, setOverallValidity] = useState(CheckStatus.CHECKING);
 
   useEffect(() => {
-    let cancelled = false;
-    const [
-      verifyHash,
-      verifyIssued,
-      verifyRevoked,
-      verifyIdentity,
-      overallValidityCheck
-    ] = checkValidity(document, network);
-
-    verifyHash.then(
-      v =>
-        !cancelled &&
-        setTamperedCheck(
-          v.checksumMatch ? CheckStatus.VALID : CheckStatus.INVALID
-        )
-    );
-    verifyIssued.then(
-      v =>
-        !cancelled &&
-        setIssuedCheck(v.issuedOnAll ? CheckStatus.VALID : CheckStatus.INVALID)
-    );
-
-    verifyRevoked.then(
-      v =>
-        !cancelled &&
-        setRevokedCheck(
-          v.revokedOnAny ? CheckStatus.INVALID : CheckStatus.VALID
-        )
-    );
-
-    verifyIdentity.then(
-      v =>
-        !cancelled &&
-        setIssuerCheck(
-          v.identifiedOnAll ? CheckStatus.VALID : CheckStatus.INVALID
-        )
-    );
-
-    overallValidityCheck.then(
-      v =>
-        !cancelled &&
-        setOverallValidity(v ? CheckStatus.VALID : CheckStatus.INVALID)
-    );
-
+    cancelled.current = false;
     return () => {
-      cancelled = true;
+      cancelled.current = true;
     };
-  }, [document, network]);
+  }, []);
+
+  const verify = useCallback(
+    async (document: OAWrappedDocument) => {
+      setTamperedCheck(CheckStatus.CHECKING);
+      setIssuedCheck(CheckStatus.CHECKING);
+      setRevokedCheck(CheckStatus.CHECKING);
+      setIssuerCheck(CheckStatus.CHECKING);
+      setOverallValidity(CheckStatus.CHECKING);
+
+      const isOverallValid = await checkValidity(
+        document,
+        network,
+        ([verifyHash, verifyIssued, verifyRevoked, verifyIdentity]) => {
+          verifyHash.then(({ status }) => {
+            !cancelled.current &&
+              handleVerificationFragment(status, setTamperedCheck);
+          });
+          verifyIssued.then(({ status }) => {
+            !cancelled.current &&
+              handleVerificationFragment(status, setIssuedCheck);
+          });
+          verifyRevoked.then(({ status }) => {
+            !cancelled.current &&
+              handleVerificationFragment(status, setRevokedCheck);
+          });
+          verifyIdentity.then(({ status }) => {
+            !cancelled.current &&
+              handleVerificationFragment(status, setIssuerCheck);
+          });
+        }
+      );
+
+      if (!cancelled.current) {
+        setOverallValidity(
+          isOverallValid ? CheckStatus.VALID : CheckStatus.INVALID
+        );
+      }
+    },
+    [network]
+  );
 
   return {
-    tamperedCheck,
-    issuedCheck,
-    revokedCheck,
-    issuerCheck,
-    overallValidity
+    statuses: {
+      tamperedCheck,
+      issuedCheck,
+      revokedCheck,
+      issuerCheck,
+      overallValidity
+    },
+    verify
   };
 };
