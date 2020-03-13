@@ -37,6 +37,6 @@ export enum NetworkTypes {
 }
 
 export enum VerifierTypes {
-  OpenAttestation = "Open Attestation",
+  OpenAttestation = "OpenAttestation",
   OpenCerts = "OpenCerts"
 }
