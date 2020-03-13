@@ -99,8 +99,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
                 );
             }
           });
-        },
-        null //verify param not given
+        }
       );
 
       if (!cancelled.current) {
