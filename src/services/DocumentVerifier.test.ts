@@ -1,27 +1,71 @@
 // FIX - test is failing
 
-import { checkValidity } from './DocumentVerifier';
-import { OAWrappedDocument } from '../types';
-import { VerificationFragment } from '@govtechsg/oa-verify';
+import { checkValidity } from "./DocumentVerifier";
+import { OAWrappedDocument } from "../types";
 
-jest.mock('./DocumentVerifier.ts');
-const mockVerifyHash = verifyHash as jest.Mock; // i have to export verifyhash, but it is within another export so i cannot
+const mockOpenAttestationHash = jest.fn();
+const mockOpenAttestationEthereumDocumentStoreIssued = jest.fn();
+const mockOpenAttestationEthereumDocumentStoreRevoked = jest.fn();
+const mockOpenAttestationDnsTxt = jest.fn();
+jest.mock("@govtechsg/oa-verify", () => {
+  return {
+    openAttestationHash: {
+      verify: () => {
+        return mockOpenAttestationHash();
+      }
+    },
+    openAttestationEthereumDocumentStoreIssued: {
+      verify: () => {
+        return mockOpenAttestationEthereumDocumentStoreIssued();
+      }
+    },
+    openAttestationEthereumDocumentStoreRevoked: {
+      verify: () =>{
+        return mockOpenAttestationEthereumDocumentStoreRevoked();
+      }
+    },
+    openAttestationDnsTxt: {
+      verify: () => {
+        return mockOpenAttestationDnsTxt();
+      }
+    }
+  };
+});
 
-describe('DocumentVerifier', () => {
-  describe('checkValidity', () => {
-    it('should return true when all checks are valid', async () => {
+describe("DocumentVerifier", () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+  describe("checkValidity", () => {
+    it("should return true when all checks are valid", async () => {
       expect.assertions(1);
-
-      // i have to mock the 4 verifiers within. verifyHash etc
-      const mockVerifyHash = just;
+      mockOpenAttestationHash.mockResolvedValue(Promise.resolve({ status: "VALID" }));
+      mockOpenAttestationEthereumDocumentStoreIssued.mockResolvedValue(Promise.resolve({ status: "VALID" }));
+      mockOpenAttestationEthereumDocumentStoreRevoked.mockResolvedValue(Promise.resolve({ status: "VALID" }));
+      mockOpenAttestationDnsTxt.mockResolvedValue(Promise.resolve({ status: "VALID" }));
 
       const result = await checkValidity(
         {} as OAWrappedDocument,
-        'ropsten',
-        'OpenAttestation',
-        jest.fn(),
+        "ropsten",
+        "OpenAttestation",
+        jest.fn()
       );
       expect(result).toBe(true);
+    });
+    it("should return be false MF", async () => {
+      expect.assertions(1);
+      mockOpenAttestationHash.mockResolvedValue(Promise.resolve({ status: "VALID" }));
+      mockOpenAttestationEthereumDocumentStoreIssued.mockResolvedValue(Promise.resolve({ status: "VALID" }));
+      mockOpenAttestationEthereumDocumentStoreRevoked.mockResolvedValue(Promise.resolve({ status: "VALID" }));
+      mockOpenAttestationDnsTxt.mockResolvedValue(Promise.resolve({ status: "ERROR" }));
+
+      const result = await checkValidity(
+        {} as OAWrappedDocument,
+        "ropsten",
+        "OpenAttestation",
+        jest.fn()
+      );
+      expect(result).toBe(false);
     });
 
     // it('should return false when somes checks errored', async () => {

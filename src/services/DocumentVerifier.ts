@@ -154,16 +154,16 @@ export const checkValidity = (
   // If any of the checks are invalid, resolve the overall validity early
   return Promise.all([
     new Promise(async (resolve, reject) =>
-      (await verifyHash).status === CheckStatus.VALID ? resolve() : reject()
+      (await verifyHash).status === CheckStatus.VALID ? resolve() : reject("PLEASE ADD A MESSAGE HERE")
     ),
     new Promise(async (resolve, reject) =>
-      (await verifyIssued).status === CheckStatus.VALID ? resolve() : reject()
+      (await verifyIssued).status === CheckStatus.VALID ? resolve() : reject("PLEASE ADD A MESSAGE HERE")
     ),
     new Promise(async (resolve, reject) =>
-      (await verifyRevoked).status === CheckStatus.VALID ? resolve() : reject()
+      (await verifyRevoked).status === CheckStatus.VALID ? resolve() : reject("PLEASE ADD A MESSAGE HERE")
     ),
     new Promise(async (resolve, reject) =>
-      (await verifyIdentity).status === CheckStatus.VALID ? resolve() : reject()
+      (await verifyIdentity).status === CheckStatus.VALID ? resolve() : reject("PLEASE ADD A MESSAGE HERE")
     )
   ])
     .then(() => true)
