@@ -1,10 +1,15 @@
-import { openAttestationVerifiers } from "@govtechsg/oa-verify";
+import {
+  openAttestationHash,
+  openAttestationEthereumDocumentStoreIssued,
+  openAttestationEthereumDocumentStoreRevoked,
+  openAttestationDnsTxt,
+} from '@govtechsg/oa-verify';
 import {
   isValid as ocIsValid,
-  registryVerifier
-} from "@govtechsg/opencerts-verify";
-import { NetworkTypes, OAWrappedDocument, VerifierTypes } from "../types";
-import { CheckStatus } from "../components/Validity";
+  registryVerifier,
+} from '@govtechsg/opencerts-verify';
+import { NetworkTypes, OAWrappedDocument, VerifierTypes } from '../types';
+import { CheckStatus } from '../components/Validity';
 
 export interface OaVerifyIdentity {
   identifiedOnAll: boolean;
@@ -18,60 +23,61 @@ export const checkValidity = (
   network: NetworkTypes = NetworkTypes.ropsten,
   verifier: VerifierTypes,
   promisesCallback: (
-    statuses: Promise<{ status: CheckStatus; issuerName?: string }>[]
-  ) => void
+    statuses: Promise<{ status: CheckStatus; issuerName?: string }>[],
+  ) => void,
 ) => {
   // TODO why do we need to transform mainnet to homestead ? why not using homestead in the enum
   const networkName =
-    network === NetworkTypes.mainnet ? "homestead" : "ropsten";
+    network === NetworkTypes.mainnet ? 'homestead' : 'ropsten';
   const isOpenCerts = verifier === VerifierTypes.OpenCerts;
 
   // TODO open an issue on oa-verify, to export each verifier individually, then here we can reuse the verifier
-  const verifyHash = openAttestationVerifiers[0]
+  const verifyHash = openAttestationHash
     .verify(document as OAWrappedDocument, { network: networkName })
     .then(({ status }) =>
       status === CheckStatus.VALID
         ? { status: CheckStatus.VALID }
-        : { status: CheckStatus.INVALID }
+        : { status: CheckStatus.INVALID },
     );
-  const verifyIssued = openAttestationVerifiers[1]
+
+  const verifyIssued = openAttestationEthereumDocumentStoreIssued
     .verify(document as OAWrappedDocument, { network: networkName })
     .then(({ status }) =>
       status === CheckStatus.VALID
         ? { status: CheckStatus.VALID }
-        : { status: CheckStatus.INVALID }
+        : { status: CheckStatus.INVALID },
     );
-  const verifyRevoked = openAttestationVerifiers[3]
+  const verifyRevoked = openAttestationEthereumDocumentStoreRevoked
     .verify(document as OAWrappedDocument, { network: networkName })
     .then(({ status }) =>
       status === CheckStatus.VALID
         ? { status: CheckStatus.VALID }
-        : { status: CheckStatus.INVALID }
+        : { status: CheckStatus.INVALID },
     );
 
   const verifyIdentity = isOpenCerts
     ? Promise.all([
-        openAttestationVerifiers[4].verify(document as OAWrappedDocument, {
-          network: networkName
+        openAttestationDnsTxt.verify(document as OAWrappedDocument, {
+          network: networkName,
         }),
         registryVerifier.verify(document as OAWrappedDocument, {
-          network: networkName
-        })
+          network: networkName,
+        }),
       ]).then(fragments => {
         const issuerName = fragments[fragments.length - 1].data[0].name;
-        return ocIsValid(fragments as any, ["ISSUER_IDENTITY"])
+        return ocIsValid(fragments as any, ['ISSUER_IDENTITY'])
           ? { status: CheckStatus.VALID, issuerName }
           : {
               status: CheckStatus.INVALID,
-              issuerName
+              issuerName,
             };
       })
-    : openAttestationVerifiers[4]
+    : openAttestationDnsTxt
         .verify(document as OAWrappedDocument, { network: networkName })
         .then(({ status }) =>
           status === CheckStatus.VALID
             ? { status: CheckStatus.VALID }
-            : { status: CheckStatus.INVALID }
+            : { status: CheckStatus.INVALID },
         );
 
   promisesCallback([verifyHash, verifyIssued, verifyRevoked, verifyIdentity]);
@@ -79,21 +85,23 @@ export const checkValidity = (
   // If any of the checks are invalid, resolve the overall validity early
   return Promise.all([
     new Promise(async (resolve, reject) =>
-      (await verifyHash).status === CheckStatus.VALID ? resolve() : reject()
+      (await verifyHash).status === CheckStatus.VALID ? resolve() : reject(),
     ),
     new Promise(async (resolve, reject) =>
-      (await verifyIssued).status === CheckStatus.VALID ? resolve() : reject()
+      (await verifyIssued).status === CheckStatus.VALID ? resolve() : reject(),
     ),
     new Promise(async (resolve, reject) =>
-      (await verifyRevoked).status === CheckStatus.VALID ? resolve() : reject()
+      (await verifyRevoked).status === CheckStatus.VALID ? resolve() : reject(),
     ),
     new Promise(async (resolve, reject) =>
-      (await verifyIdentity).status === CheckStatus.VALID ? resolve() : reject()
-    )
+      (await verifyIdentity).status === CheckStatus.VALID
+        ? resolve()
+        : reject(),
+    ),
   ])
     .then(() => true)
     .catch(err => {
-      console.log("There was an error in DocumentVerifier.js", err);
+      console.log('There was an error in DocumentVerifier.js', err);
       return false;
     });
 };

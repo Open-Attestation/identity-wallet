@@ -1,27 +1,25 @@
 // FIX - test is failing
 
-import { checkValidity } from "./DocumentVerifier";
-import { OAWrappedDocument } from "../types";
-import { VerificationFragment } from "@govtechsg/oa-verify";
+import { checkValidity } from './DocumentVerifier';
+import { OAWrappedDocument } from '../types';
+import { VerificationFragment } from '@govtechsg/oa-verify';
 
-describe("DocumentVerifier", () => {
-  describe("checkValidity", () => {
-    it("should return true when all checks are valid", async () => {
+jest.mock('./DocumentVerifier.ts');
+const mockVerifyHash = verifyHash as jest.Mock; // i have to export verifyhash, but it is within another export so i cannot
+
+describe('DocumentVerifier', () => {
+  describe('checkValidity', () => {
+    it('should return true when all checks are valid', async () => {
       expect.assertions(1);
-      const mockVerify = jest.fn(
-        (): Promise<VerificationFragment<any>[]> =>
-          Promise.resolve([
-            { name: "", type: "DOCUMENT_INTEGRITY", status: "VALID" },
-            { name: "", type: "DOCUMENT_STATUS", status: "VALID" },
-            { name: "", type: "DOCUMENT_STATUS", status: "VALID" }
-          ])
-      );
+
+      // i have to mock the 4 verifiers within. verifyHash etc
+      const mockVerifyHash = just;
+
       const result = await checkValidity(
         {} as OAWrappedDocument,
-        "ropsten",
-        "Open Attestation",
+        'ropsten',
+        'OpenAttestation',
         jest.fn(),
-        mockVerify
       );
       expect(result).toBe(true);
     });
