@@ -1,8 +1,10 @@
 import {
-  openAttestationHash,
+  isValid,
+  openAttestationDnsTxt,
   openAttestationEthereumDocumentStoreIssued,
   openAttestationEthereumDocumentStoreRevoked,
-  openAttestationDnsTxt,
+  openAttestationHash,
+  verificationBuilder,
   VerificationFragment
 } from "@govtechsg/oa-verify";
 import {
@@ -12,10 +14,20 @@ import {
 import { NetworkTypes, OAWrappedDocument, VerifierTypes } from "../types";
 import { CheckStatus } from "../components/Validity";
 
-export interface OaVerifyIdentity {
-  identifiedOnAll: boolean;
-  details: [];
-}
+const documentStatusVerifier = verificationBuilder([openAttestationHash]);
+const documentIssuedVerifier = verificationBuilder([
+  openAttestationEthereumDocumentStoreIssued
+]);
+const documentRevokedVerifier = verificationBuilder([
+  openAttestationEthereumDocumentStoreRevoked
+]);
+const openAttestationIssuerIdentityVerifier = verificationBuilder([
+  openAttestationDnsTxt
+]);
+const openCertsIssuerIdentityVerifier = verificationBuilder([
+  openAttestationDnsTxt,
+  registryVerifier
+]);
 
 // TODO import this from oa-verify
 interface Identity {
@@ -95,60 +107,60 @@ export const checkValidity = (
   const isOpenCerts = verifier === VerifierTypes.OpenCerts;
 
   // TODO open an issue on oa-verify, to export each verifier individually, then here we can reuse the verifier
-  const verifyHash = openAttestationHash
-    .verify(document as OAWrappedDocument, { network: networkName })
-    .then(({ status }) =>
-      status === CheckStatus.VALID
-        ? { status: CheckStatus.VALID }
-        : { status: CheckStatus.INVALID }
-    );
+  const verifyHash = documentStatusVerifier(document as OAWrappedDocument, {
+    network: networkName
+  }).then(fragments => ({
+    status: isValid(fragments, ["DOCUMENT_INTEGRITY"])
+      ? CheckStatus.VALID
+      : CheckStatus.INVALID
+  }));
 
-  const verifyIssued = openAttestationEthereumDocumentStoreIssued
-    .verify(document as OAWrappedDocument, { network: networkName })
-    .then(({ status }) =>
-      status === CheckStatus.VALID
-        ? { status: CheckStatus.VALID }
-        : { status: CheckStatus.INVALID }
-    );
-  const verifyRevoked = openAttestationEthereumDocumentStoreRevoked
-    .verify(document as OAWrappedDocument, { network: networkName })
-    .then(({ status }) =>
-      status === CheckStatus.VALID
-        ? { status: CheckStatus.VALID }
-        : { status: CheckStatus.INVALID }
-    );
+  const verifyIssued = documentIssuedVerifier(document as OAWrappedDocument, {
+    network: networkName
+  }).then(fragments => ({
+    status: isValid(fragments, ["DOCUMENT_STATUS"])
+      ? CheckStatus.VALID
+      : CheckStatus.INVALID
+  }));
+  const verifyRevoked = documentRevokedVerifier(document as OAWrappedDocument, {
+    network: networkName
+  }).then(fragments => ({
+    status: isValid(fragments, ["DOCUMENT_STATUS"])
+      ? CheckStatus.VALID
+      : CheckStatus.INVALID
+  }));
 
   const verifyIdentity = isOpenCerts
-    ? Promise.all([
-        openAttestationDnsTxt.verify(document as OAWrappedDocument, {
-          network: networkName
-        }),
-        registryVerifier.verify(document as OAWrappedDocument, {
-          network: networkName
-        })
-      ]).then(([dnsTextFragment, registryFragment]) => {
+    ? openCertsIssuerIdentityVerifier(document as OAWrappedDocument, {
+        network: networkName
+      }).then(([dnsTextFragment, registryFragment]) => {
         const issuerName = getIssuerNameFromRegistryFragment(
           dnsTextFragment,
           registryFragment
         );
-        return ocIsValid(
-          [dnsTextFragment, registryFragment],
-          ["ISSUER_IDENTITY"]
-        )
-          ? { status: CheckStatus.VALID, issuerName }
-          : {
-              status: CheckStatus.INVALID,
-              issuerName
-            };
+        return {
+          status: ocIsValid(
+            [dnsTextFragment, registryFragment],
+            ["ISSUER_IDENTITY"]
+          )
+            ? CheckStatus.VALID
+            : CheckStatus.INVALID,
+          issuerName
+        };
       })
-    : openAttestationDnsTxt
-        .verify(document as OAWrappedDocument, { network: networkName })
-        .then(dnsTextFragment => {
-          const issuerName = getIssuerNameFromRegistryFragment(dnsTextFragment);
-          return (dnsTextFragment as any).data[0].status === CheckStatus.VALID
-            ? { status: CheckStatus.VALID, issuerName }
-            : { status: CheckStatus.INVALID, issuerName };
-        });
+    : openAttestationIssuerIdentityVerifier(document as OAWrappedDocument, {
+        network: networkName
+      }).then(dnsTextFragment => {
+        const issuerName = getIssuerNameFromRegistryFragment(
+          dnsTextFragment[0]
+        );
+        return {
+          status: isValid(dnsTextFragment, ["ISSUER_IDENTITY"])
+            ? CheckStatus.VALID
+            : CheckStatus.INVALID,
+          issuerName
+        };
+      });
 
   promisesCallback([verifyHash, verifyIssued, verifyRevoked, verifyIdentity]);
 
