@@ -21,6 +21,7 @@ describe("DocumentVerifier", () => {
   });
   describe("checkValidity", () => {
     it("should return true when all checks are valid", async () => {
+      expect.assertions(1);
       mockIsValid.mockReturnValue(true);
 
       const result = await checkValidity(
@@ -32,6 +33,7 @@ describe("DocumentVerifier", () => {
       expect(result).toBe(true);
     });
     it("should return false when somes checks errored", async () => {
+      expect.assertions(1);
       mockIsValid.mockReturnValue(false);
 
       const result = await checkValidity(
