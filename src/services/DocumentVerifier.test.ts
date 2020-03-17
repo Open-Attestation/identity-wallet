@@ -20,7 +20,7 @@ jest.mock("@govtechsg/oa-verify", () => {
       }
     },
     openAttestationEthereumDocumentStoreRevoked: {
-      verify: () =>{
+      verify: () => {
         return mockOpenAttestationEthereumDocumentStoreRevoked();
       }
     },
@@ -39,10 +39,18 @@ describe("DocumentVerifier", () => {
   describe("checkValidity", () => {
     it("should return true when all checks are valid", async () => {
       expect.assertions(1);
-      mockOpenAttestationHash.mockResolvedValue(Promise.resolve({ status: "VALID" }));
-      mockOpenAttestationEthereumDocumentStoreIssued.mockResolvedValue(Promise.resolve({ status: "VALID" }));
-      mockOpenAttestationEthereumDocumentStoreRevoked.mockResolvedValue(Promise.resolve({ status: "VALID" }));
-      mockOpenAttestationDnsTxt.mockResolvedValue(Promise.resolve({ status: "VALID" }));
+      mockOpenAttestationHash.mockResolvedValue(
+        Promise.resolve({ status: "VALID" })
+      );
+      mockOpenAttestationEthereumDocumentStoreIssued.mockResolvedValue(
+        Promise.resolve({ status: "VALID" })
+      );
+      mockOpenAttestationEthereumDocumentStoreRevoked.mockResolvedValue(
+        Promise.resolve({ status: "VALID" })
+      );
+      mockOpenAttestationDnsTxt.mockResolvedValue(
+        Promise.resolve({ status: "VALID" })
+      );
 
       const result = await checkValidity(
         {} as OAWrappedDocument,
@@ -52,12 +60,20 @@ describe("DocumentVerifier", () => {
       );
       expect(result).toBe(true);
     });
-    it("should return be false MF", async () => {
+    it("should return false when somes checks errored", async () => {
       expect.assertions(1);
-      mockOpenAttestationHash.mockResolvedValue(Promise.resolve({ status: "VALID" }));
-      mockOpenAttestationEthereumDocumentStoreIssued.mockResolvedValue(Promise.resolve({ status: "VALID" }));
-      mockOpenAttestationEthereumDocumentStoreRevoked.mockResolvedValue(Promise.resolve({ status: "VALID" }));
-      mockOpenAttestationDnsTxt.mockResolvedValue(Promise.resolve({ status: "ERROR" }));
+      mockOpenAttestationHash.mockResolvedValue(
+        Promise.resolve({ status: "VALID" })
+      );
+      mockOpenAttestationEthereumDocumentStoreIssued.mockResolvedValue(
+        Promise.resolve({ status: "VALID" })
+      );
+      mockOpenAttestationEthereumDocumentStoreRevoked.mockResolvedValue(
+        Promise.resolve({ status: "VALID" })
+      );
+      mockOpenAttestationDnsTxt.mockResolvedValue(
+        Promise.resolve({ status: "ERROR" })
+      );
 
       const result = await checkValidity(
         {} as OAWrappedDocument,
@@ -68,84 +84,76 @@ describe("DocumentVerifier", () => {
       expect(result).toBe(false);
     });
 
-    // it('should return false when somes checks errored', async () => {
-    //   expect.assertions(1);
-    //   const mockVerify = jest.fn(
-    //     (): Promise<VerificationFragment<any>[]> =>
-    //       Promise.resolve([
-    //         { name: '', type: 'DOCUMENT_INTEGRITY', status: 'VALID' },
-    //         { name: '', type: 'DOCUMENT_STATUS', status: 'ERROR' },
-    //         { name: '', type: 'DOCUMENT_STATUS', status: 'VALID' },
-    //         { name: '', type: 'ISSUER_IDENTITY', status: 'VALID' },
-    //       ]),
-    //   );
-    //   const result = await checkValidity(
-    //     {} as OAWrappedDocument,
-    //     'ropsten',
-    //     jest.fn(),
-    //     mockVerify,
-    //   );
-    //   expect(result).toBe(false);
-    // });
+    it("should return false when somes checks skipped", async () => {
+      expect.assertions(1);
+      mockOpenAttestationHash.mockResolvedValue(
+        Promise.resolve({ status: "VALID" })
+      );
+      mockOpenAttestationEthereumDocumentStoreIssued.mockResolvedValue(
+        Promise.resolve({ status: "VALID" })
+      );
+      mockOpenAttestationEthereumDocumentStoreRevoked.mockResolvedValue(
+        Promise.resolve({ status: "SKIPPED" })
+      );
+      mockOpenAttestationDnsTxt.mockResolvedValue(
+        Promise.resolve({ status: "SKIPPED" })
+      );
 
-    // it('should return false when somes checks skipped', async () => {
-    //   expect.assertions(1);
-    //   const mockVerify = jest.fn(
-    //     (): Promise<VerificationFragment<any>[]> =>
-    //       Promise.resolve([
-    //         { name: '', type: 'DOCUMENT_INTEGRITY', status: 'VALID' },
-    //         { name: '', type: 'DOCUMENT_STATUS', status: 'VALID' },
-    //         { name: '', type: 'DOCUMENT_STATUS', status: 'SKIPPED' },
-    //         { name: '', type: 'ISSUER_IDENTITY', status: 'SKIPPED' },
-    //       ]),
-    //   );
-    //   const result = await checkValidity(
-    //     {} as OAWrappedDocument,
-    //     'ropsten',
-    //     jest.fn(),
-    //     mockVerify,
-    //   );
-    //   expect(result).toBe(false);
-    // });
+      const result = await checkValidity(
+        {} as OAWrappedDocument,
+        "ropsten",
+        "OpenAttestation",
+        jest.fn()
+      );
+      expect(result).toBe(false);
+    });
 
-    // it('should return false when somes checks are invalid', async () => {
-    //   expect.assertions(1);
-    //   const mockVerify = jest.fn(
-    //     (): Promise<VerificationFragment<any>[]> =>
-    //       Promise.resolve([
-    //         { name: '', type: 'DOCUMENT_INTEGRITY', status: 'VALID' },
-    //         { name: '', type: 'DOCUMENT_STATUS', status: 'INVALID' },
-    //         { name: '', type: 'DOCUMENT_STATUS', status: 'INVALID' },
-    //         { name: '', type: 'ISSUER_IDENTITY', status: 'VALID' },
-    //       ]),
-    //   );
-    //   const result = await checkValidity(
-    //     {} as OAWrappedDocument,
-    //     'ropsten',
-    //     jest.fn(),
-    //     mockVerify,
-    //   );
-    //   expect(result).toBe(false);
-    // });
+    it("should return false when somes checks are invalid", async () => {
+      expect.assertions(1);
+      mockOpenAttestationHash.mockResolvedValue(
+        Promise.resolve({ status: "VALID" })
+      );
+      mockOpenAttestationEthereumDocumentStoreIssued.mockResolvedValue(
+        Promise.resolve({ status: "VALID" })
+      );
+      mockOpenAttestationEthereumDocumentStoreRevoked.mockResolvedValue(
+        Promise.resolve({ status: "INVALID" })
+      );
+      mockOpenAttestationDnsTxt.mockResolvedValue(
+        Promise.resolve({ status: "INVALID" })
+      );
 
-    // it('should return false when somes checks are invalid and some have errored', async () => {
-    //   expect.assertions(1);
-    //   const mockVerify = jest.fn(
-    //     (): Promise<VerificationFragment<any>[]> =>
-    //       Promise.resolve([
-    //         { name: '', type: 'DOCUMENT_INTEGRITY', status: 'VALID' },
-    //         { name: '', type: 'DOCUMENT_STATUS', status: 'INVALID' },
-    //         { name: '', type: 'DOCUMENT_STATUS', status: 'INVALID' },
-    //         { name: '', type: 'ISSUER_IDENTITY', status: 'ERROR' },
-    //       ]),
-    //   );
-    //   const result = await checkValidity(
-    //     {} as OAWrappedDocument,
-    //     'ropsten',
-    //     jest.fn(),
-    //     mockVerify,
-    //   );
-    //   expect(result).toBe(false);
-    // });
+      const result = await checkValidity(
+        {} as OAWrappedDocument,
+        "ropsten",
+        "OpenAttestation",
+        jest.fn()
+      );
+      expect(result).toBe(false);
+    });
+
+    it("should return false when somes checks are invalid and some have errored", async () => {
+      expect.assertions(1);
+      mockOpenAttestationHash.mockResolvedValue(
+        Promise.resolve({ status: "VALID" })
+      );
+      mockOpenAttestationEthereumDocumentStoreIssued.mockResolvedValue(
+        Promise.resolve({ status: "INVALID" })
+      );
+      mockOpenAttestationEthereumDocumentStoreRevoked.mockResolvedValue(
+        Promise.resolve({ status: "INVALID" })
+      );
+      mockOpenAttestationDnsTxt.mockResolvedValue(
+        Promise.resolve({ status: "ERROR" })
+      );
+
+      const result = await checkValidity(
+        {} as OAWrappedDocument,
+        "ropsten",
+        "OpenAttestation",
+        jest.fn()
+      );
+      expect(result).toBe(false);
+    });
   });
 });

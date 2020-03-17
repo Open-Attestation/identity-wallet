@@ -3,14 +3,14 @@ import {
   openAttestationEthereumDocumentStoreIssued,
   openAttestationEthereumDocumentStoreRevoked,
   openAttestationDnsTxt,
-  VerificationFragment
-} from "@govtechsg/oa-verify";
+  VerificationFragment,
+} from '@govtechsg/oa-verify';
 import {
   isValid as ocIsValid,
-  registryVerifier
-} from "@govtechsg/opencerts-verify";
-import { NetworkTypes, OAWrappedDocument, VerifierTypes } from "../types";
-import { CheckStatus } from "../components/Validity";
+  registryVerifier,
+} from '@govtechsg/opencerts-verify';
+import { NetworkTypes, OAWrappedDocument, VerifierTypes } from '../types';
+import { CheckStatus } from '../components/Validity';
 
 export interface OaVerifyIdentity {
   identifiedOnAll: boolean;
@@ -19,7 +19,7 @@ export interface OaVerifyIdentity {
 
 // TODO import this from oa-verify
 interface Identity {
-  status: "VALID" | "INVALID" | "SKIPPED";
+  status: 'VALID' | 'INVALID' | 'SKIPPED';
   location?: string;
   value?: string;
 }
@@ -36,7 +36,7 @@ interface RegistryEntry {
 }
 type OpencertsRegistryVerificationFragmentData = Partial<RegistryEntry> & {
   value: string;
-  status: "VALID" | "INVALID";
+  status: 'VALID' | 'INVALID';
 };
 
 const getIssuerNameFromRegistryFragment = (
@@ -44,7 +44,7 @@ const getIssuerNameFromRegistryFragment = (
   registryFragment?: VerificationFragment<
     | OpencertsRegistryVerificationFragmentData
     | OpencertsRegistryVerificationFragmentData[]
-  >
+  >,
 ) => {
   // find location from registry fragment if available
   if (registryFragment) {
@@ -55,7 +55,7 @@ const getIssuerNameFromRegistryFragment = (
       : []; // otherwise return empty array
     // using concat to handle arrays and single element
     const registryIdentity = registryVerifierFragmentData.find(
-      ({ status }) => status === "VALID"
+      ({ status }) => status === 'VALID',
     );
     if (registryIdentity && registryIdentity.name) {
       return registryIdentity.name;
@@ -70,9 +70,9 @@ const getIssuerNameFromRegistryFragment = (
     : []; // otherwise return empty array
   const dnsIdentity = dnsTxtVerifierFragmentData
     .sort((obj1, obj2) =>
-      (obj1.location || "").localeCompare(obj2.location || "")
+      (obj1.location || '').localeCompare(obj2.location || ''),
     )
-    .find(({ status }) => status === "VALID");
+    .find(({ status }) => status === 'VALID');
   if (dnsIdentity && dnsIdentity.location) {
     return dnsIdentity.location;
   }
@@ -86,12 +86,12 @@ export const checkValidity = (
   network: NetworkTypes = NetworkTypes.ropsten,
   verifier: VerifierTypes,
   promisesCallback: (
-    statuses: Promise<{ status: CheckStatus; issuerName?: string }>[]
-  ) => void
+    statuses: Promise<{ status: CheckStatus; issuerName?: string }>[],
+  ) => void,
 ) => {
   // TODO why do we need to transform mainnet to homestead ? why not using homestead in the enum
   const networkName =
-    network === NetworkTypes.mainnet ? "homestead" : "ropsten";
+    network === NetworkTypes.mainnet ? 'homestead' : 'ropsten';
   const isOpenCerts = verifier === VerifierTypes.OpenCerts;
 
   const verifyHash = openAttestationHash
@@ -99,7 +99,7 @@ export const checkValidity = (
     .then(({ status }) =>
       status === CheckStatus.VALID
         ? { status: CheckStatus.VALID }
-        : { status: CheckStatus.INVALID }
+        : { status: CheckStatus.INVALID },
     );
 
   const verifyIssued = openAttestationEthereumDocumentStoreIssued
@@ -107,37 +107,37 @@ export const checkValidity = (
     .then(({ status }) =>
       status === CheckStatus.VALID
         ? { status: CheckStatus.VALID }
-        : { status: CheckStatus.INVALID }
+        : { status: CheckStatus.INVALID },
     );
   const verifyRevoked = openAttestationEthereumDocumentStoreRevoked
     .verify(document as OAWrappedDocument, { network: networkName })
     .then(({ status }) =>
       status === CheckStatus.VALID
         ? { status: CheckStatus.VALID }
-        : { status: CheckStatus.INVALID }
+        : { status: CheckStatus.INVALID },
     );
 
   const verifyIdentity = isOpenCerts
     ? Promise.all([
         openAttestationDnsTxt.verify(document as OAWrappedDocument, {
-          network: networkName
+          network: networkName,
         }),
         registryVerifier.verify(document as OAWrappedDocument, {
-          network: networkName
-        })
+          network: networkName,
+        }),
       ]).then(([dnsTextFragment, registryFragment]) => {
         const issuerName = getIssuerNameFromRegistryFragment(
           dnsTextFragment,
-          registryFragment
+          registryFragment,
         );
         return ocIsValid(
           [dnsTextFragment, registryFragment],
-          ["ISSUER_IDENTITY"]
+          ['ISSUER_IDENTITY'],
         )
           ? { status: CheckStatus.VALID, issuerName }
           : {
               status: CheckStatus.INVALID,
-              issuerName
+              issuerName,
             };
       })
     : openAttestationDnsTxt
@@ -154,21 +154,29 @@ export const checkValidity = (
   // If any of the checks are invalid, resolve the overall validity early
   return Promise.all([
     new Promise(async (resolve, reject) =>
-      (await verifyHash).status === CheckStatus.VALID ? resolve() : reject("PLEASE ADD A MESSAGE HERE")
+      (await verifyHash).status === CheckStatus.VALID
+        ? resolve()
+        : reject('verify has failed'),
     ),
     new Promise(async (resolve, reject) =>
-      (await verifyIssued).status === CheckStatus.VALID ? resolve() : reject("PLEASE ADD A MESSAGE HERE")
+      (await verifyIssued).status === CheckStatus.VALID
+        ? resolve()
+        : reject('verifyIssued has failed'),
     ),
     new Promise(async (resolve, reject) =>
-      (await verifyRevoked).status === CheckStatus.VALID ? resolve() : reject("PLEASE ADD A MESSAGE HERE")
+      (await verifyRevoked).status === CheckStatus.VALID
+        ? resolve()
+        : reject('verifyRevoked has failed'),
     ),
     new Promise(async (resolve, reject) =>
-      (await verifyIdentity).status === CheckStatus.VALID ? resolve() : reject("PLEASE ADD A MESSAGE HERE")
-    )
+      (await verifyIdentity).status === CheckStatus.VALID
+        ? resolve()
+        : reject('verifyIdentity has failed'),
+    ),
   ])
     .then(() => true)
     .catch(err => {
-      console.log("There was an error in DocumentVerifier.js", err);
+      console.log('There was an error in DocumentVerifier.js', err);
       return false;
     });
 };
