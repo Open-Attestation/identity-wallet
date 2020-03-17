@@ -1,7 +1,4 @@
-import {
-  isWrappedV3Document,
-  Verifier
-} from "@govtechsg/oa-verify";
+import { isWrappedV3Document, Verifier } from "@govtechsg/oa-verify";
 import { getData, v2, v3, WrappedDocument } from "@govtechsg/open-attestation";
 
 // this is a fake revoke verification method for token registry that will
