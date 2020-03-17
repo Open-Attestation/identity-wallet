@@ -97,10 +97,6 @@ export const checkValidity = (
   // TODO open an issue on oa-verify, to export each verifier individually, then here we can reuse the verifier
   const verifyHash = openAttestationHash
     .verify(document as OAWrappedDocument, { network: networkName })
-    .then(s => {
-      console.log(s);
-      return s;
-    })
     .then(({ status }) =>
       status === CheckStatus.VALID
         ? { status: CheckStatus.VALID }
@@ -109,10 +105,6 @@ export const checkValidity = (
 
   const verifyIssued = openAttestationEthereumDocumentStoreIssued
     .verify(document as OAWrappedDocument, { network: networkName })
-    .then(s => {
-      console.log(s);
-      return s;
-    })
     .then(({ status }) =>
       status === CheckStatus.VALID
         ? { status: CheckStatus.VALID }
@@ -120,10 +112,6 @@ export const checkValidity = (
     );
   const verifyRevoked = openAttestationEthereumDocumentStoreRevoked
     .verify(document as OAWrappedDocument, { network: networkName })
-    .then(s => {
-      console.log(s);
-      return s;
-    })
     .then(({ status }) =>
       status === CheckStatus.VALID
         ? { status: CheckStatus.VALID }

@@ -1,5 +1,5 @@
 import { checkValidity } from "./DocumentVerifier";
-import { OAWrappedDocument } from "../types";
+import { OAWrappedDocument, NetworkTypes, VerifierTypes } from "../types";
 
 const mockOpenAttestationHash = jest.fn();
 const mockOpenAttestationEthereumDocumentStoreIssued = jest.fn();
@@ -52,8 +52,8 @@ describe("DocumentVerifier", () => {
 
       const result = await checkValidity(
         {} as OAWrappedDocument,
-        "ropsten",
-        "OpenAttestation",
+        NetworkTypes.ropsten,
+        VerifierTypes.OpenAttestation,
         jest.fn()
       );
       expect(result).toBe(true);
@@ -75,8 +75,8 @@ describe("DocumentVerifier", () => {
 
       const result = await checkValidity(
         {} as OAWrappedDocument,
-        "ropsten",
-        "OpenAttestation",
+        NetworkTypes.ropsten,
+        VerifierTypes.OpenAttestation,
         jest.fn()
       );
       expect(result).toBe(false);
@@ -99,8 +99,8 @@ describe("DocumentVerifier", () => {
 
       const result = await checkValidity(
         {} as OAWrappedDocument,
-        "ropsten",
-        "OpenAttestation",
+        NetworkTypes.ropsten,
+        VerifierTypes.OpenAttestation,
         jest.fn()
       );
       expect(result).toBe(false);
@@ -123,8 +123,8 @@ describe("DocumentVerifier", () => {
 
       const result = await checkValidity(
         {} as OAWrappedDocument,
-        "ropsten",
-        "OpenAttestation",
+        NetworkTypes.ropsten,
+        VerifierTypes.OpenAttestation,
         jest.fn()
       );
       expect(result).toBe(false);
@@ -147,8 +147,8 @@ describe("DocumentVerifier", () => {
 
       const result = await checkValidity(
         {} as OAWrappedDocument,
-        "ropsten",
-        "OpenAttestation",
+        NetworkTypes.ropsten,
+        VerifierTypes.OpenAttestation,
         jest.fn()
       );
       expect(result).toBe(false);
