@@ -6,7 +6,7 @@ import { BottomNav } from "../Layout/BottomNav";
 import { NavigationProps } from "../../types";
 import { BuildView } from "./BuildView";
 import { fontSize, size } from "../../common/styles";
-import { NetworkTypes } from "../../types";
+import { NetworkTypes, VerifierTypes } from "../../types";
 import { useConfigContext, Config } from "../../context/config";
 
 const styles = StyleSheet.create({
@@ -46,7 +46,8 @@ export const SettingsView: FunctionComponent<{
   config: Config;
   onResetDocumentData: () => void;
   onToggleNetwork: () => void;
-}> = ({ config, onResetDocumentData, onToggleNetwork }) => {
+  onToggleVerifier: () => void;
+}> = ({ config, onResetDocumentData, onToggleNetwork, onToggleVerifier }) => {
   return (
     <ScrollView style={styles.settingsView}>
       <View style={styles.settingsItem}>
@@ -61,6 +62,10 @@ export const SettingsView: FunctionComponent<{
           text={config.network.toUpperCase()}
           onPress={onToggleNetwork}
         />
+      </View>
+      <View style={styles.settingsItem}>
+        <Text style={styles.settingsItemDescription}>Switch Verifier</Text>
+        <DarkButton text={config.verifier} onPress={onToggleVerifier} />
       </View>
     </ScrollView>
   );
@@ -79,6 +84,14 @@ export const Settings: FunctionComponent<Settings> = ({
         : NetworkTypes.ropsten
     );
   };
+  const onToggleVerifier = (): void => {
+    setConfigValue(
+      "verifier",
+      config.verifier === VerifierTypes.OpenAttestation
+        ? VerifierTypes.OpenCerts
+        : VerifierTypes.OpenAttestation
+    );
+  };
   return (
     <>
       <Header>
@@ -88,6 +101,7 @@ export const Settings: FunctionComponent<Settings> = ({
         <SettingsView
           onResetDocumentData={onResetDocumentData}
           onToggleNetwork={onToggleNetwork}
+          onToggleVerifier={onToggleVerifier}
           config={config}
         />
         <BuildView />

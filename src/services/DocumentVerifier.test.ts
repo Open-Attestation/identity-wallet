@@ -1,105 +1,46 @@
 import { checkValidity } from "./DocumentVerifier";
-import { OAWrappedDocument } from "../types";
-import { VerificationFragment } from "@govtechsg/oa-verify";
+import { NetworkTypes, OAWrappedDocument, VerifierTypes } from "../types";
 
+const mockIsValid = jest.fn();
+
+jest.mock("@govtechsg/oa-verify", () => {
+  return {
+    openAttestationHash: jest.fn(),
+    openAttestationEthereumDocumentStoreIssued: jest.fn(),
+    openAttestationEthereumDocumentStoreRevoked: jest.fn(),
+    openAttestationDnsTxt: jest.fn(),
+    isValid: () => mockIsValid(),
+    verificationBuilder: () => () => Promise.resolve([{}, {}]) // return 2 elements for identity fragment resolution
+  };
+});
+
+// TODO this is vry complicated to test using mock, we might consider to replace using e2e tests
 describe("DocumentVerifier", () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
   describe("checkValidity", () => {
     it("should return true when all checks are valid", async () => {
       expect.assertions(1);
-      const mockVerify = jest.fn(
-        (): Promise<VerificationFragment<any>[]> =>
-          Promise.resolve([
-            { name: "", type: "DOCUMENT_INTEGRITY", status: "VALID" },
-            { name: "", type: "DOCUMENT_STATUS", status: "VALID" },
-            { name: "", type: "DOCUMENT_STATUS", status: "VALID" },
-            { name: "", type: "ISSUER_IDENTITY", status: "VALID" }
-          ])
-      );
+      mockIsValid.mockReturnValue(true);
+
       const result = await checkValidity(
         {} as OAWrappedDocument,
-        "ropsten",
-        jest.fn(),
-        mockVerify
+        NetworkTypes.ropsten,
+        VerifierTypes.OpenAttestation,
+        jest.fn()
       );
       expect(result).toBe(true);
     });
-
     it("should return false when somes checks errored", async () => {
       expect.assertions(1);
-      const mockVerify = jest.fn(
-        (): Promise<VerificationFragment<any>[]> =>
-          Promise.resolve([
-            { name: "", type: "DOCUMENT_INTEGRITY", status: "VALID" },
-            { name: "", type: "DOCUMENT_STATUS", status: "ERROR" },
-            { name: "", type: "DOCUMENT_STATUS", status: "VALID" },
-            { name: "", type: "ISSUER_IDENTITY", status: "VALID" }
-          ])
-      );
-      const result = await checkValidity(
-        {} as OAWrappedDocument,
-        "ropsten",
-        jest.fn(),
-        mockVerify
-      );
-      expect(result).toBe(false);
-    });
+      mockIsValid.mockReturnValue(false);
 
-    it("should return false when somes checks skipped", async () => {
-      expect.assertions(1);
-      const mockVerify = jest.fn(
-        (): Promise<VerificationFragment<any>[]> =>
-          Promise.resolve([
-            { name: "", type: "DOCUMENT_INTEGRITY", status: "VALID" },
-            { name: "", type: "DOCUMENT_STATUS", status: "VALID" },
-            { name: "", type: "DOCUMENT_STATUS", status: "SKIPPED" },
-            { name: "", type: "ISSUER_IDENTITY", status: "SKIPPED" }
-          ])
-      );
       const result = await checkValidity(
         {} as OAWrappedDocument,
-        "ropsten",
-        jest.fn(),
-        mockVerify
-      );
-      expect(result).toBe(false);
-    });
-
-    it("should return false when somes checks are invalid", async () => {
-      expect.assertions(1);
-      const mockVerify = jest.fn(
-        (): Promise<VerificationFragment<any>[]> =>
-          Promise.resolve([
-            { name: "", type: "DOCUMENT_INTEGRITY", status: "VALID" },
-            { name: "", type: "DOCUMENT_STATUS", status: "INVALID" },
-            { name: "", type: "DOCUMENT_STATUS", status: "INVALID" },
-            { name: "", type: "ISSUER_IDENTITY", status: "VALID" }
-          ])
-      );
-      const result = await checkValidity(
-        {} as OAWrappedDocument,
-        "ropsten",
-        jest.fn(),
-        mockVerify
-      );
-      expect(result).toBe(false);
-    });
-
-    it("should return false when somes checks are invalid and some have errored", async () => {
-      expect.assertions(1);
-      const mockVerify = jest.fn(
-        (): Promise<VerificationFragment<any>[]> =>
-          Promise.resolve([
-            { name: "", type: "DOCUMENT_INTEGRITY", status: "VALID" },
-            { name: "", type: "DOCUMENT_STATUS", status: "INVALID" },
-            { name: "", type: "DOCUMENT_STATUS", status: "INVALID" },
-            { name: "", type: "ISSUER_IDENTITY", status: "ERROR" }
-          ])
-      );
-      const result = await checkValidity(
-        {} as OAWrappedDocument,
-        "ropsten",
-        jest.fn(),
-        mockVerify
+        NetworkTypes.ropsten,
+        VerifierTypes.OpenAttestation,
+        jest.fn()
       );
       expect(result).toBe(false);
     });

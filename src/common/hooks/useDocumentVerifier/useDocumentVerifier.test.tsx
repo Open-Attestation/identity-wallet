@@ -1,5 +1,5 @@
 import demoOc from "../../../../fixtures/demo-oc.json";
-import { useDocumentVerifier, handleVerificationFragment } from "./index";
+import { useDocumentVerifier } from "./index";
 import { renderHook } from "@testing-library/react-hooks";
 import { CheckStatus } from "../../../components/Validity/";
 import { checkValidity } from "../../../services/DocumentVerifier";
@@ -30,7 +30,7 @@ describe("useDocumentVerifier", () => {
   it("should return the correct check status as the checks resolve at different times", async () => {
     expect.assertions(3);
     mockCheckValidity.mockImplementation(
-      async (document, network, callback) => {
+      async (document, network, verifier, callback) => {
         const promises = [
           // verifyHash
           new Promise(res => setTimeout(() => res({ status: "VALID" }), 500)),
@@ -47,7 +47,7 @@ describe("useDocumentVerifier", () => {
         callback(promises);
 
         await Promise.all(promises);
-        return "VALID";
+        return true;
       }
     );
 
@@ -61,7 +61,7 @@ describe("useDocumentVerifier", () => {
       tamperedCheck: CheckStatus.CHECKING,
       issuedCheck: CheckStatus.CHECKING,
       revokedCheck: CheckStatus.CHECKING,
-      issuerCheck: CheckStatus.CHECKING,
+      identityCheck: CheckStatus.CHECKING,
       overallValidity: CheckStatus.CHECKING
     });
 
@@ -72,7 +72,7 @@ describe("useDocumentVerifier", () => {
       tamperedCheck: CheckStatus.VALID,
       issuedCheck: CheckStatus.VALID,
       revokedCheck: CheckStatus.CHECKING,
-      issuerCheck: CheckStatus.CHECKING,
+      identityCheck: CheckStatus.CHECKING,
       overallValidity: CheckStatus.CHECKING
     });
 
@@ -83,42 +83,8 @@ describe("useDocumentVerifier", () => {
       tamperedCheck: CheckStatus.VALID,
       issuedCheck: CheckStatus.VALID,
       revokedCheck: CheckStatus.VALID,
-      issuerCheck: CheckStatus.VALID,
+      identityCheck: CheckStatus.VALID,
       overallValidity: CheckStatus.VALID
     });
-  });
-});
-
-describe("handleVerificationFragment", () => {
-  it("should set state when fragment status is VALID", () => {
-    expect.assertions(1);
-    const setStateFn = jest.fn();
-    handleVerificationFragment("VALID", setStateFn);
-
-    expect(setStateFn).toHaveBeenCalledWith(CheckStatus.VALID);
-  });
-
-  it("should set state when fragment status is INVALID", () => {
-    expect.assertions(1);
-    const setStateFn = jest.fn();
-    handleVerificationFragment("INVALID", setStateFn);
-
-    expect(setStateFn).toHaveBeenCalledWith(CheckStatus.INVALID);
-  });
-
-  it("should set invalid state when fragment status is ERROR", () => {
-    expect.assertions(1);
-    const setStateFn = jest.fn();
-    handleVerificationFragment("ERROR", setStateFn);
-
-    expect(setStateFn).toHaveBeenCalledWith(CheckStatus.INVALID);
-  });
-
-  it("should set invalid state when fragment status is not one of the check status", () => {
-    expect.assertions(1);
-    const setStateFn = jest.fn();
-    handleVerificationFragment("SKIPPED", setStateFn);
-
-    expect(setStateFn).toHaveBeenCalledWith(CheckStatus.INVALID);
   });
 });

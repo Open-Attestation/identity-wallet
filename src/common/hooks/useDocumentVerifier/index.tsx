@@ -1,52 +1,35 @@
-import {
-  useEffect,
-  useState,
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useRef
-} from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import { CheckStatus } from "../../../components/Validity";
 import { checkValidity } from "../../../services/DocumentVerifier";
 import { useConfigContext } from "../../../context/config";
-import { VerificationFragmentStatus } from "@govtechsg/oa-verify";
 import { OAWrappedDocument } from "../../../types";
 
 export interface VerificationStatuses {
   tamperedCheck: CheckStatus;
   issuedCheck: CheckStatus;
   revokedCheck: CheckStatus;
-  issuerCheck: CheckStatus;
+  identityCheck: CheckStatus;
   overallValidity: CheckStatus;
 }
 
 export interface DocumentVerifier {
   statuses: VerificationStatuses;
   verify: (document: OAWrappedDocument) => void;
+  issuerName: string;
 }
-
-export const handleVerificationFragment = (
-  status: VerificationFragmentStatus,
-  setStateFn: Dispatch<SetStateAction<CheckStatus>>
-): void => {
-  // This filters out unrecognised fragment statuses as INVALID
-  if (Object.values(CheckStatus).includes(status as CheckStatus)) {
-    setStateFn(status as CheckStatus);
-  } else {
-    setStateFn(CheckStatus.INVALID);
-  }
-};
 
 export const useDocumentVerifier = (): DocumentVerifier => {
   const {
-    config: { network }
+    config: { network, verifier }
   } = useConfigContext();
+
   const cancelled = useRef(false);
   const [tamperedCheck, setTamperedCheck] = useState(CheckStatus.CHECKING);
   const [issuedCheck, setIssuedCheck] = useState(CheckStatus.CHECKING);
   const [revokedCheck, setRevokedCheck] = useState(CheckStatus.CHECKING);
-  const [issuerCheck, setIssuerCheck] = useState(CheckStatus.CHECKING);
+  const [identityCheck, setIdentityCheck] = useState(CheckStatus.CHECKING);
   const [overallValidity, setOverallValidity] = useState(CheckStatus.CHECKING);
+  const [issuerName, setIssuerName] = useState("");
 
   useEffect(() => {
     cancelled.current = false;
@@ -60,28 +43,30 @@ export const useDocumentVerifier = (): DocumentVerifier => {
       setTamperedCheck(CheckStatus.CHECKING);
       setIssuedCheck(CheckStatus.CHECKING);
       setRevokedCheck(CheckStatus.CHECKING);
-      setIssuerCheck(CheckStatus.CHECKING);
+      setIdentityCheck(CheckStatus.CHECKING);
       setOverallValidity(CheckStatus.CHECKING);
 
       const isOverallValid = await checkValidity(
         document,
         network,
+        verifier,
         ([verifyHash, verifyIssued, verifyRevoked, verifyIdentity]) => {
           verifyHash.then(({ status }) => {
-            !cancelled.current &&
-              handleVerificationFragment(status, setTamperedCheck);
+            !cancelled.current && setTamperedCheck(status);
           });
           verifyIssued.then(({ status }) => {
-            !cancelled.current &&
-              handleVerificationFragment(status, setIssuedCheck);
+            !cancelled.current && setIssuedCheck(status);
           });
           verifyRevoked.then(({ status }) => {
-            !cancelled.current &&
-              handleVerificationFragment(status, setRevokedCheck);
+            !cancelled.current && setRevokedCheck(status);
           });
-          verifyIdentity.then(({ status }) => {
-            !cancelled.current &&
-              handleVerificationFragment(status, setIssuerCheck);
+
+          verifyIdentity.then(({ status, issuerName }) => {
+            if (issuerName) {
+              setIssuerName(issuerName);
+            }
+
+            !cancelled.current && setIdentityCheck(status);
           });
         }
       );
@@ -92,7 +77,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
         );
       }
     },
-    [network]
+    [network, verifier]
   );
 
   return {
@@ -100,9 +85,10 @@ export const useDocumentVerifier = (): DocumentVerifier => {
       tamperedCheck,
       issuedCheck,
       revokedCheck,
-      issuerCheck,
+      identityCheck,
       overallValidity
     },
-    verify
+    verify,
+    issuerName
   };
 };

@@ -10,7 +10,7 @@ interface ValidityCard {
   tamperedCheck: CheckStatus;
   issuedCheck: CheckStatus;
   revokedCheck: CheckStatus;
-  issuerCheck: CheckStatus;
+  identityCheck: CheckStatus;
   overallValidity: CheckStatus;
 }
 
@@ -18,7 +18,7 @@ export const ValidityCard: FunctionComponent<ValidityCard> = ({
   tamperedCheck,
   issuedCheck,
   revokedCheck,
-  issuerCheck,
+  identityCheck,
   overallValidity: checkStatus
 }) => {
   const { backgroundColor } = getStatusProps(checkStatus);
@@ -49,7 +49,7 @@ export const ValidityCard: FunctionComponent<ValidityCard> = ({
           messages={CHECK_MESSAGES.REVOKED_CHECK}
         />
         <ValidityCardCheckItem
-          checkStatus={issuerCheck}
+          checkStatus={identityCheck}
           messages={CHECK_MESSAGES.ISSUER_CHECK}
         />
       </View>

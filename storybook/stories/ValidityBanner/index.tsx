@@ -1,3 +1,5 @@
+// TODO - actual check failing
+
 import React, { useState, useEffect, FunctionComponent, useRef } from "react";
 import { storiesOf } from "@storybook/react-native";
 import { CenterDecorator } from "../decorators";
@@ -10,7 +12,7 @@ const ValidChecksStory: FunctionComponent = () => {
   const [tamperedCheck, setTamperedCheck] = useState(CheckStatus.CHECKING);
   const [issuedCheck, setIssuedCheck] = useState(CheckStatus.CHECKING);
   const [revokedCheck, setRevokedCheck] = useState(CheckStatus.CHECKING);
-  const [issuerCheck, setIssuerCheck] = useState(CheckStatus.CHECKING);
+  const [identityCheck, setIdentityCheck] = useState(CheckStatus.CHECKING);
   const [overallValidity, setOverallValidity] = useState(CheckStatus.CHECKING);
 
   const [progress, setProgress] = useState<"stopped" | "started">("stopped");
@@ -34,7 +36,7 @@ const ValidChecksStory: FunctionComponent = () => {
     );
     timers.current.push(
       setTimeout(() => {
-        setIssuerCheck(CheckStatus.VALID);
+        setIdentityCheck(CheckStatus.VALID);
       }, 2600)
     );
     timers.current.push(
@@ -48,7 +50,7 @@ const ValidChecksStory: FunctionComponent = () => {
     setTamperedCheck(CheckStatus.CHECKING);
     setIssuedCheck(CheckStatus.CHECKING);
     setRevokedCheck(CheckStatus.CHECKING);
-    setIssuerCheck(CheckStatus.CHECKING);
+    setIdentityCheck(CheckStatus.CHECKING);
     setOverallValidity(CheckStatus.CHECKING);
   };
 
@@ -72,7 +74,7 @@ const ValidChecksStory: FunctionComponent = () => {
         tamperedCheck={tamperedCheck}
         issuedCheck={issuedCheck}
         revokedCheck={revokedCheck}
-        issuerCheck={issuerCheck}
+        identityCheck={identityCheck}
         overallValidity={overallValidity}
       />
       <View
@@ -96,7 +98,7 @@ const InvalidChecksStory: FunctionComponent = () => {
   const [tamperedCheck, setTamperedCheck] = useState(CheckStatus.CHECKING);
   const [issuedCheck, setIssuedCheck] = useState(CheckStatus.CHECKING);
   const [revokedCheck, setRevokedCheck] = useState(CheckStatus.CHECKING);
-  const [issuerCheck, setIssuerCheck] = useState(CheckStatus.CHECKING);
+  const [identityCheck, setIdentityCheck] = useState(CheckStatus.CHECKING);
   const [overallValidity, setOverallValidity] = useState(CheckStatus.CHECKING);
 
   const [progress, setProgress] = useState<"stopped" | "started">("stopped");
@@ -120,7 +122,7 @@ const InvalidChecksStory: FunctionComponent = () => {
     );
     timers.current.push(
       setTimeout(() => {
-        setIssuerCheck(CheckStatus.VALID);
+        setIdentityCheck(CheckStatus.VALID);
       }, 1500)
     );
     timers.current.push(
@@ -134,7 +136,7 @@ const InvalidChecksStory: FunctionComponent = () => {
     setTamperedCheck(CheckStatus.CHECKING);
     setIssuedCheck(CheckStatus.CHECKING);
     setRevokedCheck(CheckStatus.CHECKING);
-    setIssuerCheck(CheckStatus.CHECKING);
+    setIdentityCheck(CheckStatus.CHECKING);
     setOverallValidity(CheckStatus.CHECKING);
   };
 
@@ -158,7 +160,7 @@ const InvalidChecksStory: FunctionComponent = () => {
         tamperedCheck={tamperedCheck}
         issuedCheck={issuedCheck}
         revokedCheck={revokedCheck}
-        issuerCheck={issuerCheck}
+        identityCheck={identityCheck}
         overallValidity={overallValidity}
       />
       <View
@@ -184,7 +186,7 @@ const ActualChecksStory: FunctionComponent = () => {
       tamperedCheck,
       issuedCheck,
       revokedCheck,
-      issuerCheck,
+      identityCheck,
       overallValidity
     },
     verify
@@ -201,7 +203,7 @@ const ActualChecksStory: FunctionComponent = () => {
         tamperedCheck={tamperedCheck}
         issuedCheck={issuedCheck}
         revokedCheck={revokedCheck}
-        issuerCheck={issuerCheck}
+        identityCheck={identityCheck}
         overallValidity={overallValidity}
       />
     </View>
@@ -221,28 +223,28 @@ storiesOf("ValidityBanner", module)
         tamperedCheck={CheckStatus.CHECKING}
         issuedCheck={CheckStatus.CHECKING}
         revokedCheck={CheckStatus.CHECKING}
-        issuerCheck={CheckStatus.CHECKING}
+        identityCheck={CheckStatus.CHECKING}
         overallValidity={CheckStatus.CHECKING}
       />
       <ValidityBanner
         tamperedCheck={CheckStatus.CHECKING}
         issuedCheck={CheckStatus.CHECKING}
         revokedCheck={CheckStatus.CHECKING}
-        issuerCheck={CheckStatus.VALID}
+        identityCheck={CheckStatus.VALID}
         overallValidity={CheckStatus.CHECKING}
       />
       <ValidityBanner
         tamperedCheck={CheckStatus.INVALID}
         issuedCheck={CheckStatus.CHECKING}
         revokedCheck={CheckStatus.CHECKING}
-        issuerCheck={CheckStatus.VALID}
+        identityCheck={CheckStatus.VALID}
         overallValidity={CheckStatus.INVALID}
       />
       <ValidityBanner
         tamperedCheck={CheckStatus.VALID}
         issuedCheck={CheckStatus.VALID}
         revokedCheck={CheckStatus.VALID}
-        issuerCheck={CheckStatus.VALID}
+        identityCheck={CheckStatus.VALID}
         overallValidity={CheckStatus.VALID}
       />
     </View>

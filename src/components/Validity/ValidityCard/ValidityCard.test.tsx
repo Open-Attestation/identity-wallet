@@ -12,7 +12,7 @@ describe("ValidityCard", () => {
           tamperedCheck={CheckStatus.CHECKING}
           issuedCheck={CheckStatus.CHECKING}
           revokedCheck={CheckStatus.CHECKING}
-          issuerCheck={CheckStatus.VALID}
+          identityCheck={CheckStatus.VALID}
           overallValidity={CheckStatus.CHECKING}
         />
       );
@@ -46,7 +46,7 @@ describe("ValidityCard", () => {
           tamperedCheck={CheckStatus.VALID}
           issuedCheck={CheckStatus.VALID}
           revokedCheck={CheckStatus.VALID}
-          issuerCheck={CheckStatus.VALID}
+          identityCheck={CheckStatus.VALID}
           overallValidity={CheckStatus.VALID}
         />
       );
@@ -80,7 +80,7 @@ describe("ValidityCard", () => {
           tamperedCheck={CheckStatus.VALID}
           issuedCheck={CheckStatus.INVALID}
           revokedCheck={CheckStatus.INVALID}
-          issuerCheck={CheckStatus.VALID}
+          identityCheck={CheckStatus.VALID}
           overallValidity={CheckStatus.INVALID}
         />
       );

@@ -1,11 +1,10 @@
 import React, { FunctionComponent } from "react";
 import {
-  NavigationProps,
   DocumentProperties,
+  NavigationProps,
   OAWrappedDocument
 } from "../../types";
 import { DocumentRenderer } from "./DocumentRenderer";
-import { getData } from "@govtechsg/open-attestation";
 import { ScannedDocumentActionSheet } from "./ScannedDocumentActionSheet";
 import { useDbContext } from "../../context/db";
 import { resetRouteFn } from "../../common/navigation";
@@ -20,11 +19,9 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
   const document: OAWrappedDocument = navigation.getParam("document");
   const isSavable: boolean = navigation.getParam("savable");
   const statuses: VerificationStatuses = navigation.getParam("statuses");
-
-  const { issuers } = getData(document);
+  const issuerName: string = navigation.getParam("issuerName");
   const id = document.signature.targetHash;
-  const issuedBy =
-    issuers[0]?.identityProof?.location || "Issuer's identity not found";
+  const issuedBy = issuerName;
   const navigateToDocument = resetRouteFn(navigation, "LocalDocumentScreen", {
     id
   });
