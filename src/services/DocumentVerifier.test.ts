@@ -1,5 +1,3 @@
-// FIX - test is failing
-
 import { checkValidity } from "./DocumentVerifier";
 import { OAWrappedDocument } from "../types";
 

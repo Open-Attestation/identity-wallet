@@ -13,7 +13,7 @@ interface ValidityBanner {
   tamperedCheck: CheckStatus;
   issuedCheck: CheckStatus;
   revokedCheck: CheckStatus;
-  issuerCheck: CheckStatus;
+  identityCheck: CheckStatus;
   overallValidity: CheckStatus;
   initialIsExpanded?: boolean;
   isConnected?: boolean;
@@ -23,7 +23,7 @@ export const ValidityBanner: FunctionComponent<ValidityBanner> = ({
   tamperedCheck,
   issuedCheck,
   revokedCheck,
-  issuerCheck,
+  identityCheck,
   overallValidity,
   initialIsExpanded = false,
   isConnected = true
@@ -40,7 +40,7 @@ export const ValidityBanner: FunctionComponent<ValidityBanner> = ({
           tamperedCheck,
           issuedCheck,
           revokedCheck,
-          issuerCheck
+          identityCheck
         )}
         onPress={() => setIsExpanded(prev => !prev)}
       />
@@ -64,7 +64,7 @@ export const ValidityBanner: FunctionComponent<ValidityBanner> = ({
               messages={CHECK_MESSAGES.REVOKED_CHECK}
             />
             <ValidityCheckItem
-              checkStatus={issuerCheck}
+              checkStatus={identityCheck}
               messages={CHECK_MESSAGES.ISSUER_CHECK}
             />
           </>

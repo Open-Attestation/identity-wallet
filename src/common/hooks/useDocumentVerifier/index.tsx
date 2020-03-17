@@ -8,7 +8,7 @@ export interface VerificationStatuses {
   tamperedCheck: CheckStatus;
   issuedCheck: CheckStatus;
   revokedCheck: CheckStatus;
-  issuerCheck: CheckStatus;
+  identityCheck: CheckStatus;
   overallValidity: CheckStatus;
 }
 
@@ -27,7 +27,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
   const [tamperedCheck, setTamperedCheck] = useState(CheckStatus.CHECKING);
   const [issuedCheck, setIssuedCheck] = useState(CheckStatus.CHECKING);
   const [revokedCheck, setRevokedCheck] = useState(CheckStatus.CHECKING);
-  const [issuerCheck, setIssuerCheck] = useState(CheckStatus.CHECKING);
+  const [identityCheck, setIdentityCheck] = useState(CheckStatus.CHECKING);
   const [overallValidity, setOverallValidity] = useState(CheckStatus.CHECKING);
   const [issuerName, setIssuerName] = useState("");
 
@@ -43,7 +43,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
       setTamperedCheck(CheckStatus.CHECKING);
       setIssuedCheck(CheckStatus.CHECKING);
       setRevokedCheck(CheckStatus.CHECKING);
-      setIssuerCheck(CheckStatus.CHECKING);
+      setIdentityCheck(CheckStatus.CHECKING);
       setOverallValidity(CheckStatus.CHECKING);
 
       const isOverallValid = await checkValidity(
@@ -66,7 +66,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
               setIssuerName(issuerName);
             }
 
-            !cancelled.current && setIssuedCheck(status);
+            !cancelled.current && setIdentityCheck(status);
           });
         }
       );
@@ -85,7 +85,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
       tamperedCheck,
       issuedCheck,
       revokedCheck,
-      issuerCheck,
+      identityCheck,
       overallValidity
     },
     verify,

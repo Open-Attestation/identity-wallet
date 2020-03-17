@@ -237,7 +237,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
       tamperedCheck,
       issuedCheck,
       revokedCheck,
-      issuerCheck,
+      identityCheck,
       overallValidity
     },
     verify
@@ -307,7 +307,7 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
                   tamperedCheck={tamperedCheck}
                   issuedCheck={issuedCheck}
                   revokedCheck={revokedCheck}
-                  issuerCheck={issuerCheck}
+                  identityCheck={identityCheck}
                   overallValidity={overallValidity}
                   isConnected={isConnected}
                 />

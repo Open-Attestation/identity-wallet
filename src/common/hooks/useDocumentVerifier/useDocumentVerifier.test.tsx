@@ -1,5 +1,3 @@
-// FIX - should return the correct check status as the checks resolve at different times fails
-
 import demoOc from "../../../../fixtures/demo-oc.json";
 import { useDocumentVerifier } from "./index";
 import { renderHook } from "@testing-library/react-hooks";
@@ -32,7 +30,7 @@ describe("useDocumentVerifier", () => {
   it("should return the correct check status as the checks resolve at different times", async () => {
     expect.assertions(3);
     mockCheckValidity.mockImplementation(
-      async (document, network, callback) => {
+      async (document, network, verifier, callback) => {
         const promises = [
           // verifyHash
           new Promise(res => setTimeout(() => res({ status: "VALID" }), 500)),
@@ -63,7 +61,7 @@ describe("useDocumentVerifier", () => {
       tamperedCheck: CheckStatus.CHECKING,
       issuedCheck: CheckStatus.CHECKING,
       revokedCheck: CheckStatus.CHECKING,
-      issuerCheck: CheckStatus.CHECKING,
+      identityCheck: CheckStatus.CHECKING,
       overallValidity: CheckStatus.CHECKING
     });
 
@@ -74,7 +72,7 @@ describe("useDocumentVerifier", () => {
       tamperedCheck: CheckStatus.VALID,
       issuedCheck: CheckStatus.VALID,
       revokedCheck: CheckStatus.CHECKING,
-      issuerCheck: CheckStatus.CHECKING,
+      identityCheck: CheckStatus.CHECKING,
       overallValidity: CheckStatus.CHECKING
     });
 
@@ -85,7 +83,7 @@ describe("useDocumentVerifier", () => {
       tamperedCheck: CheckStatus.VALID,
       issuedCheck: CheckStatus.VALID,
       revokedCheck: CheckStatus.VALID,
-      issuerCheck: CheckStatus.VALID,
+      identityCheck: CheckStatus.VALID,
       overallValidity: CheckStatus.VALID
     });
   });

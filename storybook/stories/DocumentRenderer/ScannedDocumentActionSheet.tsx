@@ -12,7 +12,7 @@ const mockVerificationStatuses = {
   tamperedCheck: CheckStatus.VALID,
   issuedCheck: CheckStatus.VALID,
   revokedCheck: CheckStatus.VALID,
-  issuerCheck: CheckStatus.VALID,
+  identityCheck: CheckStatus.VALID,
   overallValidity: CheckStatus.VALID
 };
 
