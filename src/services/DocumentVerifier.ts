@@ -122,6 +122,7 @@ export const checkValidity = (
       ? CheckStatus.VALID
       : CheckStatus.INVALID
   }));
+
   const verifyRevoked = documentRevokedVerifier(document as OAWrappedDocument, {
     network: networkName
   }).then(fragments => ({
