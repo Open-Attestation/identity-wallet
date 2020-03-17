@@ -145,7 +145,7 @@ export const checkValidity = (
         .verify(document as OAWrappedDocument, { network: networkName })
         .then(dnsTextFragment => {
           const issuerName = getIssuerNameFromRegistryFragment(dnsTextFragment);
-          return dnsTextFragment.status === CheckStatus.VALID
+          return (dnsTextFragment as any).data[0].status === CheckStatus.VALID
             ? { status: CheckStatus.VALID, issuerName }
             : { status: CheckStatus.INVALID, issuerName };
         });
