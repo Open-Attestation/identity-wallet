@@ -3,6 +3,7 @@ import {
   openAttestationDnsTxt,
   openAttestationEthereumDocumentStoreIssued,
   openAttestationEthereumDocumentStoreRevoked,
+  openAttestationEthereumTokenRegistryMinted,
   openAttestationHash,
   verificationBuilder,
   VerificationFragment
@@ -13,13 +14,16 @@ import {
 } from "@govtechsg/opencerts-verify";
 import { NetworkTypes, OAWrappedDocument, VerifierTypes } from "../types";
 import { CheckStatus } from "../components/Validity";
+import { fakeTokenRegistryRevoked } from "./fakeTokenRegistryRevoked";
 
 const documentStatusVerifier = verificationBuilder([openAttestationHash]);
 const documentIssuedVerifier = verificationBuilder([
-  openAttestationEthereumDocumentStoreIssued
+  openAttestationEthereumDocumentStoreIssued,
+  openAttestationEthereumTokenRegistryMinted
 ]);
 const documentRevokedVerifier = verificationBuilder([
-  openAttestationEthereumDocumentStoreRevoked
+  openAttestationEthereumDocumentStoreRevoked,
+  fakeTokenRegistryRevoked
 ]);
 const openAttestationIssuerIdentityVerifier = verificationBuilder([
   openAttestationDnsTxt
