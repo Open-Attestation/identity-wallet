@@ -15,7 +15,6 @@ import {
   Platform
 } from "react-native";
 import { BottomSheet } from "../Layout/BottomSheet";
-import { getData } from "@govtechsg/open-attestation";
 import QRIcon from "../../../assets/icons/qr.svg";
 import { ValidityBanner } from "../Validity/ValidityBanner";
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
@@ -228,10 +227,6 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
 
   const { isConnected } = useNetworkContext();
 
-  const { issuers } = getData(document.document);
-  const issuedBy =
-    issuers[0]?.identityProof?.location || "Issuer's identity not found";
-
   const {
     statuses: {
       tamperedCheck,
@@ -240,11 +235,14 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
       identityCheck,
       overallValidity
     },
-    verify
+    verify,
+    issuerName
   } = useDocumentVerifier();
   const haveChecksFinished = overallValidity !== CheckStatus.CHECKING;
   const isDocumentValid = overallValidity === CheckStatus.VALID;
   const isDocumentInvalid = overallValidity === CheckStatus.INVALID;
+
+  const issuedBy = issuerName;
 
   useEffect(() => {
     if (isConnected) {

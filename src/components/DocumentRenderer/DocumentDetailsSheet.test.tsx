@@ -72,7 +72,8 @@ describe("DocumentDetailsSheet", () => {
     mockUseVerifier.mockReturnValue({
       statuses: {
         overallValidity: CheckStatus.VALID
-      }
+      },
+      issuerName: "testIssuerName"
     });
     const { queryByText } = render(
       <DocumentDetailsSheet
@@ -81,7 +82,7 @@ describe("DocumentDetailsSheet", () => {
       />
     );
     await wait(() => {
-      expect(queryByText("caas.openattestation.com")).not.toBeNull();
+      expect(queryByText("testIssuerName")).not.toBeNull();
     });
   });
 
