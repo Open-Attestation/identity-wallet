@@ -2,7 +2,7 @@ import { useEffect, useCallback, useState, useRef } from "react";
 import { CheckStatus } from "../../../components/Validity";
 import { checkValidity } from "../../../services/DocumentVerifier";
 import { useConfigContext } from "../../../context/config";
-import { OAWrappedDocument } from "../../../types";
+import { OAWrappedDocument, VerifierTypes } from "../../../types";
 
 export interface VerificationStatuses {
   tamperedCheck: CheckStatus;
@@ -16,6 +16,7 @@ export interface DocumentVerifier {
   statuses: VerificationStatuses;
   verify: (document: OAWrappedDocument) => void;
   issuerName: string;
+  verifierType: VerifierTypes;
 }
 
 export const useDocumentVerifier = (): DocumentVerifier => {
@@ -89,6 +90,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
       overallValidity
     },
     verify,
-    issuerName
+    issuerName,
+    verifierType: verifier
   };
 };

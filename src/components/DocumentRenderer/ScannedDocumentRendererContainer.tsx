@@ -27,6 +27,9 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
   const navigateToDocument = resetRouteFn(navigation, "LocalDocumentScreen", {
     id
   });
+
+  console.log("PLEASE", verifierType);
+
   const onSave = async (): Promise<void> => {
     try {
       const documentToInsert: DocumentProperties = {
