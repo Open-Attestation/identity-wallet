@@ -8,7 +8,7 @@ import { NetworkContext } from "../../context/network";
 jest.mock("lodash/debounce", () => (fn: any) => fn);
 
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
-import { DocumentProperties, DocumentObject } from "../../types";
+import { DocumentProperties, DocumentObject, VerifierTypes } from "../../types";
 jest.mock("../../common/hooks/useDocumentVerifier");
 const mockUseVerifier = useDocumentVerifier as jest.Mock;
 
@@ -37,7 +37,8 @@ const testDocument: DocumentProperties &
   document: sampleDoc as any,
   verified: 1,
   isVerified: true,
-  atomicUpdate: jest.fn()
+  atomicUpdate: jest.fn(),
+  verifierType: VerifierTypes.OpenAttestation
 };
 
 const testDocumentWithQrNoExpiry = {
