@@ -36,7 +36,7 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
         document,
         verified: Date.now(),
         isVerified: statuses.overallValidity === CheckStatus.VALID,
-        verifierType //fix
+        verifierType
       };
       await db!.documents.insert(documentToInsert);
       navigateToDocument();

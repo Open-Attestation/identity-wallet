@@ -44,6 +44,9 @@ export const documentSchema: RxJsonSchema<DocumentProperties> = {
           type: "number"
         }
       }
+    },
+    verifierType: {
+      type: "string"
     }
   }
 };
