@@ -11,6 +11,7 @@ import { resetRouteFn } from "../../common/navigation";
 import { CheckStatus } from "../Validity";
 import { VerificationStatuses } from "../../common/hooks/useDocumentVerifier";
 import { View } from "react-native";
+import { VerifierTypes } from "../../types";
 
 export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps> = ({
   navigation
@@ -20,11 +21,13 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
   const isSavable: boolean = navigation.getParam("savable");
   const statuses: VerificationStatuses = navigation.getParam("statuses");
   const issuerName: string = navigation.getParam("issuerName");
+  const verifierType: VerifierTypes = navigation.getParam("verifierType");
   const id = document.signature.targetHash;
   const issuedBy = issuerName;
   const navigateToDocument = resetRouteFn(navigation, "LocalDocumentScreen", {
     id
   });
+
   const onSave = async (): Promise<void> => {
     try {
       const documentToInsert: DocumentProperties = {
@@ -32,7 +35,8 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
         created: Date.now(),
         document,
         verified: Date.now(),
-        isVerified: statuses.overallValidity === CheckStatus.VALID
+        isVerified: statuses.overallValidity === CheckStatus.VALID,
+        verifierType //fix
       };
       await db!.documents.insert(documentToInsert);
       navigateToDocument();

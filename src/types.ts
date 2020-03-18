@@ -23,6 +23,7 @@ export type DocumentProperties = {
     url: string;
     expiry?: number;
   };
+  verifierType: VerifierTypes;
 };
 
 export type DocumentObject = RxDocument<DocumentProperties>;
