@@ -28,8 +28,6 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
     id
   });
 
-  console.log("PLEASE", verifierType);
-
   const onSave = async (): Promise<void> => {
     try {
       const documentToInsert: DocumentProperties = {
@@ -38,7 +36,7 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
         document,
         verified: Date.now(),
         isVerified: statuses.overallValidity === CheckStatus.VALID,
-        verifierType
+        verifierType //fix
       };
       await db!.documents.insert(documentToInsert);
       navigateToDocument();
