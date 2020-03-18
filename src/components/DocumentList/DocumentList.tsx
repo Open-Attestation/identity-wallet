@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import { ScrollView } from "react-native";
 import { DocumentListItem } from "./DocumentListItem";
 import { size } from "../../common/styles";
+import { VerifierTypes } from "../../types";
 
 export interface DocumentItem {
   id: string;
@@ -9,6 +10,7 @@ export interface DocumentItem {
   isVerified?: boolean;
   lastVerification?: number;
   issuedBy?: string;
+  verifierType: VerifierTypes;
 }
 
 export interface DocumentList {
@@ -20,16 +22,19 @@ export const DocumentList: FunctionComponent<DocumentList> = ({
   documents,
   navigateToDoc
 }) => {
-  const renderedDocumentListItem = documents.map(doc => (
-    <DocumentListItem
-      key={doc.id}
-      title={doc.title}
-      isVerified={doc.isVerified}
-      lastVerification={doc.lastVerification}
-      issuedBy={doc.issuedBy}
-      onPress={(): void => navigateToDoc(doc.id)}
-    />
-  ));
+  const renderedDocumentListItem = documents.map(doc => {
+    return (
+      <DocumentListItem
+        key={doc.id}
+        title={doc.title}
+        isVerified={doc.isVerified}
+        lastVerification={doc.lastVerification}
+        issuedBy={doc.issuedBy}
+        onPress={(): void => navigateToDoc(doc.id)}
+        verifierType={doc.verifierType}
+      />
+    );
+  });
   return (
     <ScrollView
       testID="document-list"
