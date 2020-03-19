@@ -1,6 +1,7 @@
 import React from "react";
 import { CenterVerticalDecorator } from "../decorators";
 import { storiesOf } from "@storybook/react-native";
+import { VerifierTypes } from "../../../src/types";
 
 import { DocumentListItem } from "../../../src/components/DocumentList/DocumentListItem";
 
@@ -11,5 +12,6 @@ storiesOf("DocumentList", module)
       title="UAPL"
       isVerified={true}
       onPress={(): void => alert("Oink!")}
+      verifierType={VerifierTypes.OpenAttestation}
     />
   ));

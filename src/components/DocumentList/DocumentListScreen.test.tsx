@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react-native";
 import { DocumentListScreen } from "./DocumentListScreen";
 import { mockNavigation } from "../../test/helpers/navigation";
+import { VerifierTypes } from "../../types";
 
 jest.mock("../../common/navigation");
 
@@ -41,7 +42,13 @@ describe("DocumentListScreen", () => {
     expect.assertions(4);
     const { queryByTestId } = render(
       <DocumentListScreen
-        documentItems={[{ id: "foo", title: "bar" }]}
+        documentItems={[
+          {
+            id: "foo",
+            title: "bar",
+            verifierType: VerifierTypes.OpenAttestation
+          }
+        ]}
         navigateToDoc={() => true}
         navigateToScanner={() => {}}
         navigation={mockNavigation}

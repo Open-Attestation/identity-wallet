@@ -5,7 +5,9 @@ import { CheckStatus } from "../../../components/Validity/";
 import { checkValidity } from "../../../services/DocumentVerifier";
 
 jest.mock("../../../context/config", () => ({
-  useConfigContext: () => ({ config: { network: "mainnet" } })
+  useConfigContext: () => ({
+    config: { network: "mainnet", verifier: "OpenAttestation" }
+  })
 }));
 jest.mock("../../../services/DocumentVerifier");
 const mockCheckValidity = checkValidity as jest.Mock;
@@ -86,5 +88,17 @@ describe("useDocumentVerifier", () => {
       identityCheck: CheckStatus.VALID,
       overallValidity: CheckStatus.VALID
     });
+  });
+
+  it("should return correct verifierType for document", async () => {
+    expect.assertions(1);
+    mockCheckValidity.mockReturnValue(Promise.resolve("VALID"));
+
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useDocumentVerifier()
+    );
+    result.current.verify(sampleDoc);
+    await waitForNextUpdate();
+    expect(result.current.verifierType).toBe("OpenAttestation");
   });
 });

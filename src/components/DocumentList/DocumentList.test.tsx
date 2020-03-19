@@ -1,23 +1,27 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { DocumentItem, DocumentList } from "./DocumentList";
+import { VerifierTypes } from "../../types";
 
 const sampleDocuments: DocumentItem[] = [
   {
     id: "1",
-    title: "Document 1"
+    title: "Document 1",
+    verifierType: VerifierTypes.OpenAttestation
   },
   {
     id: "2",
     title: "Document 2",
     isVerified: true,
-    lastVerification: 1
+    lastVerification: 1,
+    verifierType: VerifierTypes.OpenAttestation
   },
   {
     id: "3",
     title: "Document 3",
     isVerified: false,
-    lastVerification: 1
+    lastVerification: 1,
+    verifierType: VerifierTypes.OpenAttestation
   }
 ];
 

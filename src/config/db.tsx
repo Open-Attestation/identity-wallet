@@ -1,7 +1,7 @@
 import { RxJsonSchema, RxCollectionCreator, RxDatabaseCreator } from "rxdb";
 import { DocumentProperties } from "../types";
 
-export const dbName = "idwallet";
+export const dbName = "idwallet2";
 export const dbPassword = "supersecretpassword";
 
 export const db: RxDatabaseCreator = {
