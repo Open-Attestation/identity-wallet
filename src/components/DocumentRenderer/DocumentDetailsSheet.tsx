@@ -32,6 +32,7 @@ import { DocumentObject, DocumentProperties } from "../../types";
 import { DocumentMetadata } from "./DocumentMetadata";
 import { QrCodeContainerRef, QrCodeContainer } from "./QrCode/QrCodeContainer";
 import { useNetworkContext } from "../../context/network";
+import { VerifierTypes } from "../../types";
 
 interface BackgroundOverlay {
   isVisible: boolean;
@@ -206,12 +207,14 @@ export interface DocumentDetailsSheet {
   document: DocumentProperties & Pick<DocumentObject, "atomicUpdate">;
   onVerification: (checkStatus: CheckStatus) => void;
   initialSheetOpen?: boolean;
+  savedVerifierType?: VerifierTypes;
 }
 
 export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
   document,
   onVerification,
-  initialSheetOpen = false
+  initialSheetOpen = false,
+  savedVerifierType
 }) => {
   const qrCodeRef = useRef<QrCodeContainerRef>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(initialSheetOpen);
@@ -237,11 +240,10 @@ export const DocumentDetailsSheet: FunctionComponent<DocumentDetailsSheet> = ({
     },
     verify,
     issuerName
-  } = useDocumentVerifier();
+  } = useDocumentVerifier(savedVerifierType);
   const haveChecksFinished = overallValidity !== CheckStatus.CHECKING;
   const isDocumentValid = overallValidity === CheckStatus.VALID;
   const isDocumentInvalid = overallValidity === CheckStatus.INVALID;
-
   const issuedBy = issuerName;
 
   useEffect(() => {

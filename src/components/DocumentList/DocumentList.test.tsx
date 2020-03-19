@@ -45,12 +45,12 @@ describe("DocumentList", () => {
     );
     // Press first DocumentListItem
     fireEvent.press(queryAllByTestId("document-list-item")[0]);
-    expect(navigateToDoc).toHaveBeenCalledWith("1");
+    expect(navigateToDoc).toHaveBeenCalledWith("1", "OpenAttestation");
     // Press second DocumentListItem
     fireEvent.press(queryAllByTestId("document-list-item")[1]);
-    expect(navigateToDoc).toHaveBeenCalledWith("2");
+    expect(navigateToDoc).toHaveBeenCalledWith("2", "OpenAttestation");
     // Press third DocumentListItem
     fireEvent.press(queryAllByTestId("document-list-item")[2]);
-    expect(navigateToDoc).toHaveBeenCalledWith("3");
+    expect(navigateToDoc).toHaveBeenCalledWith("3", "OpenAttestation");
   });
 });

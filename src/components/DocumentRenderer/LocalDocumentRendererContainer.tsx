@@ -10,11 +10,13 @@ import { DocumentRenderer } from "./DocumentRenderer";
 import { DocumentDetailsSheet } from "./DocumentDetailsSheet";
 import { LoadingView } from "../Loading";
 import { CheckStatus } from "../Validity";
+import { VerifierTypes } from "../../types";
 
 export const LocalDocumentRendererContainer: FunctionComponent<NavigationProps> = ({
   navigation
 }) => {
   const id: string = navigation.getParam("id");
+  const verifierType: VerifierTypes = navigation.getParam("verifierType");
   const { db } = useDbContext();
   const [document, setDocument] = useState<DocumentObject | null>(null);
 
@@ -50,6 +52,7 @@ export const LocalDocumentRendererContainer: FunctionComponent<NavigationProps> 
       <DocumentDetailsSheet
         document={document}
         onVerification={onVerification}
+        savedVerifierType={verifierType}
       />
     </View>
   ) : (

@@ -19,10 +19,13 @@ export interface DocumentVerifier {
   verifierType: VerifierTypes;
 }
 
-export const useDocumentVerifier = (): DocumentVerifier => {
+export const useDocumentVerifier = (
+  savedVerifierType?: VerifierTypes
+): DocumentVerifier => {
   const {
     config: { network, verifier }
   } = useConfigContext();
+  const verifierType = savedVerifierType ? savedVerifierType : verifier;
 
   const cancelled = useRef(false);
   const [tamperedCheck, setTamperedCheck] = useState(CheckStatus.CHECKING);
@@ -50,7 +53,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
       const isOverallValid = await checkValidity(
         document,
         network,
-        verifier,
+        verifierType,
         ([verifyHash, verifyIssued, verifyRevoked, verifyIdentity]) => {
           verifyHash.then(({ status }) => {
             !cancelled.current && setTamperedCheck(status);
@@ -78,7 +81,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
         );
       }
     },
-    [network, verifier]
+    [network, verifierType]
   );
 
   return {
@@ -91,6 +94,6 @@ export const useDocumentVerifier = (): DocumentVerifier => {
     },
     verify,
     issuerName,
-    verifierType: verifier
+    verifierType
   };
 };

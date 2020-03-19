@@ -5,10 +5,11 @@ import { BottomNav } from "../Layout/BottomNav";
 import { EmptyDocumentList } from "./EmptyDocumentList";
 import { LoadingView } from "../Loading";
 import { SafeAreaView } from "react-native";
+import { VerifierTypes } from "../../types";
 
 interface DocumentListScreen extends NavigationProps {
   documentItems?: DocumentItem[];
-  navigateToDoc: (documentId: string) => boolean;
+  navigateToDoc: (documentId: string, verifierType: VerifierTypes) => boolean;
   navigateToScanner: () => void;
 }
 
@@ -38,7 +39,7 @@ export const DocumentListScreen: FunctionComponent<DocumentListScreen> = ({
 
 interface ResolvedDocumentList {
   documentItems: DocumentItem[];
-  navigateToDoc: (documentId: string) => boolean;
+  navigateToDoc: (documentId: string, verifierType: VerifierTypes) => boolean;
   navigateToScanner: () => void;
 }
 

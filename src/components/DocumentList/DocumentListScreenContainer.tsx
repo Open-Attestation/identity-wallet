@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
-import { DocumentObject, NavigationProps } from "../../types";
+import { DocumentObject, NavigationProps, VerifierTypes } from "../../types";
 import { getData } from "@govtechsg/open-attestation";
 import { useDbContext } from "../../context/db";
 import { replaceRouteFn } from "../../common/navigation";
@@ -26,8 +26,9 @@ export const DocumentListScreenContainer: FunctionComponent<NavigationProps> = (
     return () => subscription.unsubscribe();
   }, [db]);
 
-  const navigateToDoc = (id: string): boolean =>
-    navigation.navigate("LocalDocumentScreen", { id });
+  // opening saved doc uses the verifierType that was saved
+  const navigateToDoc = (id: string, verifierType: VerifierTypes): boolean =>
+    navigation.navigate("LocalDocumentScreen", { id, verifierType });
   const navigateToScanner = replaceRouteFn(navigation, "QrScannerScreen");
 
   const documentItems = documents?.map((doc: DocumentObject) => {
