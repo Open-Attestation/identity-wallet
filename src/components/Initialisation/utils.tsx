@@ -3,6 +3,7 @@ import * as RxDB from "rxdb";
 import { DB_CONFIG } from "../../config";
 import * as SQLite from "expo-sqlite";
 import SQLiteAdapterFactory from "pouchdb-adapter-react-native-sqlite";
+import { dbName, adapterName } from "../../../src/config/db";
 
 RxDB.plugin(SQLiteAdapterFactory(SQLite));
 
@@ -16,6 +17,7 @@ export const initialiseDb = async ({
   onInitDb: Function;
 }): Promise<void> => {
   if (!db) {
+    RxDB.removeDatabase(dbName, adapterName);
     const createdDb = await RxDB.create<DatabaseCollections>(DB_CONFIG.db);
     await createdDb.collection(DB_CONFIG.documentsCollection);
     setDb!(createdDb);

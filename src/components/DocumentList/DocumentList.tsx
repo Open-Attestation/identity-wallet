@@ -10,7 +10,7 @@ export interface DocumentItem {
   isVerified?: boolean;
   lastVerification?: number;
   issuedBy?: string;
-  verifierType?: VerifierTypes;
+  verifierType: VerifierTypes;
 }
 
 export interface DocumentList {
@@ -29,7 +29,7 @@ export const DocumentList: FunctionComponent<DocumentList> = ({
       isVerified={doc.isVerified}
       lastVerification={doc.lastVerification}
       issuedBy={doc.issuedBy}
-      onPress={(): void => navigateToDoc(doc.id, doc.verifierType as any)} // TODO - handle typing to include undefined
+      onPress={(): void => navigateToDoc(doc.id, doc.verifierType)}
       verifierType={doc.verifierType}
     />
   ));

@@ -3,6 +3,7 @@ import { useDocumentVerifier } from "./index";
 import { renderHook } from "@testing-library/react-hooks";
 import { CheckStatus } from "../../../components/Validity/";
 import { checkValidity } from "../../../services/DocumentVerifier";
+import { VerifierTypes } from "../../../types";
 
 jest.mock("../../../context/config", () => ({
   useConfigContext: () => ({
@@ -90,7 +91,7 @@ describe("useDocumentVerifier", () => {
     });
   });
 
-  it("should return correct verifierType for document", async () => {
+  it("should use OpenAttestation as verifier when selected", async () => {
     expect.assertions(1);
     mockCheckValidity.mockReturnValue(Promise.resolve("VALID"));
 
@@ -99,6 +100,18 @@ describe("useDocumentVerifier", () => {
     );
     result.current.verify(sampleDoc);
     await waitForNextUpdate();
-    expect(result.current.verifierType).toBe("OpenAttestation");
+    expect(result.current.verifierType).toBe(VerifierTypes.OpenAttestation);
+  });
+
+  it("should use OpenCerts as verifier when selected", async () => {
+    expect.assertions(1);
+    mockCheckValidity.mockReturnValue(Promise.resolve("VALID"));
+
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useDocumentVerifier(VerifierTypes.OpenCerts)
+    );
+    result.current.verify(sampleDoc);
+    await waitForNextUpdate();
+    expect(result.current.verifierType).toBe(VerifierTypes.OpenCerts);
   });
 });

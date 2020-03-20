@@ -3,10 +3,11 @@ import { DocumentProperties } from "../types";
 
 export const dbName = "idwallet";
 export const dbPassword = "supersecretpassword";
+export const adapterName = "react-native-sqlite";
 
 export const db: RxDatabaseCreator = {
   name: dbName,
-  adapter: "react-native-sqlite",
+  adapter: adapterName,
   password: dbPassword,
   multiInstance: false,
   pouchSettings: { skip_setup: true } // eslint-disable-line @typescript-eslint/camelcase
