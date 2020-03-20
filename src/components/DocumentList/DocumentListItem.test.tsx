@@ -1,7 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { DocumentListItem } from "./DocumentListItem";
-import { VerifierTypes } from "../../types";
 
 describe("DocumentListItem", () => {
   it("should show the title when is valid", () => {
