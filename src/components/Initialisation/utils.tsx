@@ -15,9 +15,8 @@ export const initialiseDb = async ({
   setDb?: Function;
   onInitDb: Function;
 }): Promise<void> => {
-  if (db) {
-    await db.remove(); // remove previous instance of RxDB
-  } else {
+  // await db.remove(); => remove previous instance of RxDB - run once to fix db inconsistency
+  if (!db) {
     const createdDb = await RxDB.create<DatabaseCollections>(DB_CONFIG.db);
     await createdDb.collection(DB_CONFIG.documentsCollection);
     setDb!(createdDb);
