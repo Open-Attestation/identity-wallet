@@ -10,7 +10,7 @@ export interface DocumentItem {
   isVerified?: boolean;
   lastVerification?: number;
   issuedBy?: string;
-  verifierType: VerifierTypes;
+  verifierType?: VerifierTypes;
 }
 
 export interface DocumentList {
@@ -22,19 +22,17 @@ export const DocumentList: FunctionComponent<DocumentList> = ({
   documents,
   navigateToDoc
 }) => {
-  const renderedDocumentListItem = documents.map(doc => {
-    return (
-      <DocumentListItem
-        key={doc.id}
-        title={doc.title}
-        isVerified={doc.isVerified}
-        lastVerification={doc.lastVerification}
-        issuedBy={doc.issuedBy}
-        onPress={(): void => navigateToDoc(doc.id, doc.verifierType)}
-        verifierType={doc.verifierType}
-      />
-    );
-  });
+  const renderedDocumentListItem = documents.map(doc => (
+    <DocumentListItem
+      key={doc.id}
+      title={doc.title}
+      isVerified={doc.isVerified}
+      lastVerification={doc.lastVerification}
+      issuedBy={doc.issuedBy}
+      onPress={(): void => navigateToDoc(doc.id, doc.verifierType as any)} // TODO - handle typing to include undefined
+      verifierType={doc.verifierType}
+    />
+  ));
   return (
     <ScrollView
       testID="document-list"

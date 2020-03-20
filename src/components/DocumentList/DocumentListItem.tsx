@@ -44,7 +44,7 @@ export interface DocumentListItem {
   lastVerification?: number;
   issuedBy?: string;
   onPress: () => void;
-  verifierType: VerifierTypes;
+  verifierType?: VerifierTypes;
 }
 
 export const DocumentListItem: FunctionComponent<DocumentListItem> = ({

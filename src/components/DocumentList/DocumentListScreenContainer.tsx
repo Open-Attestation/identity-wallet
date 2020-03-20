@@ -5,7 +5,7 @@ import { useDbContext } from "../../context/db";
 import { replaceRouteFn } from "../../common/navigation";
 import { DocumentListScreen } from "./DocumentListScreen";
 
-// TODO - get isserName from verifier instead of getData. this does not support OC documents
+// only used when document does not have saved issuerName
 const getIssuerName = (document: DocumentObject): string | undefined => {
   const { issuers } = getData(document.document);
   return issuers[0]?.identityProof?.location;
@@ -38,8 +38,8 @@ export const DocumentListScreenContainer: FunctionComponent<NavigationProps> = (
       title: (docClear as any).name, // TODO: figure out typing
       isVerified: doc.isVerified,
       lastVerification: doc.verified,
-      issuedBy: getIssuerName(doc),
-      verifierType: doc.verifierType
+      issuedBy: doc.issuerName || getIssuerName(doc), // if no issuerName, get from document data
+      verifierType: doc.verifierType || VerifierTypes.OpenAttestation // if doc does not have verifierType => it is OpenAttestation Document
     };
   });
   return (

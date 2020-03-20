@@ -23,7 +23,6 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
   const issuerName: string = navigation.getParam("issuerName");
   const verifierType: VerifierTypes = navigation.getParam("verifierType");
   const id = document.signature.targetHash;
-  const issuedBy = issuerName;
   const navigateToDocument = resetRouteFn(navigation, "LocalDocumentScreen", {
     id
   });
@@ -36,7 +35,8 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
         document,
         verified: Date.now(),
         isVerified: statuses.overallValidity === CheckStatus.VALID,
-        verifierType
+        verifierType,
+        issuerName
       };
       await db!.documents.insert(documentToInsert);
       navigateToDocument();
@@ -57,7 +57,7 @@ export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps
       />
       <ScannedDocumentActionSheet
         verificationStatuses={statuses}
-        issuedBy={issuedBy}
+        issuedBy={issuerName}
         isSavable={isSavable}
         onCancel={() => navigation.goBack()}
         onDone={() => navigation.goBack()}

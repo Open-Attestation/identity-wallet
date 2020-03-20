@@ -1,7 +1,7 @@
 import { RxJsonSchema, RxCollectionCreator, RxDatabaseCreator } from "rxdb";
 import { DocumentProperties } from "../types";
 
-export const dbName = "idwallet2";
+export const dbName = "idwallet4";
 export const dbPassword = "supersecretpassword";
 
 export const db: RxDatabaseCreator = {
@@ -46,6 +46,9 @@ export const documentSchema: RxJsonSchema<DocumentProperties> = {
       }
     },
     verifierType: {
+      type: "string"
+    },
+    issuerName: {
       type: "string"
     }
   }

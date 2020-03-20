@@ -37,8 +37,7 @@ const testDocument: DocumentProperties &
   document: sampleDoc as any,
   verified: 1,
   isVerified: true,
-  atomicUpdate: jest.fn(),
-  verifierType: VerifierTypes.OpenAttestation
+  atomicUpdate: jest.fn()
 };
 
 const testDocumentWithQrNoExpiry = {
