@@ -13,7 +13,7 @@ export const db: RxDatabaseCreator = {
 };
 
 export const documentSchema: RxJsonSchema<DocumentProperties> = {
-  version: 1,
+  version: 2,
   type: "object",
   properties: {
     id: {
@@ -58,6 +58,7 @@ export const documentsCollection: RxCollectionCreator = {
   name: "documents",
   schema: documentSchema,
   migrationStrategies: {
-    1: (oldDoc: DocumentProperties) => oldDoc
+    1: (oldDoc: DocumentProperties) => oldDoc,
+    2: (oldDoc: DocumentProperties) => oldDoc
   }
 };
