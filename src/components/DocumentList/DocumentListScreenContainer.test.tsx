@@ -78,7 +78,8 @@ describe("DocumentListScreenContainer", () => {
     expect(mockNavigation.navigate).toHaveBeenCalledWith(
       "LocalDocumentScreen",
       {
-        id: "doc-2"
+        id: "doc-2",
+        verifierType: "OpenAttestation"
       }
     );
   });

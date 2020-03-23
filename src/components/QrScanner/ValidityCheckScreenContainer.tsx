@@ -12,7 +12,7 @@ export const ValidityCheckScreenContainer: FunctionComponent<NavigationProps> = 
 }) => {
   const document: OAWrappedDocument = navigation.getParam("document");
   const isSavable: boolean = navigation.getParam("savable");
-  const { statuses, verify, issuerName } = useDocumentVerifier();
+  const { statuses, verify, issuerName, verifierType } = useDocumentVerifier();
 
   useEffect(() => {
     verify(document);
@@ -27,7 +27,8 @@ export const ValidityCheckScreenContainer: FunctionComponent<NavigationProps> = 
             document,
             savable: isSavable,
             statuses,
-            issuerName
+            issuerName,
+            verifierType
           })();
         }
       }, 500);
@@ -35,7 +36,7 @@ export const ValidityCheckScreenContainer: FunctionComponent<NavigationProps> = 
     return () => {
       cancelled = true;
     };
-  }, [document, isSavable, issuerName, navigation, statuses]);
+  }, [document, isSavable, issuerName, navigation, statuses, verifierType]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

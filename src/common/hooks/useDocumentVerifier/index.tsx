@@ -2,7 +2,7 @@ import { useEffect, useCallback, useState, useRef } from "react";
 import { CheckStatus } from "../../../components/Validity";
 import { checkValidity } from "../../../services/DocumentVerifier";
 import { useConfigContext } from "../../../context/config";
-import { OAWrappedDocument } from "../../../types";
+import { OAWrappedDocument, VerifierTypes } from "../../../types";
 
 export interface VerificationStatuses {
   tamperedCheck: CheckStatus;
@@ -16,12 +16,16 @@ export interface DocumentVerifier {
   statuses: VerificationStatuses;
   verify: (document: OAWrappedDocument) => void;
   issuerName: string;
+  verifierType: VerifierTypes;
 }
 
-export const useDocumentVerifier = (): DocumentVerifier => {
+export const useDocumentVerifier = (
+  savedVerifierType?: VerifierTypes
+): DocumentVerifier => {
   const {
     config: { network, verifier }
   } = useConfigContext();
+  const verifierType = savedVerifierType ? savedVerifierType : verifier;
 
   const cancelled = useRef(false);
   const [tamperedCheck, setTamperedCheck] = useState(CheckStatus.CHECKING);
@@ -49,7 +53,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
       const isOverallValid = await checkValidity(
         document,
         network,
-        verifier,
+        verifierType,
         ([verifyHash, verifyIssued, verifyRevoked, verifyIdentity]) => {
           verifyHash.then(({ status }) => {
             !cancelled.current && setTamperedCheck(status);
@@ -77,7 +81,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
         );
       }
     },
-    [network, verifier]
+    [network, verifierType]
   );
 
   return {
@@ -89,6 +93,7 @@ export const useDocumentVerifier = (): DocumentVerifier => {
       overallValidity
     },
     verify,
-    issuerName
+    issuerName,
+    verifierType
   };
 };

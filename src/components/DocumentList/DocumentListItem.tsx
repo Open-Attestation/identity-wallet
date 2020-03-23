@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
 import { VerifiedLabel } from "./VerifiedLabel";
 import { color, fontSize, size, borderRadius } from "../../common/styles";
 import { Feather } from "@expo/vector-icons";
+import { VerifierTypes } from "../../types";
 
 const styles = StyleSheet.create({
   documentListItem: {
@@ -43,6 +44,7 @@ export interface DocumentListItem {
   lastVerification?: number;
   issuedBy?: string;
   onPress: () => void;
+  verifierType?: VerifierTypes;
 }
 
 export const DocumentListItem: FunctionComponent<DocumentListItem> = ({
