@@ -1,20 +1,8 @@
 import { checkValidity } from "./DocumentVerifier";
-import { NetworkTypes, OAWrappedDocument, VerifierTypes } from "../types";
+import { NetworkTypes, VerifierTypes } from "../types";
+import demoCaas from "../../fixtures/demo-caas.json";
+import demoCaasTempered from "../../fixtures/demo-caas-tempered.json";
 
-const mockIsValid = jest.fn();
-
-jest.mock("@govtechsg/oa-verify", () => {
-  return {
-    openAttestationHash: jest.fn(),
-    openAttestationEthereumDocumentStoreIssued: jest.fn(),
-    openAttestationEthereumDocumentStoreRevoked: jest.fn(),
-    openAttestationDnsTxt: jest.fn(),
-    isValid: () => mockIsValid(),
-    verificationBuilder: () => () => Promise.resolve([{}, {}]) // return 2 elements for identity fragment resolution
-  };
-});
-
-// TODO this is vry complicated to test using mock, we might consider to replace using e2e tests
 describe("DocumentVerifier", () => {
   beforeEach(() => {
     jest.resetAllMocks();
@@ -22,10 +10,9 @@ describe("DocumentVerifier", () => {
   describe("checkValidity", () => {
     it("should return true when all checks are valid", async () => {
       expect.assertions(1);
-      mockIsValid.mockReturnValue(true);
 
       const result = await checkValidity(
-        {} as OAWrappedDocument,
+        demoCaas as any,
         NetworkTypes.ropsten,
         VerifierTypes.OpenAttestation,
         jest.fn()
@@ -34,10 +21,9 @@ describe("DocumentVerifier", () => {
     });
     it("should return false when somes checks errored", async () => {
       expect.assertions(1);
-      mockIsValid.mockReturnValue(false);
 
       const result = await checkValidity(
-        {} as OAWrappedDocument,
+        demoCaasTempered as any,
         NetworkTypes.ropsten,
         VerifierTypes.OpenAttestation,
         jest.fn()
