@@ -6,11 +6,13 @@ import {
   openAttestationEthereumTokenRegistryMinted,
   openAttestationHash,
   verificationBuilder,
-  VerificationFragment
+  VerificationFragment,
+  Identity
 } from "@govtechsg/oa-verify";
 import {
   isValid as ocIsValid,
-  registryVerifier
+  registryVerifier,
+  RegistryEntry
 } from "@govtechsg/opencerts-verify";
 import { NetworkTypes, OAWrappedDocument, VerifierTypes } from "../types";
 import { CheckStatus } from "../components/Validity";
@@ -33,23 +35,6 @@ const openCertsIssuerIdentityVerifier = verificationBuilder([
   registryVerifier
 ]);
 
-// TODO import this from oa-verify
-interface Identity {
-  status: "VALID" | "INVALID" | "SKIPPED";
-  location?: string;
-  value?: string;
-}
-
-// TODO import this from opencerts verifier
-interface RegistryEntry {
-  name: string;
-  displayCard: boolean;
-  website?: string;
-  email?: string;
-  phone?: string;
-  logo?: string;
-  id?: string;
-}
 type OpencertsRegistryVerificationFragmentData = Partial<RegistryEntry> & {
   value: string;
   status: "VALID" | "INVALID";
