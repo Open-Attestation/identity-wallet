@@ -8,7 +8,7 @@ interface EncryptedDocumentAction {
 
 export const fetchCleartextDocument = async (payload: {
   uri: string;
-}): Promise<OAWrappedDocument> => fetch(payload.uri).then(res => res.json());
+}): Promise<OAWrappedDocument> => fetch(payload.uri).then((res) => res.json());
 
 interface EncryptedResponse {
   tag: string;
@@ -25,7 +25,7 @@ export const fetchEncryptedDocument = async ({
   uri,
   key
 }: EncryptedDocumentAction): Promise<OAWrappedDocument> => {
-  const response: Response = await fetch(uri).then(res => res.json());
+  const response: Response = await fetch(uri).then((res) => res.json());
   const document = response.document || response;
   const { tag, cipherText, iv, type } = document;
 

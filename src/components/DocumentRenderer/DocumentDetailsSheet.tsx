@@ -15,6 +15,7 @@ import {
   Platform
 } from "react-native";
 import { BottomSheet } from "../Layout/BottomSheet";
+import { QRWebIcon } from "../../assets/qr";
 import QRIcon from "../../../assets/icons/qr.svg";
 import { ValidityBanner } from "../Validity/ValidityBanner";
 import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
@@ -187,7 +188,11 @@ const ShareButton: FunctionComponent<ShareButton> = ({
           accessible
           style={{ justifyContent: "center", alignItems: "center" }}
         >
-          <QRIcon width={size(3)} height={size(3)} />
+          {Platform.OS === "web" ? (
+            <QRWebIcon width={size(3)} height={size(3)} />
+          ) : (
+            <QRIcon width={size(3)} height={size(3)} />
+          )}
           <Text style={styles.shareButtonLabel}>Share</Text>
         </View>
       </TouchableOpacity>

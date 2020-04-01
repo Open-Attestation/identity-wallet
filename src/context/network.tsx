@@ -1,5 +1,14 @@
 import React, { createContext, useContext, FunctionComponent } from "react";
-import { useNetInfo } from "@react-native-community/netinfo";
+import { Platform } from "react-native";
+
+let useNetInfo: any;
+if (Platform.OS !== "web") {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const reactNativeCommunity = require("@react-native-community/netinfo");
+  useNetInfo = reactNativeCommunity.useNetInfo;
+} else {
+  useNetInfo = () => ({ isConnected: true });
+}
 
 interface NetworkContext {
   isConnected: boolean;

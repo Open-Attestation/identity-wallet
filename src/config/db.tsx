@@ -1,12 +1,20 @@
+import { Platform } from "react-native";
 import { RxJsonSchema, RxCollectionCreator, RxDatabaseCreator } from "rxdb";
 import { DocumentProperties } from "../types";
 
 export const dbName = "idwallet";
 export const dbPassword = "supersecretpassword";
 
+let adapterName;
+if (Platform.OS === "web") {
+  adapterName = "idb";
+} else {
+  adapterName = "react-native-sqlite";
+}
+
 export const db: RxDatabaseCreator = {
   name: dbName,
-  adapter: "react-native-sqlite",
+  adapter: adapterName,
   password: dbPassword,
   multiInstance: false,
   pouchSettings: { skip_setup: true } // eslint-disable-line @typescript-eslint/camelcase
