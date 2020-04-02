@@ -41,10 +41,7 @@ npm run test
 
 # To run application
 
-Run the following commands:
-
 ```
-cd identity-wallet
 npm start
 ```
 
@@ -56,15 +53,11 @@ Expo CLI starts Metro Bundler, which is an HTTP server that serves it to the Exp
 - Scan the QR code that is shown on the Expo Dev Tools page
 - For more details: https://docs.expo.io/versions/v34.0.0/workflow/up-and-running/
 
-### To find files to store using the wallet, head to:
+### Open documents
 
-https://gallery.openattestation.com/
+To find files to view and store using the wallet, head to https://gallery.openattestation.com/
 
 # Related Resources
-
-### Deployments:
-
-Storybook: https://docs.demo-caas.openattestation.com
 
 ### Figma:
 
