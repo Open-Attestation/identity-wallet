@@ -6,6 +6,8 @@
 
 This is a wallet built to hold OpenAttestation-compatible documents
 
+## Resources on Open Attestation
+
 https://openattestation.com/docs/getting-started
 https://github.com/Open-Attestation/open-attestation
 
@@ -31,43 +33,42 @@ npm i
 npm run storybook
 ```
 
-### To run application
-
-```
-npm start
-```
-
-Documents can be found at https://gallery.openattestation.com/
-
 ### Test
 
 ```
 npm run test
 ```
 
-# Created Resources
+# To run application
+
+Run the following commands:
+
+```
+cd identity-wallet
+npm start
+```
+
+Expo CLI starts Metro Bundler, which is an HTTP server that serves it to the Expo app. It also pops up Expo Dev Tools, a control panel for developing your app, in your default web browser.
+
+### To open the app in your phone:
+
+- Download “Expo” from the App Store/Play Store
+- Scan the QR code that is shown on the Expo Dev Tools page
+- For more details: https://docs.expo.io/versions/v34.0.0/workflow/up-and-running/
+
+### To find files to store using the wallet, head to:
+
+https://gallery.openattestation.com/
+
+# Related Resources
 
 ### Deployments:
 
 Storybook: https://docs.demo-caas.openattestation.com
 
-Decentralised Renderer: https://demo-caas.openattestation.com
-
-### Github:
-
-Wallet: https://github.com/Open-Attestation/identity-wallet
-
-Decentralised Renderer: https://github.com/Open-Attestation/caas-renderer
-
-Rendered: https://docs.demo-caas.openattestation.com/
-
 ### Figma:
 
 Wireframe (App - Figma Mirror): https://www.figma.com/file/jhkqMeLYVuR72CfdgsmIO2/OA-Mobile-Wallet?node-id=42%3A781
-
-### Document Store:
-
-0xF87aFecD4bb58088a1f26dE784770C796C0Fa4a3
 
 ### Schema:
 
