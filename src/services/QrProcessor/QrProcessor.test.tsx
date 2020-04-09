@@ -90,7 +90,10 @@ describe("processQr", () => {
         encodeURI(
           JSON.stringify({
             type: "DOCUMENT",
-            payload: { uri: "https://api.myjson.com/bins/kv1de" }
+            payload: {
+              uri:
+                "https://gist.githubusercontent.com/benjaminlim00/f8abc21d3f258a17e5876f866fd64dcc/raw/e25153b33750b44d41a7160a0ad722806abf21be/demo-ecrypted-oc.json"
+            }
           })
         ),
       { onDocumentStore, onDocumentView }
@@ -110,7 +113,8 @@ describe("processQr", () => {
           JSON.stringify({
             type: "DOCUMENT",
             payload: {
-              uri: "https://api.myjson.com/bins/kv1de",
+              uri:
+                "https://gist.githubusercontent.com/benjaminlim00/f8abc21d3f258a17e5876f866fd64dcc/raw/e25153b33750b44d41a7160a0ad722806abf21be/demo-ecrypted-oc.json",
               permittedActions: ["STORE"]
             }
           })
@@ -131,7 +135,10 @@ describe("processQr", () => {
           encodeURI(
             JSON.stringify({
               type: "COW",
-              payload: { uri: "https://api.myjson.com/bins/kv1de" }
+              payload: {
+                uri:
+                  "https://gist.githubusercontent.com/benjaminlim00/f8abc21d3f258a17e5876f866fd64dcc/raw/e25153b33750b44d41a7160a0ad722806abf21be/demo-ecrypted-oc.json"
+              }
             })
           ),
         { onDocumentStore, onDocumentView }
@@ -152,7 +159,10 @@ describe("processQr", () => {
           encodeURI(
             JSON.stringify({
               type: "DOCUMENT",
-              payload: { uri: "https://api.myjson.com/bins/kv1de" }
+              payload: {
+                uri:
+                  "https://gist.githubusercontent.com/benjaminlim00/f8abc21d3f258a17e5876f866fd64dcc/raw/e25153b33750b44d41a7160a0ad722806abf21be/demo-ecrypted-oc.json"
+              }
             })
           ),
         { onDocumentStore, onDocumentView }
@@ -171,7 +181,10 @@ describe("processQr", () => {
           encodeURI(
             JSON.stringify({
               type: "DOCUMENT",
-              payload: { uri: "https://api.myjson.com/bins/kv1de" }
+              payload: {
+                uri:
+                  "https://gist.githubusercontent.com/benjaminlim00/f8abc21d3f258a17e5876f866fd64dcc/raw/e25153b33750b44d41a7160a0ad722806abf21be/demo-ecrypted-oc.json"
+              }
             })
           ),
         { onDocumentStore, onDocumentView }
@@ -192,7 +205,8 @@ describe("processQr", () => {
             JSON.stringify({
               type: "DOCUMENT",
               payload: {
-                uri: "https://api.myjson.com/bins/kv1de",
+                uri:
+                  "https://gist.githubusercontent.com/benjaminlim00/f8abc21d3f258a17e5876f866fd64dcc/raw/e25153b33750b44d41a7160a0ad722806abf21be/demo-ecrypted-oc.json",
                 permittedActions: ["STORE"]
               }
             })
@@ -214,7 +228,8 @@ describe("processQr", () => {
             JSON.stringify({
               type: "DOCUMENT",
               payload: {
-                uri: "https://api.myjson.com/bins/kv1de",
+                uri:
+                  "https://gist.githubusercontent.com/benjaminlim00/f8abc21d3f258a17e5876f866fd64dcc/raw/e25153b33750b44d41a7160a0ad722806abf21be/demo-ecrypted-oc.json",
                 permittedActions: ["STORE"]
               }
             })
@@ -235,9 +250,10 @@ describe("processQr", () => {
           JSON.stringify({
             type: "DOCUMENT",
             payload: {
-              uri: "https://api.myjson.com/bins/kv1de",
+              uri:
+                "https://gist.githubusercontent.com/benjaminlim00/f8abc21d3f258a17e5876f866fd64dcc/raw/e25153b33750b44d41a7160a0ad722806abf21be/demo-ecrypted-oc.json",
               key:
-                "a0c820de75a302927c80b2c9b8a1143b8d519862d5ce972bdf0a76387464811b"
+                "a2b07af37ddc6b954708c8e018e28668cf1eea24ae0bec9cc556c9f19f879294"
             }
           })
         ),
@@ -258,7 +274,8 @@ describe("processQr", () => {
             JSON.stringify({
               type: "DOCUMENT",
               payload: {
-                uri: "https://api.myjson.com/bins/kv1de",
+                uri:
+                  "https://gist.githubusercontent.com/benjaminlim00/f8abc21d3f258a17e5876f866fd64dcc/raw/e25153b33750b44d41a7160a0ad722806abf21be/demo-ecrypted-oc.json",
                 key:
                   "7e22da661c5d574ed611bf507db9350c5d50028df21fd7038fa0bb3b02e4e9b5"
               }

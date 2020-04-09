@@ -34,7 +34,7 @@ describe("fetchDocument", () => {
       mockJsonResponse.mockResolvedValue(demoEncrypted);
       const results = await fetchEncryptedDocument({
         uri: "https://example.com/id",
-        key: "a0c820de75a302927c80b2c9b8a1143b8d519862d5ce972bdf0a76387464811b"
+        key: "a2b07af37ddc6b954708c8e018e28668cf1eea24ae0bec9cc556c9f19f879294"
       });
       expect(fetch).toHaveBeenCalledWith("https://example.com/id");
       expect(results).toStrictEqual(demoOc);
