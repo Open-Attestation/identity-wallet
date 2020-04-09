@@ -12,7 +12,7 @@ export const fetchCleartextDocument = async (payload: {
 
 const extractDataFromResponse = (
   res: any
-): { tag: any; cipherText: any; iv: any; type: any } => {
+): { tag: string; cipherText: string; iv: string; type: string } => {
   if (res.document) {
     const {
       document: { tag, cipherText, iv, type }
