@@ -26,7 +26,7 @@ export const fetchEncryptedDocument = async ({
   uri,
   key
 }: EncryptedDocumentAction): Promise<OAWrappedDocument> => {
-  const response = await fetch(uri).then((res) => res.json());
+  const response = await fetch(uri).then((res: any) => res.json());
   const { tag, cipherText, iv, type } = extractDataFromResponse(response);
 
   const cipher = {
