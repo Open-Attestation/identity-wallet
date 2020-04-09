@@ -10,7 +10,7 @@ export const fetchCleartextDocument = async (payload: {
   uri: string;
 }): Promise<OAWrappedDocument> => fetch(payload.uri).then((res) => res.json());
 
-const extractDataFromResponse = (res) => {
+const extractDataFromResponse = (res: any) => {
   if (res.document) {
     const {
       document: { tag, cipherText, iv, type }
@@ -26,7 +26,7 @@ export const fetchEncryptedDocument = async ({
   uri,
   key
 }: EncryptedDocumentAction): Promise<OAWrappedDocument> => {
-  const response = await fetch(uri).then((res: any) => res.json());
+  const response = await fetch(uri).then((res) => res.json());
   const { tag, cipherText, iv, type } = extractDataFromResponse(response);
 
   const cipher = {
