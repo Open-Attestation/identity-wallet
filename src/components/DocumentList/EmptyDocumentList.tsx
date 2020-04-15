@@ -1,6 +1,14 @@
 import React, { FunctionComponent } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Platform
+} from "react-native";
+import { QRWebIcon } from "../../assets/qr";
 import QRIcon from "../../../assets/icons/qr.svg";
+
 import {
   fontSize,
   color,
@@ -62,7 +70,11 @@ export const EmptyDocumentList: FunctionComponent<EmptyDocumentList> = ({
         style={styles.calloutButton}
         onPress={onAdd}
       >
-        <QRIcon width={20} height={20} fill={color("grey", 40)} />
+        {Platform.OS === "web" ? (
+          <QRWebIcon width={20} height={20} fill={color("grey", 40)} />
+        ) : (
+          <QRIcon width={20} height={20} fill={color("grey", 40)} />
+        )}
         <Text style={styles.calloutButtonText}>Scan to add</Text>
       </TouchableOpacity>
     </View>

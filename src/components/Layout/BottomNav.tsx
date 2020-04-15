@@ -1,7 +1,14 @@
 import React, { FunctionComponent } from "react";
 import { Feather } from "@expo/vector-icons";
+import { QRWebIcon } from "../../assets/qr";
 import QRIcon from "../../../assets/icons/qr.svg";
-import { View, TouchableOpacity, StyleSheet, SafeAreaView } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+  Platform
+} from "react-native";
 import { color, shadow } from "../../common/styles";
 import { NavigationProps } from "../../types";
 import { replaceRouteFn } from "../../common/navigation";
@@ -64,15 +71,27 @@ export const BottomNav: FunctionComponent<NavigationProps> = ({
           />
         </NavTab>
         <NavTab onPress={replaceRouteFn(navigation, "QrScannerScreen")}>
-          <QRIcon
-            width={size(2.5)}
-            height={size(2.5)}
-            fill={
-              currentRoute === "QrScannerScreen"
-                ? color("orange", 40)
-                : color("grey", 30)
-            }
-          />
+          {Platform.OS === "web" ? (
+            <QRWebIcon
+              width={size(2)}
+              height={size(2)}
+              fill={
+                currentRoute === "QrScannerScreen"
+                  ? color("orange", 40)
+                  : color("grey", 30)
+              }
+            />
+          ) : (
+            <QRIcon
+              width={size(2.5)}
+              height={size(2.5)}
+              fill={
+                currentRoute === "QrScannerScreen"
+                  ? color("orange", 40)
+                  : color("grey", 30)
+              }
+            />
+          )}
         </NavTab>
         <NavTab onPress={replaceRouteFn(navigation, "SettingsScreen")}>
           <Feather

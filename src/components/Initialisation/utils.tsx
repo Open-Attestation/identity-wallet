@@ -1,10 +1,16 @@
+import { Platform } from "react-native";
 import { DatabaseCollections } from "../../types";
 import * as RxDB from "rxdb";
 import { DB_CONFIG } from "../../config";
 import * as SQLite from "expo-sqlite";
 import SQLiteAdapterFactory from "pouchdb-adapter-react-native-sqlite";
 
-RxDB.plugin(SQLiteAdapterFactory(SQLite));
+if (Platform.OS === "web") {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  RxDB.plugin(require("pouchdb-adapter-idb"));
+} else {
+  RxDB.plugin(SQLiteAdapterFactory(SQLite));
+}
 
 export const initialiseDb = async ({
   db,
