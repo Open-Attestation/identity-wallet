@@ -18,13 +18,7 @@ export const DbContext = createContext<DbContext>({
 
 export const useDbContext = (): DbContext => useContext<DbContext>(DbContext);
 
-export interface DbContextProviderProps {
-  children: object;
-}
-
-export const DbContextProvider: FunctionComponent<DbContextProviderProps> = ({
-  children
-}: DbContextProviderProps) => {
+export const DbContextProvider: FunctionComponent = ({ children }) => {
   const [db, setDb] = useState();
   return (
     <DbContext.Provider value={{ db, setDb }}>{children}</DbContext.Provider>
