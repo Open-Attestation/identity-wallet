@@ -1,39 +1,42 @@
 import React, { ReactElement } from "react";
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { NavigationContainer } from "@react-navigation/native";
 import { DbContextProvider } from "../context/db";
-import StackNavigator from "./StackNavigator";
+import { StackNavigator } from "./StackNavigator";
 import { StatusBar, View, Platform } from "react-native";
-import InitialisationScreen from "./InitialisationScreen";
-import { Linking } from "expo";
 import { NetworkContextProvider } from "../context/network";
 import { ConfigContextProvider } from "../context/config";
+import { Linking } from "expo";
+import { ErrorBoundary } from "../components/ErrorBoundary/ErrorBoundary";
 
-const SwitchNavigator = createSwitchNavigator(
-  {
-    InitialisationScreen: { screen: InitialisationScreen, path: "/" },
-    StackNavigator
-  },
-  { initialRouteName: "InitialisationScreen" }
-);
+const prefix = Linking.makeUrl("/");
 
-const AppContainer = createAppContainer(SwitchNavigator);
+const App = (): ReactElement => {
+  const linking = {
+    prefixes: [prefix]
+  };
 
-const App = (): ReactElement => (
-  <DbContextProvider>
-    <NetworkContextProvider>
-      <ConfigContextProvider>
-        <StatusBar />
-        <View
-          style={{
-            flex: 1,
-            paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-          }}
-        >
-          <AppContainer uriPrefix={Linking.makeUrl("/")} />
-        </View>
-      </ConfigContextProvider>
-    </NetworkContextProvider>
-  </DbContextProvider>
-);
+  return (
+    <ErrorBoundary>
+      <DbContextProvider>
+        <NetworkContextProvider>
+          <ConfigContextProvider>
+            <StatusBar />
+            <View
+              style={{
+                flex: 1,
+                paddingTop:
+                  Platform.OS === "android" ? StatusBar.currentHeight : 0
+              }}
+            >
+              <NavigationContainer linking={linking}>
+                <StackNavigator />
+              </NavigationContainer>
+            </View>
+          </ConfigContextProvider>
+        </NetworkContextProvider>
+      </DbContextProvider>
+    </ErrorBoundary>
+  );
+};
 
 export default App;
