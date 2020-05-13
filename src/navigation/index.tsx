@@ -17,24 +17,26 @@ const App = (): ReactElement => {
 
   return (
     <ErrorBoundary>
-      <DbContextProvider>
-        <NetworkContextProvider>
-          <ConfigContextProvider>
-            <StatusBar />
-            <View
-              style={{
-                flex: 1,
-                paddingTop:
-                  Platform.OS === "android" ? StatusBar.currentHeight : 0
-              }}
-            >
-              <NavigationContainer linking={linking}>
-                <StackNavigator />
-              </NavigationContainer>
-            </View>
-          </ConfigContextProvider>
-        </NetworkContextProvider>
-      </DbContextProvider>
+      <FontLoader>
+        <DbContextProvider>
+          <NetworkContextProvider>
+            <ConfigContextProvider>
+              <StatusBar />
+              <View
+                style={{
+                  flex: 1,
+                  paddingTop:
+                    Platform.OS === "android" ? StatusBar.currentHeight : 0
+                }}
+              >
+                <NavigationContainer linking={linking}>
+                  <StackNavigator />
+                </NavigationContainer>
+              </View>
+            </ConfigContextProvider>
+          </NetworkContextProvider>
+        </DbContextProvider>
+      </FontLoader>
     </ErrorBoundary>
   );
 };
