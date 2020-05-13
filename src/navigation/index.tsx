@@ -7,6 +7,8 @@ import { NetworkContextProvider } from "../context/network";
 import { ConfigContextProvider } from "../context/config";
 import { Linking } from "expo";
 import { ErrorBoundary } from "../components/ErrorBoundary/ErrorBoundary";
+import { FontLoader } from "../components/FontLoader";
+import { Providers } from "../context/composeProviders";
 
 const prefix = Linking.makeUrl("/");
 
@@ -18,24 +20,26 @@ const App = (): ReactElement => {
   return (
     <ErrorBoundary>
       <FontLoader>
-        <DbContextProvider>
-          <NetworkContextProvider>
-            <ConfigContextProvider>
-              <StatusBar />
-              <View
-                style={{
-                  flex: 1,
-                  paddingTop:
-                    Platform.OS === "android" ? StatusBar.currentHeight : 0
-                }}
-              >
-                <NavigationContainer linking={linking}>
-                  <StackNavigator />
-                </NavigationContainer>
-              </View>
-            </ConfigContextProvider>
-          </NetworkContextProvider>
-        </DbContextProvider>
+        <Providers
+          providers={[
+            ConfigContextProvider,
+            DbContextProvider,
+            NetworkContextProvider
+          ]}
+        >
+          <StatusBar />
+          <View
+            style={{
+              flex: 1,
+              paddingTop:
+                Platform.OS === "android" ? StatusBar.currentHeight : 0
+            }}
+          >
+            <NavigationContainer linking={linking}>
+              <StackNavigator />
+            </NavigationContainer>
+          </View>
+        </Providers>
       </FontLoader>
     </ErrorBoundary>
   );
