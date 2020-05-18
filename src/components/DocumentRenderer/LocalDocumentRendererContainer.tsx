@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { useDbContext } from "../../context/db";
 import {
   DocumentObject,
-  NavigationProps,
+  LocalDocumentScreenProps,
   DocumentProperties
 } from "../../types";
 import { DocumentRenderer } from "./DocumentRenderer";
@@ -12,11 +12,12 @@ import { LoadingView } from "../Loading";
 import { CheckStatus } from "../Validity";
 import { VerifierTypes } from "../../types";
 
-export const LocalDocumentRendererContainer: FunctionComponent<NavigationProps> = ({
-  navigation
+export const LocalDocumentRendererContainer: FunctionComponent<LocalDocumentScreenProps> = ({
+  navigation,
+  route
 }) => {
-  const id: string = navigation.getParam("id");
-  const verifierType: VerifierTypes = navigation.getParam("verifierType");
+  const id: string = route.params?.id;
+  const verifierType: VerifierTypes = route.params?.verifierType;
   const { db } = useDbContext();
   const [document, setDocument] = useState<DocumentObject | null>(null);
 

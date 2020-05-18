@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { DarkButton } from "../../Layout/Buttons/DarkButton";
 import { Button } from "../../Layout/Buttons/Button";
-import { VerificationStatuses } from "../../../common/hooks/useDocumentVerifier";
+import { VerificationStatuses } from "../../../hooks/useDocumentVerifier";
 import { ValidityBanner } from "../../Validity";
 import {
   color,

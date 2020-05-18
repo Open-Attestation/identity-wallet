@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import {
   DocumentProperties,
-  NavigationProps,
+  ScannedDocumentScreenProps,
   OAWrappedDocument
 } from "../../types";
 import { DocumentRenderer } from "./DocumentRenderer";
@@ -9,19 +9,20 @@ import { ScannedDocumentActionSheet } from "./ScannedDocumentActionSheet";
 import { useDbContext } from "../../context/db";
 import { resetRouteFn } from "../../common/navigation";
 import { CheckStatus } from "../Validity";
-import { VerificationStatuses } from "../../common/hooks/useDocumentVerifier";
+import { VerificationStatuses } from "../../hooks/useDocumentVerifier";
 import { View } from "react-native";
 import { VerifierTypes } from "../../types";
 
-export const ScannedDocumentRendererContainer: FunctionComponent<NavigationProps> = ({
-  navigation
+export const ScannedDocumentRendererContainer: FunctionComponent<ScannedDocumentScreenProps> = ({
+  navigation,
+  route
 }) => {
   const { db } = useDbContext();
-  const document: OAWrappedDocument = navigation.getParam("document");
-  const isSavable: boolean = navigation.getParam("savable");
-  const statuses: VerificationStatuses = navigation.getParam("statuses");
-  const issuerName: string = navigation.getParam("issuerName");
-  const verifierType: VerifierTypes = navigation.getParam("verifierType");
+  const document: OAWrappedDocument = route.params.document;
+  const isSavable: boolean = route.params.savable ?? false;
+  const statuses: VerificationStatuses = route.params.statuses;
+  const issuerName: string = route.params.issuerName;
+  const verifierType: VerifierTypes = route.params.verifierType;
   const id = document.signature.targetHash;
   const navigateToDocument = resetRouteFn(navigation, "LocalDocumentScreen", {
     id

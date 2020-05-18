@@ -1,8 +1,8 @@
 import { useEffect, useCallback, useState, useRef } from "react";
-import { CheckStatus } from "../../../components/Validity";
-import { checkValidity } from "../../../services/DocumentVerifier";
-import { useConfigContext } from "../../../context/config";
-import { OAWrappedDocument, VerifierTypes } from "../../../types";
+import { CheckStatus } from "../../components/Validity";
+import { checkValidity } from "../../services/DocumentVerifier";
+import { useConfigContext } from "../../context/config";
+import { OAWrappedDocument, VerifierTypes } from "../../types";
 
 export interface VerificationStatuses {
   tamperedCheck: CheckStatus;

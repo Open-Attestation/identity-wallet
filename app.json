@@ -1,40 +1,50 @@
 {
-  "expo": {
-    "name": "Identity Wallet",
-    "slug": "identitywallet",
-    "privacy": "public",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "scheme": "identitywallet",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "packagerOpts": {
-      "config": "metro.config.js",
-      "sourceExts": [
-        "js",
-        "jsx",
-        "ts",
-        "tsx",
-        "svg"
-      ]
+    "expo": {
+        "name": "Identity Wallet",
+        "slug": "identitywallet",
+        "privacy": "public",
+        "platforms": [
+            "ios",
+            "android",
+            "web"
+        ],
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "scheme": "identitywallet",
+        "icon": "./assets/icon.png",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": [
+            "**/*"
+        ],
+        "ios": {
+            "supportsTablet": true
+        },
+        "packagerOpts": {
+            "config": "metro.config.js",
+            "sourceExts": [
+                "js",
+                "jsx",
+                "ts",
+                "tsx",
+                "svg"
+            ]
+        },
+        "hooks": {
+            "postPublish": [{
+                "file": "sentry-expo/upload-sourcemaps",
+                "config": {
+                    "organization": "",
+                    "project": "",
+                    "authToken": ""
+                }
+            }]
+        }
     }
-  }
 }

@@ -1,17 +1,18 @@
 import React, { FunctionComponent, useEffect } from "react";
-import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
-import { NavigationProps, OAWrappedDocument } from "../../types";
+import { useDocumentVerifier } from "../../hooks/useDocumentVerifier";
+import { ValidityCheckScreenProps, OAWrappedDocument } from "../../types";
 import { Header } from "../Layout/Header";
 import { CheckStatus } from "../Validity/constants";
 import { View, SafeAreaView } from "react-native";
 import { ValidityCard } from "../Validity/ValidityCard";
 import { replaceRouteFn } from "../../common/navigation";
 
-export const ValidityCheckScreenContainer: FunctionComponent<NavigationProps> = ({
-  navigation
+export const ValidityCheckScreenContainer: FunctionComponent<ValidityCheckScreenProps> = ({
+  navigation,
+  route
 }) => {
-  const document: OAWrappedDocument = navigation.getParam("document");
-  const isSavable: boolean = navigation.getParam("savable");
+  const document: OAWrappedDocument = route.params.document;
+  const isSavable: boolean = route.params.savable ?? false;
   const { statuses, verify, issuerName, verifierType } = useDocumentVerifier();
 
   useEffect(() => {
@@ -23,13 +24,16 @@ export const ValidityCheckScreenContainer: FunctionComponent<NavigationProps> = 
     if (statuses.overallValidity === CheckStatus.VALID) {
       setTimeout(() => {
         if (!cancelled) {
-          replaceRouteFn(navigation, "ScannedDocumentScreen", {
-            document,
-            savable: isSavable,
-            statuses,
-            issuerName,
-            verifierType
-          })();
+          navigation.navigate("DocumentListStackScreen",
+            {
+              screen: "ScannedDocumentScreen", params: {
+                document,
+                savable: isSavable,
+                statuses,
+                issuerName,
+                verifierType
+              }
+            });
         }
       }, 500);
     }

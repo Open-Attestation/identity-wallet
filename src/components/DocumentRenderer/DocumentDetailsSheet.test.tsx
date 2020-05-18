@@ -7,7 +7,7 @@ import { NetworkContext } from "../../context/network";
 
 jest.mock("lodash/debounce", () => (fn: any) => fn);
 
-import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
+import { useDocumentVerifier } from "../../hooks/useDocumentVerifier";
 import { DocumentProperties, DocumentObject } from "../../types";
 jest.mock("../../common/hooks/useDocumentVerifier");
 const mockUseVerifier = useDocumentVerifier as jest.Mock;

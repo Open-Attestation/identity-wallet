@@ -27,9 +27,12 @@ export const DocumentListScreenContainer: FunctionComponent<NavigationProps> = (
   }, [db]);
 
   // opening saved doc uses the verifierType that was saved
-  const navigateToDoc = (id: string, verifierType: VerifierTypes): boolean =>
+  const navigateToDoc = (id: string, verifierType: VerifierTypes): void =>
     navigation.navigate("LocalDocumentScreen", { id, verifierType });
-  const navigateToScanner = replaceRouteFn(navigation, "QrScannerScreen");
+  const navigateToScanner = (): void =>
+    navigation.navigate("QrScannerStackScreen", {
+    screen: "QrScannerScreen"
+  });
 
   const documentItems = documents?.map((doc: DocumentObject) => {
     const docClear = getData(doc.document);
