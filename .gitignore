@@ -19,3 +19,6 @@ coverage/
 #ide
 .idea
 .vscode
+
+#ENV
+.env
