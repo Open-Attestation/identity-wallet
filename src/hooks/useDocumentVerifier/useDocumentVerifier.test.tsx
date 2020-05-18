@@ -1,9 +1,9 @@
-import demoOc from "../../../../fixtures/demo-oc.json";
+import demoOc from "../../../fixtures/demo-oc.json";
 import { useDocumentVerifier } from "./index";
 import { renderHook } from "@testing-library/react-hooks";
-import { CheckStatus } from "../../../components/Validity/";
-import { checkValidity } from "../../../services/DocumentVerifier";
-import { VerifierTypes } from "../../../types";
+import { CheckStatus } from "../../components/Validity";
+import { checkValidity } from "../../services/DocumentVerifier";
+import { VerifierTypes } from "../../types";
 
 jest.mock("../../../context/config", () => ({
   useConfigContext: () => ({

@@ -14,10 +14,10 @@ import {
 } from "../../../common/styles";
 import { QrCode } from "./QrCode";
 import { DocumentProperties, DocumentObject } from "../../../types";
-import { useQrGenerator } from "../../../common/hooks/useQrGenerator";
+import { useQrGenerator } from "../../../hooks/useQrGenerator";
 import { useNetworkContext } from "../../../context/network";
 import HumanizeDuration from "humanize-duration";
-import { useCountdown } from "../../../common/hooks/useCountdown";
+import { useCountdown } from "../../../hooks/useCountdown";
 
 const styles = StyleSheet.create({
   wrapper: {

@@ -1,30 +1,33 @@
 import React, { useEffect, FunctionComponent } from "react";
-import { NavigationProps, OAWrappedDocument } from "../../types";
+import { InitialisationScreenProps, OAWrappedDocument } from "../../types";
 import { useDbContext } from "../../context/db";
 import { LoadingView } from "../Loading";
 import { processQr } from "../../services/QrProcessor";
 import { initialiseDb } from "./utils";
 
-export const InitialisationContainer: FunctionComponent<NavigationProps> = ({
-  navigation
-}: NavigationProps) => {
+export const InitialisationContainer: FunctionComponent<InitialisationScreenProps> = ({
+  navigation,
+  route
+}: InitialisationScreenProps) => {
   const { db, setDb } = useDbContext();
-  const query: string | undefined = navigation.getParam("q");
+  const query: string | undefined = route.params?.q ?? undefined;
   const action = `https://action.openattestation.com?q=${query}`;
 
   const onDocumentStore = (document: OAWrappedDocument): void => {
-    navigation.navigate("ValidityCheckScreen", {
-      document,
-      savable: true
+    navigation.navigate("QrScannerStackScreen", {
+      screen: "ValidityCheckScreen", params: {
+        document,
+        savable: true
+      }
     });
   };
   const onDocumentView = (document: OAWrappedDocument): void => {
-    navigation.navigate("ValidityCheckScreen", { document });
+    navigation.navigate("QrScannerStackScreen", { screen: "ValidityCheckScreen", params: { document } });
   };
 
   const onInitDb = async (): Promise<void> => {
     if (!query) {
-      navigation.navigate("StackNavigator");
+      navigation.navigate("DocumentListStackScreen");
       return;
     }
     try {
@@ -34,7 +37,7 @@ export const InitialisationContainer: FunctionComponent<NavigationProps> = ({
       });
     } catch (e) {
       alert(e.message || e);
-      navigation.navigate("StackNavigator");
+      navigation.navigate("DocumentListStackScreen");
     }
   };
 

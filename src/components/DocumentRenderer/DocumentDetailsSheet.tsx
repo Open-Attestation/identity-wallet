@@ -18,7 +18,7 @@ import { BottomSheet } from "../Layout/BottomSheet";
 import { QRWebIcon } from "../../assets/qr";
 import QRIcon from "../../../assets/icons/qr.svg";
 import { ValidityBanner } from "../Validity/ValidityBanner";
-import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
+import { useDocumentVerifier } from "../../hooks/useDocumentVerifier";
 import { CheckStatus } from "../Validity";
 import {
   color,

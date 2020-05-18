@@ -5,7 +5,7 @@ import { ValidityCheckScreenContainer } from "./ValidityCheckScreenContainer";
 import { mockNavigation, resetNavigation } from "../../test/helpers/navigation";
 jest.mock("../../common/navigation");
 
-import { useDocumentVerifier } from "../../common/hooks/useDocumentVerifier";
+import { useDocumentVerifier } from "../../hooks/useDocumentVerifier";
 jest.mock("../../common/hooks/useDocumentVerifier");
 const mockUseVerifier = useDocumentVerifier as jest.Mock;
 
