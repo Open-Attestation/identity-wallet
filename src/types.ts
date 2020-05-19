@@ -1,9 +1,3 @@
-// import {
-//   NavigationParams,
-//   NavigationScreenProp,
-//   NavigationRoute
-// } from "react-navigation";
-// import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { RxDocument, RxCollection, RxDatabase } from "rxdb";
@@ -53,15 +47,6 @@ export type ValidityCheckScreenProps = StackScreenProps<
   RootParamList,
   "ValidityCheckScreen"
 >;
-
-// export interface InitialisationNavigationProps {
-//   navigation: StackNavigationProp<RootStackParamList>;
-//   route: RouteProp<RootStackParamList, "InitialisationScreen">;
-// }
-
-// export interface NavigationProps {
-//   navigation: NavigationScreenProp<NavigationRoute, NavigationParams>;
-// }
 
 export type DocumentProperties = {
   id: string;

@@ -45,7 +45,6 @@ describe("QrCamera", () => {
     const { queryByTestId } = render(
       <QrCamera onQrData={() => { }} disabled={false} />
     );
-    // expect(queryByTestId("loading-view")).not.toBeNull();
 
     await wait(() => {
       expect(queryByTestId("permissions-rejected-view")).toBeNull();
@@ -68,31 +67,4 @@ describe("QrCamera", () => {
       expect(queryByTestId("loading-view")).toBeNull();
     });
   });
-
-  // it("should set the ratio of the camera if on Android", async () => {
-  //   expect.assertions(1);
-  //   mockPlatform("android");
-  //   mockPermissions.mockResolvedValue({ status: "granted" });
-  //   const { queryByTestId } = render(
-  //     <QrCamera onQrData={() => { }} disabled={false} />
-  //   );
-
-  //   await wait(() => {
-  //     // console.log(queryByTestId("qr-camera"))
-
-  //     expect(queryByTestId("qr-camera")?.props).toHaveProperty("ratio", "16:9");
-  //   });
-  // });
-
-  // it("should not set the ratio of the camera if on iOS", async () => {
-  //   expect.assertions(1);
-  //   mockPlatform("ios");
-  //   mockPermissions.mockResolvedValue({ status: "granted" });
-  //   const { queryByTestId } = render(
-  //     <QrCamera onQrData={() => { }} disabled={false} />
-  //   );
-  //   await wait(() => {
-  //     expect(queryByTestId("qr-camera")?.props).not.toHaveProperty("ratio");
-  //   });
-  // });
 });

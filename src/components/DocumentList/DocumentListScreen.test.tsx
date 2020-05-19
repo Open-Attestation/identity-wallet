@@ -19,7 +19,6 @@ describe("DocumentListScreen", () => {
     expect(queryByTestId("document-list")).toBeNull();
     expect(queryByTestId("empty-document-list")).toBeNull();
     expect(queryByTestId("loading-view")).not.toBeNull();
-    // expect(queryByTestId("bottom-nav")).not.toBeNull();
   });
 
   it("should render only EmptyDocumentList and nav when there are no documents", () => {
@@ -35,7 +34,6 @@ describe("DocumentListScreen", () => {
     expect(queryByTestId("document-list")).toBeNull();
     expect(queryByTestId("empty-document-list")).not.toBeNull();
     expect(queryByTestId("loading-view")).toBeNull();
-    // expect(queryByTestId("bottom-nav")).not.toBeNull();
   });
 
   it("should render only DocumentList and nav when there are documents", () => {
@@ -57,6 +55,5 @@ describe("DocumentListScreen", () => {
     expect(queryByTestId("document-list")).not.toBeNull();
     expect(queryByTestId("empty-document-list")).toBeNull();
     expect(queryByTestId("loading-view")).toBeNull();
-    // expect(queryByTestId("bottom-nav")).not.toBeNull();
   });
 });
