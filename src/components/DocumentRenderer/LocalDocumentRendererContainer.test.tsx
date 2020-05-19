@@ -6,7 +6,7 @@ import {
   whenDbSubscriptionReturns,
   resetDb
 } from "../../test/helpers/db";
-import { mockNavigation, resetNavigation } from "../../test/helpers/navigation";
+import { mockNavigation, resetNavigation, mockRoute } from "../../test/helpers/navigation";
 import sampleDocument from "../../../fixtures/demo-caas.json";
 import { DocumentDetailsSheet } from "./DocumentDetailsSheet";
 import { CheckStatus } from "../Validity";
@@ -34,7 +34,7 @@ describe("LocalDocumentRendererContainer", () => {
     expect.assertions(2);
     const { queryByTestId } = render(
       <MockDbProvider>
-        <LocalDocumentRendererContainer navigation={mockNavigation} />
+        <LocalDocumentRendererContainer navigation={mockNavigation} route={mockRoute}/>
       </MockDbProvider>
     );
 
@@ -48,7 +48,7 @@ describe("LocalDocumentRendererContainer", () => {
     expect.assertions(2);
     const { queryByTestId } = render(
       <MockDbProvider>
-        <LocalDocumentRendererContainer navigation={mockNavigation} />
+        <LocalDocumentRendererContainer navigation={mockNavigation} route={mockRoute}/>
       </MockDbProvider>
     );
     whenDbSubscriptionReturns({ document: sampleDocument });
@@ -63,7 +63,7 @@ describe("LocalDocumentRendererContainer", () => {
     expect.assertions(1);
     const { getByTestId } = render(
       <MockDbProvider>
-        <LocalDocumentRendererContainer navigation={mockNavigation} />
+        <LocalDocumentRendererContainer navigation={mockNavigation} route={mockRoute}/>
       </MockDbProvider>
     );
     whenDbSubscriptionReturns({ document: sampleDocument });
@@ -84,7 +84,7 @@ describe("LocalDocumentRendererContainer", () => {
     };
     render(
       <MockDbProvider>
-        <LocalDocumentRendererContainer navigation={mockNavigation} />
+        <LocalDocumentRendererContainer navigation={mockNavigation} route={mockRoute}/>
       </MockDbProvider>
     );
     whenDbSubscriptionReturns(document);
@@ -109,7 +109,7 @@ describe("LocalDocumentRendererContainer", () => {
     };
     render(
       <MockDbProvider>
-        <LocalDocumentRendererContainer navigation={mockNavigation} />
+        <LocalDocumentRendererContainer navigation={mockNavigation} route={mockRoute}/>
       </MockDbProvider>
     );
     whenDbSubscriptionReturns(document);

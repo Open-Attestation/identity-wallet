@@ -2,11 +2,11 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { CheckStatus } from "../Validity";
 import { ValidityCheckScreenContainer } from "./ValidityCheckScreenContainer";
-import { mockNavigation, resetNavigation } from "../../test/helpers/navigation";
+import { mockNavigation, resetNavigation, mockRoute } from "../../test/helpers/navigation";
 jest.mock("../../common/navigation");
 
 import { useDocumentVerifier } from "../../hooks/useDocumentVerifier";
-jest.mock("../../common/hooks/useDocumentVerifier");
+jest.mock("../../hooks/useDocumentVerifier");
 const mockUseVerifier = useDocumentVerifier as jest.Mock;
 
 jest.mock("../Validity/ValidityIcon", () => ({
@@ -27,7 +27,7 @@ describe("ValidityCheckScreenContainer", () => {
       verify: jest.fn()
     });
 
-    render(<ValidityCheckScreenContainer navigation={mockNavigation} />);
+    render(<ValidityCheckScreenContainer navigation={mockNavigation} route={mockRoute} />);
 
     jest.runAllTimers();
     expect(mockNavigation.navigate).not.toHaveBeenCalled();
@@ -40,7 +40,7 @@ describe("ValidityCheckScreenContainer", () => {
       verify: jest.fn()
     });
 
-    render(<ValidityCheckScreenContainer navigation={mockNavigation} />);
+    render(<ValidityCheckScreenContainer navigation={mockNavigation} route={mockRoute} />);
 
     jest.runAllTimers();
     expect(mockNavigation.navigate).not.toHaveBeenCalled();
@@ -53,17 +53,17 @@ describe("ValidityCheckScreenContainer", () => {
       verify: jest.fn()
     });
 
-    render(<ValidityCheckScreenContainer navigation={mockNavigation} />);
+    render(<ValidityCheckScreenContainer navigation={mockNavigation} route={mockRoute} />);
 
     jest.runAllTimers();
-    expect(mockNavigation.dispatch).toHaveBeenCalledTimes(1);
+    expect(mockNavigation.navigate).toHaveBeenCalledTimes(1);
   });
 
   it("should go back when back button is pressed", () => {
     expect.assertions(1);
 
     const { getByTestId } = render(
-      <ValidityCheckScreenContainer navigation={mockNavigation} />
+      <ValidityCheckScreenContainer navigation={mockNavigation} route={mockRoute} />
     );
 
     fireEvent.press(getByTestId("header-back-button"));

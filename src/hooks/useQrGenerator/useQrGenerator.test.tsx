@@ -3,9 +3,9 @@ import sampleDoc from "../../../fixtures/demo-oc.json";
 import { useQrGenerator } from "./index";
 import { uploadDocument } from "../../services/DocumentSharing";
 
-jest.mock("../../../services/DocumentSharing");
+jest.mock("../../services/DocumentSharing");
 jest.mock("lodash/debounce", () => (fn: any) => fn);
-jest.mock("../../../context/config", () => ({
+jest.mock("../../context/config", () => ({
   useConfigContext: () => ({ config: { network: "mainnet" } })
 }));
 

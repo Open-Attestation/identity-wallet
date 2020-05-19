@@ -54,7 +54,7 @@ export const NavTab: FunctionComponent<NavTab> = ({ children, onPress }) => {
 export const BottomNav: FunctionComponent<BottomTabBarProps> = ({ navigation, state }) => {
   const currentRoute = state.routeNames[state.index];
 
-  const onPress = (screen: string): void => {
+  const onPress = (screen: string, params: any = false): void => {
     const event = navigation.emit({
       type: "tabPress",
       target: state.routes[state.index].key,
@@ -62,7 +62,11 @@ export const BottomNav: FunctionComponent<BottomTabBarProps> = ({ navigation, st
     });
 
     if (currentRoute !== screen && !event.defaultPrevented) {
-      navigation.navigate(screen);
+      if (params) {
+        navigation.navigate(screen, params);
+      } else {
+        navigation.navigate(screen);
+      }
     }
   };
 
@@ -81,7 +85,7 @@ export const BottomNav: FunctionComponent<BottomTabBarProps> = ({ navigation, st
             }}
           />
         </NavTab>
-        <NavTab onPress={() => onPress("QrScannerStackScreen")}>
+        <NavTab onPress={() => onPress("QrScannerStackScreen", { screen: "QrScannerScreen" })}>
           {Platform.OS === "web" ? (
             <QRWebIcon
               width={size(2)}
@@ -93,16 +97,16 @@ export const BottomNav: FunctionComponent<BottomTabBarProps> = ({ navigation, st
               }
             />
           ) : (
-            <QRIcon
-              width={size(2.5)}
-              height={size(2.5)}
-              fill={
-                currentRoute === "QrScannerStackScreen"
-                  ? color("orange", 40)
-                  : color("grey", 30)
-              }
-            />
-          )}
+              <QRIcon
+                width={size(2.5)}
+                height={size(2.5)}
+                fill={
+                  currentRoute === "QrScannerStackScreen"
+                    ? color("orange", 40)
+                    : color("grey", 30)
+                }
+              />
+            )}
         </NavTab>
         <NavTab onPress={() => onPress("SettingsScreen")}>
           <Feather
