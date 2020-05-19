@@ -5,12 +5,12 @@ import { CheckStatus } from "../../components/Validity";
 import { checkValidity } from "../../services/DocumentVerifier";
 import { VerifierTypes } from "../../types";
 
-jest.mock("../../../context/config", () => ({
+jest.mock("../../context/config", () => ({
   useConfigContext: () => ({
     config: { network: "mainnet", verifier: "OpenAttestation" }
   })
 }));
-jest.mock("../../../services/DocumentVerifier");
+jest.mock("../../services/DocumentVerifier");
 const mockCheckValidity = checkValidity as jest.Mock;
 
 jest.useFakeTimers();

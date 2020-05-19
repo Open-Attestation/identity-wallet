@@ -9,7 +9,7 @@ jest.mock("lodash/debounce", () => (fn: any) => fn);
 
 import { useDocumentVerifier } from "../../hooks/useDocumentVerifier";
 import { DocumentProperties, DocumentObject } from "../../types";
-jest.mock("../../common/hooks/useDocumentVerifier");
+jest.mock("../../hooks/useDocumentVerifier");
 const mockUseVerifier = useDocumentVerifier as jest.Mock;
 
 jest
@@ -17,7 +17,7 @@ jest
   .mockImplementation(() => new Date(2020, 0, 1).getTime());
 
 const mockGenerateQr = jest.fn();
-jest.mock("../../common/hooks/useQrGenerator", () => ({
+jest.mock("../../hooks/useQrGenerator", () => ({
   useQrGenerator: () => ({
     qrCode: {
       url:

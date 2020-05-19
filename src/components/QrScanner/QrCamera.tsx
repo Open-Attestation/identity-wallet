@@ -53,12 +53,15 @@ export const QrCamera: FunctionComponent<QrCamera> = ({
   onQrData,
   disabled = false
 }) => {
-  const [hasCameraPermission, setHasCameraPermission] = useState();
-  const askForCameraPermission = async (): Promise<void> => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    setHasCameraPermission(status === "granted");
-  };
+  const [hasCameraPermission, setHasCameraPermission] = useState(false);
   useEffect(() => {
+    const askForCameraPermission = async (): Promise<void> => {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      if (status === "granted") {
+        setHasCameraPermission(true);
+      }
+    }
+
     askForCameraPermission();
   }, []);
 
@@ -68,16 +71,18 @@ export const QrCamera: FunctionComponent<QrCamera> = ({
     }
   };
 
-  const cameraRef = useRef<Camera>(null);
-  const [isCameraReady, setIsCameraReady] = useState(false);
-  const [ratio, setRatio] = useState();
-  const onCameraReady = async (): Promise<void> => {
-    if (Platform.OS === "android" && cameraRef.current) {
-      const ratios = await cameraRef.current.getSupportedRatiosAsync();
-      setRatio(ratios[ratios.length - 1]);
-    }
-    setIsCameraReady(true);
-  };
+  // const cameraRef = useRef<Camera>(null);
+  // const [isCameraReady, setIsCameraReady] = useState(false);
+  // const [ratio, setRatio] = useState("1:1");
+  // const onCameraReady = async (): Promise<void> => {
+  //   if (Platform.OS === "android" && cameraRef.current) {
+  //     const ratios = await cameraRef.current.getSupportedRatiosAsync();
+  //     console.log(ratios)
+  //     setRatio(ratios[ratios.length - 1]);
+
+  //   }
+  //   setIsCameraReady(true);
+  // };
 
   if (hasCameraPermission === undefined || disabled) {
     return <LoadingView />;
@@ -87,13 +92,19 @@ export const QrCamera: FunctionComponent<QrCamera> = ({
   }
   return (
     <>
-      {!isCameraReady && <LoadingView />}
+      {/* {!isCameraReady && <LoadingView />}
       <Camera
         ref={cameraRef}
         style={{ flex: isCameraReady ? 1 : 0 }}
         onBarCodeScanned={onBarCodeScanned}
         onCameraReady={onCameraReady}
         ratio={ratio}
+        testID="qr-camera"
+      /> */}
+
+      <Camera
+        style={{ flex: 1}}
+        onBarCodeScanned={onBarCodeScanned}
         testID="qr-camera"
       />
     </>

@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import { MockDbProvider } from "../../test/helpers/db";
-import { mockNavigation, setParam } from "../../test/helpers/navigation";
+import { mockNavigation, setParam, mockRoute } from "../../test/helpers/navigation";
 import { processQr } from "../../services/QrProcessor";
 
 import { initialiseDb } from "./utils";
@@ -26,7 +26,7 @@ describe("InitialisationContainer", () => {
     expect.assertions(1);
     render(
       <MockDbProvider>
-        <InitialisationContainer navigation={mockNavigation} />
+        <InitialisationContainer navigation={mockNavigation} route={mockRoute} />
       </MockDbProvider>
     );
     expect(mockInitialiseDb).toHaveBeenCalledTimes(1);
@@ -36,12 +36,12 @@ describe("InitialisationContainer", () => {
     expect.assertions(1);
     render(
       <MockDbProvider>
-        <InitialisationContainer navigation={mockNavigation} />
+        <InitialisationContainer navigation={mockNavigation} route={mockRoute} />
       </MockDbProvider>
     );
     const onInitDb = getOnInitDb(mockInitialiseDb);
     await onInitDb();
-    expect(mockNavigation.navigate).toHaveBeenCalledWith("StackNavigator");
+    expect(mockNavigation.navigate).toHaveBeenCalledWith("DocumentListStackScreen");
   });
 
   it("should navigate to ValidityCheckScreen with savable document action", async () => {
@@ -50,7 +50,7 @@ describe("InitialisationContainer", () => {
 
     render(
       <MockDbProvider>
-        <InitialisationContainer navigation={mockNavigation} />
+        <InitialisationContainer navigation={mockNavigation} route={mockRoute} />
       </MockDbProvider>
     );
     const onInitDb = getOnInitDb(mockInitialiseDb);
@@ -64,10 +64,13 @@ describe("InitialisationContainer", () => {
     onDocumentStore("MOCK_DOCUMENT");
 
     expect(mockNavigation.navigate).toHaveBeenCalledWith(
-      "ValidityCheckScreen",
+      "QrScannerStackScreen",
       {
-        document: "MOCK_DOCUMENT",
-        savable: true
+        params: {
+          "document": "MOCK_DOCUMENT",
+          "savable": true,
+        },
+        screen: "ValidityCheckScreen",
       }
     );
   });
@@ -78,7 +81,7 @@ describe("InitialisationContainer", () => {
 
     render(
       <MockDbProvider>
-        <InitialisationContainer navigation={mockNavigation} />
+        <InitialisationContainer navigation={mockNavigation} route={mockRoute} />
       </MockDbProvider>
     );
     const onInitDb = getOnInitDb(mockInitialiseDb);
@@ -92,9 +95,13 @@ describe("InitialisationContainer", () => {
     onDocumentView("MOCK_DOCUMENT");
 
     expect(mockNavigation.navigate).toHaveBeenCalledWith(
-      "ValidityCheckScreen",
+      "QrScannerStackScreen",
       {
-        document: "MOCK_DOCUMENT"
+        params: {
+          "document": "MOCK_DOCUMENT",
+          "savable": true,
+        },
+        screen: "ValidityCheckScreen",
       }
     );
   });
