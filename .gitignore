@@ -14,3 +14,7 @@ web-report/
 .DS_Store
 coverage/
 .scannerwork/
+
+#IDE
+.idea
+.vscode
