@@ -5,6 +5,8 @@ import { NetworkContextProvider } from "../context/network";
 import { ConfigContextProvider } from "../context/config";
 import { ErrorBoundary } from "../components/ErrorBoundary/ErrorBoundary";
 
+const prefix = Linking.makeUrl("/");
+
 const App = (): ReactElement => {
   return (
     <ErrorBoundary>
