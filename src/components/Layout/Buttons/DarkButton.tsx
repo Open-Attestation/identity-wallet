@@ -1,26 +1,47 @@
-import React, { FunctionComponent } from "react";
-import { Text } from "react-native";
-import { color, fontSize } from "../../../common/styles";
+import React, { FunctionComponent, ReactElement } from "react";
+import { color, size } from "../../../common/styles";
 import { BaseButton } from "./BaseButton";
+import { AppText } from "../AppText";
+import { ActivityIndicator, View } from "react-native";
 
 export interface DarkButton {
   onPress?: () => void;
   text: string;
+  fullWidth?: boolean;
+  isLoading?: boolean;
+  icon?: ReactElement;
+  disabled?: boolean;
 }
 
 export const DarkButton: FunctionComponent<DarkButton> = ({
   onPress,
-  text
+  text,
+  fullWidth = false,
+  isLoading = false,
+  icon,
+  disabled
 }) => (
-  <BaseButton onPress={onPress} backgroundColor={color("orange", 30)}>
-    <Text
-      style={{
-        color: color("grey", 40),
-        fontWeight: "bold",
-        fontSize: fontSize(-2)
-      }}
-    >
-      {text}
-    </Text>
+  <BaseButton
+    onPress={onPress}
+    backgroundColor={color("red", disabled ? 20 : 50)}
+    fullWidth={fullWidth}
+    disabled={disabled || isLoading}
+  >
+    {isLoading ? (
+      <ActivityIndicator size="small" color={color("grey", 0)} />
+    ) : (
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        {icon && <View style={{ marginRight: size(1) }}>{icon}</View>}
+        <AppText
+          style={{
+            color: color("grey", 0),
+            fontFamily: "brand-bold",
+            textAlign: "center"
+          }}
+        >
+          {text}
+        </AppText>
+      </View>
+    )}
   </BaseButton>
 );

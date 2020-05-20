@@ -7,6 +7,9 @@ import InitialisationScreen from "./InitialisationScreen";
 import { Linking } from "expo";
 import { NetworkContextProvider } from "../context/network";
 import { ConfigContextProvider } from "../context/config";
+import { ErrorBoundary } from "../components/ErrorBoundary/ErrorBoundary";
+import { FontLoader } from "../components/FontLoader";
+import { Providers } from "../context/composeProviders";
 
 const SwitchNavigator = createSwitchNavigator(
   {
@@ -18,22 +21,31 @@ const SwitchNavigator = createSwitchNavigator(
 
 const AppContainer = createAppContainer(SwitchNavigator);
 
-const App = (): ReactElement => (
-  <DbContextProvider>
-    <NetworkContextProvider>
-      <ConfigContextProvider>
-        <StatusBar />
-        <View
-          style={{
-            flex: 1,
-            paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-          }}
+const App = (): ReactElement => {
+  return (
+    <ErrorBoundary>
+      <FontLoader>
+        <Providers
+          providers={[
+            ConfigContextProvider,
+            DbContextProvider,
+            NetworkContextProvider
+          ]}
         >
-          <AppContainer uriPrefix={Linking.makeUrl("/")} />
-        </View>
-      </ConfigContextProvider>
-    </NetworkContextProvider>
-  </DbContextProvider>
-);
+          <StatusBar />
+          <View
+            style={{
+              flex: 1,
+              paddingTop:
+                Platform.OS === "android" ? StatusBar.currentHeight : 0
+            }}
+          >
+            <AppContainer uriPrefix={Linking.makeUrl("/")} />
+          </View>
+        </Providers>
+      </FontLoader>
+    </ErrorBoundary>
+  );
+};
 
 export default App;
