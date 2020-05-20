@@ -8,7 +8,7 @@ import { Database } from "../types";
 
 interface DbContext {
   db?: Database;
-  setDb?: (db: Database) => void;
+  setDb?: React.Dispatch<React.SetStateAction<Database | undefined>>;
 }
 
 export const DbContext = createContext<DbContext>({
@@ -19,7 +19,7 @@ export const DbContext = createContext<DbContext>({
 export const useDbContext = (): DbContext => useContext<DbContext>(DbContext);
 
 export const DbContextProvider: FunctionComponent = ({ children }) => {
-  const [db, setDb] = useState();
+  const [db, setDb] = useState<Database>();
   return (
     <DbContext.Provider value={{ db, setDb }}>{children}</DbContext.Provider>
   );
