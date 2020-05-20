@@ -1,5 +1,11 @@
-import { isWrappedV3Document, Verifier } from "@govtechsg/oa-verify";
-import { getData, v2, v3, WrappedDocument } from "@govtechsg/open-attestation";
+import { Verifier } from "@govtechsg/oa-verify";
+import {
+  utils,
+  getData,
+  v2,
+  v3,
+  WrappedDocument
+} from "@govtechsg/open-attestation";
 
 // this is a fake revoke verification method for token registry that will
 // - return valid if the document uses token registry
@@ -23,7 +29,7 @@ export const fakeTokenRegistryRevoked: Verifier<
     });
   },
   test: document => {
-    if (isWrappedV3Document(document)) {
+    if (utils.isWrappedV3Document(document)) {
       const documentData = getData(document);
       return documentData.proof.method === v3.Method.TokenRegistry;
     }

@@ -11,7 +11,10 @@ jest.mock("expo-permissions", () => ({
 
 const mockPlatform = (platform: "android" | "ios"): void => {
   jest.resetModules();
-  jest.doMock("Platform", () => ({ OS: platform, select: jest.fn() }));
+  jest.doMock("react-native/Libraries/Utilities/Platform", () => ({
+    OS: platform,
+    select: jest.fn()
+  }));
 };
 
 describe("QrCamera", () => {
@@ -36,7 +39,7 @@ describe("QrCamera", () => {
   });
 
   it("should render Camera if the camera is enabled", async () => {
-    expect.assertions(4);
+    expect.assertions(3);
     mockPlatform("android");
     mockPermissions.mockResolvedValue({ status: "granted" });
     const { queryByTestId } = render(
