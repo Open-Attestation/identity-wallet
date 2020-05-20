@@ -6,7 +6,6 @@ import React, {
   useEffect
 } from "react";
 import { AsyncStorage } from "react-native";
-import { LoadingView } from "../components/Loading";
 import { NetworkTypes, VerifierTypes } from "../types";
 
 export interface Config {
@@ -63,7 +62,7 @@ export const ConfigContextProvider: FunctionComponent = ({ children }) => {
 
   return (
     <ConfigContext.Provider value={{ config, setConfigValue }}>
-      {config !== undefined ? children : <LoadingView />}
+      {children}
     </ConfigContext.Provider>
   );
 };

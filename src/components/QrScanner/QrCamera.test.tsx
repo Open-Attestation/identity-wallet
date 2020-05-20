@@ -39,7 +39,7 @@ describe("QrCamera", () => {
   });
 
   it("should render Camera if the camera is enabled", async () => {
-    expect.assertions(3);
+    expect.assertions(4);
     mockPlatform("android");
     mockPermissions.mockResolvedValue({ status: "granted" });
     const { queryByTestId } = render(
