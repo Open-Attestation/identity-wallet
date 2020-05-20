@@ -1,22 +1,27 @@
 import React, { ReactElement } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { DbContextProvider } from "../context/db";
-import { StackNavigator } from "./StackNavigator";
+import StackNavigator from "./StackNavigator";
 import { StatusBar, View, Platform } from "react-native";
+import InitialisationScreen from "./InitialisationScreen";
+import { Linking } from "expo";
 import { NetworkContextProvider } from "../context/network";
 import { ConfigContextProvider } from "../context/config";
-import { Linking } from "expo";
 import { ErrorBoundary } from "../components/ErrorBoundary/ErrorBoundary";
 import { FontLoader } from "../components/FontLoader";
 import { Providers } from "../context/composeProviders";
 
-const prefix = Linking.makeUrl("/");
+const SwitchNavigator = createSwitchNavigator(
+  {
+    InitialisationScreen: { screen: InitialisationScreen, path: "/" },
+    StackNavigator
+  },
+  { initialRouteName: "InitialisationScreen" }
+);
+
+const AppContainer = createAppContainer(SwitchNavigator);
 
 const App = (): ReactElement => {
-  const linking = {
-    prefixes: [prefix]
-  };
-
   return (
     <ErrorBoundary>
       <FontLoader>
@@ -35,9 +40,7 @@ const App = (): ReactElement => {
                 Platform.OS === "android" ? StatusBar.currentHeight : 0
             }}
           >
-            <NavigationContainer linking={linking}>
-              <StackNavigator />
-            </NavigationContainer>
+            <AppContainer uriPrefix={Linking.makeUrl("/")} />
           </View>
         </Providers>
       </FontLoader>
