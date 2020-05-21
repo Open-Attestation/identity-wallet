@@ -2,13 +2,15 @@ import React, {
   createContext,
   useContext,
   useState,
-  FunctionComponent
+  FunctionComponent,
+  Dispatch,
+  SetStateAction
 } from "react";
 import { Database } from "../types";
 
 interface DbContext {
   db?: Database;
-  setDb?: (db: Database) => void;
+  setDb?: Dispatch<SetStateAction<Database | undefined>>;
 }
 
 export const DbContext = createContext<DbContext>({
@@ -18,14 +20,8 @@ export const DbContext = createContext<DbContext>({
 
 export const useDbContext = (): DbContext => useContext<DbContext>(DbContext);
 
-export interface DbContextProviderProps {
-  children: object;
-}
-
-export const DbContextProvider: FunctionComponent<DbContextProviderProps> = ({
-  children
-}: DbContextProviderProps) => {
-  const [db, setDb] = useState();
+export const DbContextProvider: FunctionComponent = ({ children }) => {
+  const [db, setDb] = useState<Database>();
   return (
     <DbContext.Provider value={{ db, setDb }}>{children}</DbContext.Provider>
   );

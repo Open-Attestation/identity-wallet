@@ -4,15 +4,15 @@ import { QrCodeContainer, QrCodeContainerRef } from "./QrCodeContainer";
 import { NetworkContext } from "../../../context/network";
 import sampleDoc from "../../../../fixtures/demo-caas.json";
 
-import { useQrGenerator } from "../../../common/hooks/useQrGenerator";
-jest.mock("../../../common/hooks/useQrGenerator");
+import { useQrGenerator } from "../../../hooks/useQrGenerator";
+jest.mock("../../../hooks/useQrGenerator");
 const mockUseQrGenerator = useQrGenerator as jest.Mock;
 
 const mockQrCode = `https://action.openattestation.com?q=%7B%22type%22:%22DOCUMENT%22,%22payload%22:%7B%22uri%22:%22https://api-ropsten.opencerts.io/storage/DOCUMENT-ID%22,%22key%22:%22SECRET-KEY%22%7D%7D`;
 
-import { useCountdown } from "../../../common/hooks/useCountdown";
+import { useCountdown } from "../../../hooks/useCountdown";
 import { act } from "react-test-renderer";
-jest.mock("../../../common/hooks/useCountdown");
+jest.mock("../../../hooks/useCountdown");
 const mockUseCountdown = useCountdown as jest.Mock;
 
 const mockAtomicUpdate = jest.fn();

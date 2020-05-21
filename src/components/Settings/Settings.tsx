@@ -2,7 +2,6 @@ import React, { FunctionComponent } from "react";
 import { Header } from "../Layout/Header";
 import { DarkButton } from "../Layout/Buttons/DarkButton";
 import { ScrollView, View, Text, StyleSheet } from "react-native";
-import { BottomNav } from "../Layout/BottomNav";
 import { NavigationProps } from "../../types";
 import { BuildView } from "./BuildView";
 import { fontSize, size } from "../../common/styles";
@@ -106,7 +105,6 @@ export const Settings: FunctionComponent<Settings> = ({
         />
         <BuildView />
       </View>
-      <BottomNav navigation={navigation} />
     </>
   );
 };

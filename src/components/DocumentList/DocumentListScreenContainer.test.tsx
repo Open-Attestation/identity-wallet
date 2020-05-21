@@ -93,9 +93,8 @@ describe("DocumentListScreenContainer", () => {
     );
     whenDbSubscriptionReturns([]);
     fireEvent.press(getByText("Scan to add"));
-    expect(mockNavigation.dispatch).toHaveBeenCalledWith({
-      routeName: "QrScannerScreen",
-      type: "Navigation/REPLACE"
-    });
+    expect(mockNavigation.navigate).toHaveBeenCalledWith(
+      "QrScannerStackScreen", { "screen": "QrScannerScreen" }
+    );
   });
 });

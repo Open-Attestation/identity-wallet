@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import AppNavigation from "./src/navigation";
 import Storybook from "./storybook";
 import { IS_STORYBOOK_VIEW } from "./src/config";

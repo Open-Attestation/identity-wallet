@@ -3,13 +3,8 @@ import { View } from "react-native";
 import { NavigationProps, OAWrappedDocument } from "../../types";
 import { QrCamera } from "./QrCamera";
 import { processQr } from "../../services/QrProcessor";
-import { BottomNav } from "../Layout/BottomNav";
 
-export interface QrScannerScreenContainer {
-  navigation: NavigationProps["navigation"];
-}
-
-export const QrScannerScreenContainer: FunctionComponent<QrScannerScreenContainer> = ({
+export const QrScannerScreenContainer: FunctionComponent<NavigationProps> = ({
   navigation
 }) => {
   const [scanningDisabled, setScanningDisabled] = useState(false);
@@ -36,15 +31,15 @@ export const QrScannerScreenContainer: FunctionComponent<QrScannerScreenContaine
   };
 
   useEffect(() => {
-    const willBlurSubscription = navigation.addListener("willBlur", () => {
+    const blurUnsubscription = navigation.addListener("blur", () => {
       setScanningDisabled(true);
     });
-    const willFocusSubscription = navigation.addListener("willFocus", () => {
+    const focusUnsubscription = navigation.addListener("focus", () => {
       setScanningDisabled(false);
     });
     return () => {
-      willBlurSubscription.remove();
-      willFocusSubscription.remove();
+      blurUnsubscription;
+      focusUnsubscription;
     };
   }, [navigation]);
 
@@ -57,7 +52,6 @@ export const QrScannerScreenContainer: FunctionComponent<QrScannerScreenContaine
         }}
       >
         <QrCamera onQrData={onQrData} disabled={scanningDisabled} />
-        <BottomNav navigation={navigation} />
       </View>
     </>
   );

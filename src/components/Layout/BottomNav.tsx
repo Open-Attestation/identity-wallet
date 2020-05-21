@@ -10,7 +10,7 @@ import {
   Platform
 } from "react-native";
 import { color, shadow } from "../../common/styles";
-import { NavigationProps } from "../../types";
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { replaceRouteFn } from "../../common/navigation";
 import { size } from "../../common/styles";
 
@@ -51,49 +51,64 @@ export const NavTab: FunctionComponent<NavTab> = ({ children, onPress }) => {
   );
 };
 
-export const BottomNav: FunctionComponent<NavigationProps> = ({
-  navigation
-}) => {
-  const currentRoute = navigation.state.routeName;
+export const BottomNav: FunctionComponent<BottomTabBarProps> = ({ navigation, state }) => {
+  const currentRoute = state.routeNames[state.index];
+
+  const onPress = (screen: string, params: any = false): void => {
+    const event = navigation.emit({
+      type: "tabPress",
+      target: state.routes[state.index].key,
+      canPreventDefault: true
+    });
+
+    if (currentRoute !== screen && !event.defaultPrevented) {
+      if (params) {
+        navigation.navigate(screen, params);
+      } else {
+        navigation.navigate(screen);
+      }
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View testID="bottom-nav" style={styles.bottomNav}>
-        <NavTab onPress={replaceRouteFn(navigation, "DocumentListScreen")}>
+        <NavTab onPress={() => onPress("DocumentListStackScreen")}>
           <Feather
             name="home"
             size={size(2.5)}
             style={{
               color:
-                currentRoute === "DocumentListScreen"
+                currentRoute === "DocumentListStackScreen"
                   ? color("orange", 40)
                   : color("grey", 30)
             }}
           />
         </NavTab>
-        <NavTab onPress={replaceRouteFn(navigation, "QrScannerScreen")}>
+        <NavTab onPress={() => onPress("QrScannerStackScreen", { screen: "QrScannerScreen" })}>
           {Platform.OS === "web" ? (
             <QRWebIcon
               width={size(2)}
               height={size(2)}
               fill={
-                currentRoute === "QrScannerScreen"
+                currentRoute === "QrScannerStackScreen"
                   ? color("orange", 40)
                   : color("grey", 30)
               }
             />
           ) : (
-            <QRIcon
-              width={size(2.5)}
-              height={size(2.5)}
-              fill={
-                currentRoute === "QrScannerScreen"
-                  ? color("orange", 40)
-                  : color("grey", 30)
-              }
-            />
-          )}
+              <QRIcon
+                width={size(2.5)}
+                height={size(2.5)}
+                fill={
+                  currentRoute === "QrScannerStackScreen"
+                    ? color("orange", 40)
+                    : color("grey", 30)
+                }
+              />
+            )}
         </NavTab>
-        <NavTab onPress={replaceRouteFn(navigation, "SettingsScreen")}>
+        <NavTab onPress={() => onPress("SettingsScreen")}>
           <Feather
             name="settings"
             size={size(2.5)}

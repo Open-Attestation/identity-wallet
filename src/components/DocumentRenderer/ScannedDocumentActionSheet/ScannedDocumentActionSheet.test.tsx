@@ -3,7 +3,7 @@ import { render, fireEvent } from "@testing-library/react-native";
 import { ScannedDocumentActionSheet } from "./index";
 import { CheckStatus } from "../../Validity";
 
-jest.mock("../../../common/hooks/useDocumentVerifier");
+jest.mock("../../../hooks/useDocumentVerifier");
 jest.useFakeTimers();
 
 const validStatus = {

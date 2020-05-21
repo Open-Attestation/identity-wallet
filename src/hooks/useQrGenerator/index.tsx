@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { uploadDocument } from "../../../services/DocumentSharing";
+import { uploadDocument } from "../../services/DocumentSharing";
 import debounce from "lodash/debounce";
-import { useConfigContext } from "../../../context/config";
-import { OAWrappedDocument } from "../../../types";
+import { useConfigContext } from "../../context/config";
+import { OAWrappedDocument } from "../../types";
 
 const GENERATE_QR_DEBOUNCE_MS = 500;
 

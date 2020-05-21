@@ -8,7 +8,7 @@ import {
 } from "@testing-library/react-native";
 import { NetworkTypes } from "../types";
 
-jest.setMock("AsyncStorage", {
+jest.setMock("react-native/Libraries/Storage/AsyncStorage", {
   setItem: jest.fn(),
   getItem: jest.fn()
 });
@@ -20,7 +20,9 @@ const TestComponent: FunctionComponent = () => {
   const { config, setConfigValue } = useConfigContext();
   return (
     <View>
-      <Text testID="printed-network">{config.network}</Text>
+      <Text testID="printed-network">
+        {config ? config.network : undefined}
+      </Text>
       <Button
         title="Change"
         onPress={() => setConfigValue("network", NetworkTypes.ropsten)}

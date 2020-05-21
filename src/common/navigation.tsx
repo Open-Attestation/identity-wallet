@@ -1,31 +1,38 @@
 import { NavigationProps } from "../types";
-import {
-  StackActions,
-  NavigationActions,
-  NavigationReplaceActionPayload
-} from "react-navigation";
+import { StackActions } from "@react-navigation/native";
+import { ParamListBase } from "@react-navigation/native";
 
-export const replaceRouteFn = (
+export const replaceRouteFn = <
+  T extends ParamListBase,
+  K extends Extract<keyof T, string>
+>(
   navigation: NavigationProps["navigation"],
-  routeName: string,
-  params?: NavigationReplaceActionPayload["params"]
-): (() => boolean) => (): boolean => {
-  const action = StackActions.replace({ routeName, params });
+  routeName: K,
+  params?: T[K]
+): (() => void) => (): void => {
+  const action = StackActions.replace(routeName, params);
   return navigation.dispatch(action);
 };
 
 // This resets the entire stack and puts the navigated route right on top of the home page
-export const resetRouteFn = (
+export const resetRouteFn = <
+  T extends ParamListBase,
+  K extends Extract<keyof T, string>
+>(
   navigation: NavigationProps["navigation"],
-  routeName: string,
-  params?: NavigationReplaceActionPayload["params"]
-): (() => boolean) => (): boolean => {
-  const action = StackActions.reset({
+  routeName: K,
+  params?: T[K]
+): (() => void) => (): void => {
+  navigation.reset({
     index: 1,
-    actions: [
-      NavigationActions.navigate({ routeName: "DocumentListScreen" }),
-      NavigationActions.navigate({ routeName, params })
+    routes: [
+      {
+        name: "DocumentListScreen"
+      },
+      {
+        name: routeName,
+        params: params
+      }
     ]
   });
-  return navigation.dispatch(action);
 };
