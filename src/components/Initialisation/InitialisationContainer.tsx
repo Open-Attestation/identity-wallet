@@ -15,14 +15,18 @@ export const InitialisationContainer: FunctionComponent<InitialisationScreenProp
 
   const onDocumentStore = (document: OAWrappedDocument): void => {
     navigation.navigate("QrScannerStackScreen", {
-      screen: "ValidityCheckScreen", params: {
+      screen: "ValidityCheckScreen",
+      params: {
         document,
         savable: true
       }
     });
   };
   const onDocumentView = (document: OAWrappedDocument): void => {
-    navigation.navigate("QrScannerStackScreen", { screen: "ValidityCheckScreen", params: { document } });
+    navigation.navigate("QrScannerStackScreen", {
+      screen: "ValidityCheckScreen",
+      params: { document }
+    });
   };
 
   const onInitDb = async (): Promise<void> => {

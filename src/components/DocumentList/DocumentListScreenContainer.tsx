@@ -2,7 +2,6 @@ import React, { FunctionComponent, useState, useEffect } from "react";
 import { DocumentObject, NavigationProps, VerifierTypes } from "../../types";
 import { getData } from "@govtechsg/open-attestation";
 import { useDbContext } from "../../context/db";
-import { replaceRouteFn } from "../../common/navigation";
 import { DocumentListScreen } from "./DocumentListScreen";
 
 // only used when document does not have saved issuerName
@@ -31,8 +30,8 @@ export const DocumentListScreenContainer: FunctionComponent<NavigationProps> = (
     navigation.navigate("LocalDocumentScreen", { id, verifierType });
   const navigateToScanner = (): void =>
     navigation.navigate("QrScannerStackScreen", {
-    screen: "QrScannerScreen"
-  });
+      screen: "QrScannerScreen"
+    });
 
   const documentItems = documents?.map((doc: DocumentObject) => {
     const docClear = getData(doc.document);

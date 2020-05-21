@@ -1,7 +1,11 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import { MockDbProvider } from "../../test/helpers/db";
-import { mockNavigation, setParam, mockRoute } from "../../test/helpers/navigation";
+import {
+  mockNavigation,
+  setParam,
+  mockRoute
+} from "../../test/helpers/navigation";
 import { processQr } from "../../services/QrProcessor";
 
 import { initialiseDb } from "./utils";
@@ -26,7 +30,10 @@ describe("InitialisationContainer", () => {
     expect.assertions(1);
     render(
       <MockDbProvider>
-        <InitialisationContainer navigation={mockNavigation} route={mockRoute} />
+        <InitialisationContainer
+          navigation={mockNavigation}
+          route={mockRoute}
+        />
       </MockDbProvider>
     );
     expect(mockInitialiseDb).toHaveBeenCalledTimes(1);
@@ -36,12 +43,17 @@ describe("InitialisationContainer", () => {
     expect.assertions(1);
     render(
       <MockDbProvider>
-        <InitialisationContainer navigation={mockNavigation} route={mockRoute} />
+        <InitialisationContainer
+          navigation={mockNavigation}
+          route={mockRoute}
+        />
       </MockDbProvider>
     );
     const onInitDb = getOnInitDb(mockInitialiseDb);
     await onInitDb();
-    expect(mockNavigation.navigate).toHaveBeenCalledWith("DocumentListStackScreen");
+    expect(mockNavigation.navigate).toHaveBeenCalledWith(
+      "DocumentListStackScreen"
+    );
   });
 
   it("should navigate to ValidityCheckScreen with savable document action", async () => {
@@ -50,7 +62,10 @@ describe("InitialisationContainer", () => {
 
     render(
       <MockDbProvider>
-        <InitialisationContainer navigation={mockNavigation} route={mockRoute} />
+        <InitialisationContainer
+          navigation={mockNavigation}
+          route={mockRoute}
+        />
       </MockDbProvider>
     );
     const onInitDb = getOnInitDb(mockInitialiseDb);
@@ -67,10 +82,10 @@ describe("InitialisationContainer", () => {
       "QrScannerStackScreen",
       {
         params: {
-          "document": "MOCK_DOCUMENT",
-          "savable": true,
+          document: "MOCK_DOCUMENT",
+          savable: true
         },
-        screen: "ValidityCheckScreen",
+        screen: "ValidityCheckScreen"
       }
     );
   });
@@ -81,7 +96,10 @@ describe("InitialisationContainer", () => {
 
     render(
       <MockDbProvider>
-        <InitialisationContainer navigation={mockNavigation} route={mockRoute} />
+        <InitialisationContainer
+          navigation={mockNavigation}
+          route={mockRoute}
+        />
       </MockDbProvider>
     );
     const onInitDb = getOnInitDb(mockInitialiseDb);
@@ -98,10 +116,10 @@ describe("InitialisationContainer", () => {
       "QrScannerStackScreen",
       {
         params: {
-          "document": "MOCK_DOCUMENT",
-          "savable": true,
+          document: "MOCK_DOCUMENT",
+          savable: true
         },
-        screen: "ValidityCheckScreen",
+        screen: "ValidityCheckScreen"
       }
     );
   });

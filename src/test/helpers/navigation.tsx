@@ -1,4 +1,4 @@
-let params: any = {};
+const params: any = {};
 
 export const mockNavigation: any = {
   navigate: jest.fn(),
@@ -13,39 +13,39 @@ export const mockNavigation: any = {
 };
 
 export const mockRoute: any = {
-  params: params,
+  params: params
 };
 
 export const mockState: any = {
   index: 3,
   routes: [
     {
-      "key": "DocumentListStackScreen-M7lptkH0Nf34d5loKT3ja",
-      "name": "DocumentListStackScreen",
-      "params": undefined,
+      key: "DocumentListStackScreen-M7lptkH0Nf34d5loKT3ja",
+      name: "DocumentListStackScreen",
+      params: undefined
     },
     {
-      "key": "QrScannerStackScreen-DDEZ0HJZVo-tNfuNyfG92",
-      "name": "QrScannerStackScreen",
-      "params": undefined,
+      key: "QrScannerStackScreen-DDEZ0HJZVo-tNfuNyfG92",
+      name: "QrScannerStackScreen",
+      params: undefined
     },
     {
-      "key": "SettingsScreen-lhqLSl5rGkdVWkrBDlB7P",
-      "name": "SettingsScreen",
-      "params": undefined,
+      key: "SettingsScreen-lhqLSl5rGkdVWkrBDlB7P",
+      name: "SettingsScreen",
+      params: undefined
     },
     {
-      "key": "InitialisationScreen-QG-oYnUzsm4qkR2TL8L-4",
-      "name": "InitialisationScreen",
-      "params": undefined,
-    },
+      key: "InitialisationScreen-QG-oYnUzsm4qkR2TL8L-4",
+      name: "InitialisationScreen",
+      params: undefined
+    }
   ],
   routeNames: [
     "DocumentListStackScreen",
     "QrScannerStackScreen",
     "SettingsScreen",
-    "InitialisationScreen",
-  ],
+    "InitialisationScreen"
+  ]
 };
 
 export const resetNavigation = (): void => {

@@ -35,7 +35,10 @@ describe("ScannedDocumentRendererContainer", () => {
     setParam("savable", false);
     setParam("statuses", verificationStatuses);
     const { queryByTestId } = render(
-      <ScannedDocumentRendererContainer navigation={mockNavigation} route={mockRoute}/>
+      <ScannedDocumentRendererContainer
+        navigation={mockNavigation}
+        route={mockRoute}
+      />
     );
     expect(queryByTestId("mock-web-view-frame")).not.toBeNull();
   });
@@ -46,7 +49,10 @@ describe("ScannedDocumentRendererContainer", () => {
     setParam("savable", true);
     setParam("statuses", verificationStatuses);
     const { queryByText } = render(
-      <ScannedDocumentRendererContainer navigation={mockNavigation} route={mockRoute}/>
+      <ScannedDocumentRendererContainer
+        navigation={mockNavigation}
+        route={mockRoute}
+      />
     );
     expect(queryByText("Save")).not.toBeNull();
     expect(queryByText("Done")).toBeNull();
@@ -58,7 +64,10 @@ describe("ScannedDocumentRendererContainer", () => {
     setParam("savable", false);
     setParam("statuses", verificationStatuses);
     const { queryByText } = render(
-      <ScannedDocumentRendererContainer navigation={mockNavigation} route={mockRoute}/>
+      <ScannedDocumentRendererContainer
+        navigation={mockNavigation}
+        route={mockRoute}
+      />
     );
     expect(queryByText("Save")).toBeNull();
     expect(queryByText("Done")).not.toBeNull();
@@ -71,7 +80,10 @@ describe("ScannedDocumentRendererContainer", () => {
     setParam("statuses", verificationStatuses);
     const { getByText } = render(
       <MockDbProvider>
-        <ScannedDocumentRendererContainer navigation={mockNavigation} route={mockRoute}/>
+        <ScannedDocumentRendererContainer
+          navigation={mockNavigation}
+          route={mockRoute}
+        />
       </MockDbProvider>
     );
     fireEvent.press(getByText("Save"));

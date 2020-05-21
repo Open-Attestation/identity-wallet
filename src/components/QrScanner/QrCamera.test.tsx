@@ -28,7 +28,7 @@ describe("QrCamera", () => {
     mockPlatform("android");
     mockPermissions.mockResolvedValue({ status: "granted" });
     const { queryByTestId } = render(
-      <QrCamera onQrData={() => { }} disabled={true} />
+      <QrCamera onQrData={() => {}} disabled={true} />
     );
 
     await wait(() => {
@@ -39,12 +39,13 @@ describe("QrCamera", () => {
   });
 
   it("should render Camera if the camera is enabled", async () => {
-    expect.assertions(3);
+    expect.assertions(4);
     mockPlatform("android");
     mockPermissions.mockResolvedValue({ status: "granted" });
     const { queryByTestId } = render(
-      <QrCamera onQrData={() => { }} disabled={false} />
+      <QrCamera onQrData={() => {}} disabled={false} />
     );
+    expect(queryByTestId("loading-view")).not.toBeNull();
 
     await wait(() => {
       expect(queryByTestId("permissions-rejected-view")).toBeNull();
@@ -58,13 +59,37 @@ describe("QrCamera", () => {
     mockPlatform("android");
     mockPermissions.mockResolvedValue({ status: "nil" });
     const { queryByTestId } = render(
-      <QrCamera onQrData={() => { }} disabled={false} />
+      <QrCamera onQrData={() => {}} disabled={false} />
     );
 
     await wait(() => {
       expect(queryByTestId("permissions-rejected-view")).not.toBeNull();
       expect(queryByTestId("qr-camera")).toBeNull();
       expect(queryByTestId("loading-view")).toBeNull();
+    });
+  });
+
+  it("should set the ratio of the camera if on Android", async () => {
+    expect.assertions(1);
+    mockPlatform("android");
+    mockPermissions.mockResolvedValue({ status: "granted" });
+    const { queryByTestId } = render(
+      <QrCamera onQrData={() => {}} disabled={false} />
+    );
+    await wait(() => {
+      expect(queryByTestId("qr-camera")?.props).toHaveProperty("ratio", "16:9");
+    });
+  });
+
+  it("should not set the ratio of the camera if on iOS", async () => {
+    expect.assertions(1);
+    mockPlatform("ios");
+    mockPermissions.mockResolvedValue({ status: "granted" });
+    const { queryByTestId } = render(
+      <QrCamera onQrData={() => {}} disabled={false} />
+    );
+    await wait(() => {
+      expect(queryByTestId("qr-camera")?.props).not.toHaveProperty("ratio");
     });
   });
 });

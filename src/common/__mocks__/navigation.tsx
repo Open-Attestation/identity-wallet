@@ -1,25 +1,37 @@
 import { NavigationProps } from "../../types";
+import { StackActions, ParamListBase } from "@react-navigation/native";
 
-export const replaceRouteFn = (
+export const replaceRouteFn = <
+  T extends ParamListBase,
+  K extends Extract<keyof T, string>
+>(
   navigation: NavigationProps["navigation"],
-  routeName: string
-): (() => boolean) => (): boolean => {
-  // Any casting is required to not provide key
-  const action: any = {
-    routeName,
-    type: "Navigation/REPLACE"
-  };
+  routeName: K,
+  params?: T[K]
+): (() => void) => (): void => {
+  const action = StackActions.replace(routeName, params);
   return navigation.dispatch(action);
 };
 
-export const resetRouteFn = (
+// This resets the entire stack and puts the navigated route right on top of the home page
+export const resetRouteFn = <
+  T extends ParamListBase,
+  K extends Extract<keyof T, string>
+>(
   navigation: NavigationProps["navigation"],
-  routeName: string
-): (() => boolean) => (): boolean => {
-  // Any casting is required to not provide key
-  const action: any = {
-    routeName,
-    type: "Navigation/RESET"
-  };
-  return navigation.dispatch(action);
+  routeName: K,
+  params?: T[K]
+): (() => void) => (): void => {
+  navigation.reset({
+    index: 1,
+    routes: [
+      {
+        name: "DocumentListScreen"
+      },
+      {
+        name: routeName,
+        params: params
+      }
+    ]
+  });
 };

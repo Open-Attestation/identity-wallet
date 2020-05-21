@@ -5,7 +5,6 @@ import { Header } from "../Layout/Header";
 import { CheckStatus } from "../Validity/constants";
 import { View, SafeAreaView } from "react-native";
 import { ValidityCard } from "../Validity/ValidityCard";
-import { replaceRouteFn } from "../../common/navigation";
 
 export const ValidityCheckScreenContainer: FunctionComponent<ValidityCheckScreenProps> = ({
   navigation,
@@ -24,16 +23,16 @@ export const ValidityCheckScreenContainer: FunctionComponent<ValidityCheckScreen
     if (statuses.overallValidity === CheckStatus.VALID) {
       setTimeout(() => {
         if (!cancelled) {
-          navigation.navigate("DocumentListStackScreen",
-            {
-              screen: "ScannedDocumentScreen", params: {
-                document,
-                savable: isSavable,
-                statuses,
-                issuerName,
-                verifierType
-              }
-            });
+          navigation.navigate("DocumentListStackScreen", {
+            screen: "ScannedDocumentScreen",
+            params: {
+              document,
+              savable: isSavable,
+              statuses,
+              issuerName,
+              verifierType
+            }
+          });
         }
       }, 500);
     }

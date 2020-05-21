@@ -59,13 +59,6 @@ export const QrCamera: FunctionComponent<QrCamera> = ({
     setHasCameraPermission(status === "granted");
   };
   useEffect(() => {
-    const askForCameraPermission = async (): Promise<void> => {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA);
-      if (status === "granted") {
-        setHasCameraPermission(true);
-      }
-    }
-
     askForCameraPermission();
   }, []);
 

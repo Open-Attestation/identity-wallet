@@ -1,6 +1,5 @@
 import { NavigationProps } from "../types";
-import { StackActions } from "@react-navigation/native";
-import { ParamListBase } from "@react-navigation/native";
+import { StackActions, ParamListBase } from "@react-navigation/native";
 
 export const replaceRouteFn = <
   T extends ParamListBase,
