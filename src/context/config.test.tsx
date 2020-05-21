@@ -1,7 +1,11 @@
 import React, { FunctionComponent } from "react";
 import { useConfigContext, ConfigContextProvider } from "./config";
 import { AsyncStorage, Text, Button, View } from "react-native";
-import { render, wait, fireEvent } from "@testing-library/react-native";
+import {
+  render,
+  waitForElementToBeRemoved,
+  fireEvent
+} from "@testing-library/react-native";
 import { NetworkTypes } from "../types";
 
 jest.setMock("react-native/Libraries/Storage/AsyncStorage", {
@@ -16,7 +20,9 @@ const TestComponent: FunctionComponent = () => {
   const { config, setConfigValue } = useConfigContext();
   return (
     <View>
-      <Text testID="printed-network">{config.network}</Text>
+      <Text testID="printed-network">
+        {config ? config.network : undefined}
+      </Text>
       <Button
         title="Change"
         onPress={() => setConfigValue("network", NetworkTypes.ropsten)}
@@ -33,16 +39,19 @@ describe("useConfigContext", () => {
   });
 
   it("should load saved config from async storage properly", async () => {
-    expect.assertions(2);
+    expect.assertions(5);
     const { queryByTestId } = render(
       <ConfigContextProvider>
         <TestComponent />
       </ConfigContextProvider>
     );
-    await wait(() => {
-      expect(queryByTestId("printed-network")).not.toBeNull();
-      expect(queryByTestId("printed-network")).toHaveTextContent("mainnet");
-    });
+    expect(queryByTestId("loading-view")).not.toBeNull();
+    expect(queryByTestId("printed-network")).toBeNull();
+
+    await waitForElementToBeRemoved(() => queryByTestId("loading-view"));
+    expect(queryByTestId("loading-view")).toBeNull();
+    expect(queryByTestId("printed-network")).not.toBeNull();
+    expect(queryByTestId("printed-network")).toHaveTextContent("mainnet");
   });
 
   it("should persist updated config", async () => {
@@ -52,10 +61,10 @@ describe("useConfigContext", () => {
         <TestComponent />
       </ConfigContextProvider>
     );
-    await wait(() => {
-      expect(queryByTestId("printed-network")).toHaveTextContent("mainnet");
-      fireEvent.press(getByText("Change"));
-      expect(queryByTestId("printed-network")).toHaveTextContent("ropsten");
-    });
+    await waitForElementToBeRemoved(() => queryByTestId("loading-view"));
+    expect(queryByTestId("printed-network")).toHaveTextContent("mainnet");
+
+    fireEvent.press(getByText("Change"));
+    expect(queryByTestId("printed-network")).toHaveTextContent("ropsten");
   });
 });

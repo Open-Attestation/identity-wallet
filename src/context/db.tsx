@@ -2,13 +2,15 @@ import React, {
   createContext,
   useContext,
   useState,
-  FunctionComponent
+  FunctionComponent,
+  Dispatch,
+  SetStateAction
 } from "react";
 import { Database } from "../types";
 
 interface DbContext {
   db?: Database;
-  setDb?: React.Dispatch<React.SetStateAction<Database | undefined>>;
+  setDb?: Dispatch<SetStateAction<Database | undefined>>;
 }
 
 export const DbContext = createContext<DbContext>({

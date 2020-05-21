@@ -6,6 +6,7 @@ import React, {
   useEffect
 } from "react";
 import { AsyncStorage } from "react-native";
+import { LoadingView } from "../components/Loading";
 import { NetworkTypes, VerifierTypes } from "../types";
 
 export interface Config {
@@ -33,13 +34,11 @@ export const useConfigContext = (): ConfigContext =>
   useContext<ConfigContext>(ConfigContext);
 
 export const ConfigContextProvider: FunctionComponent = ({ children }) => {
-  const [config, setConfig] = useState(DEFAULT_CONFIG);
+  const [config, setConfig] = useState<Config>(DEFAULT_CONFIG);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const setConfigValue: ConfigContext["setConfigValue"] = (key, value) => {
-    const nextConfig = {
-      ...config,
-      [key]: value
-    };
+    const nextConfig = Object.assign({}, config, { [key]: value });
     setConfig(nextConfig);
     AsyncStorage.setItem(CONFIG_KEY, JSON.stringify(nextConfig));
   };
@@ -54,6 +53,7 @@ export const ConfigContextProvider: FunctionComponent = ({ children }) => {
     } else {
       await AsyncStorage.setItem(CONFIG_KEY, JSON.stringify(DEFAULT_CONFIG));
     }
+    setIsLoaded(true);
   };
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export const ConfigContextProvider: FunctionComponent = ({ children }) => {
 
   return (
     <ConfigContext.Provider value={{ config, setConfigValue }}>
-      {children}
+      {isLoaded ? children : <LoadingView />}
     </ConfigContext.Provider>
   );
 };
