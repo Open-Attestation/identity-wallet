@@ -38,7 +38,10 @@ export const ConfigContextProvider: FunctionComponent = ({ children }) => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const setConfigValue: ConfigContext["setConfigValue"] = (key, value) => {
-    const nextConfig = Object.assign({}, config, { [key]: value });
+    const nextConfig: Config = {
+      ...config,
+      [key]: value
+    };
     setConfig(nextConfig);
     AsyncStorage.setItem(CONFIG_KEY, JSON.stringify(nextConfig));
   };

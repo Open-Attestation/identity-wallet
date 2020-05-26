@@ -20,9 +20,7 @@ const TestComponent: FunctionComponent = () => {
   const { config, setConfigValue } = useConfigContext();
   return (
     <View>
-      <Text testID="printed-network">
-        {config ? config.network : undefined}
-      </Text>
+      <Text testID="printed-network">{config.network}</Text>
       <Button
         title="Change"
         onPress={() => setConfigValue("network", NetworkTypes.ropsten)}
