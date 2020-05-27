@@ -8,7 +8,7 @@ import {
 } from "@testing-library/react-native";
 import { NetworkTypes } from "../types";
 
-jest.setMock("AsyncStorage", {
+jest.setMock("react-native/Libraries/Storage/AsyncStorage", {
   setItem: jest.fn(),
   getItem: jest.fn()
 });

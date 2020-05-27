@@ -11,7 +11,10 @@ jest.mock("expo-permissions", () => ({
 
 const mockPlatform = (platform: "android" | "ios"): void => {
   jest.resetModules();
-  jest.doMock("Platform", () => ({ OS: platform, select: jest.fn() }));
+  jest.doMock("react-native/Libraries/Utilities/Platform", () => ({
+    OS: platform,
+    select: jest.fn()
+  }));
 };
 
 describe("QrCamera", () => {

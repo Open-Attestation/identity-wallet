@@ -34,10 +34,11 @@ export const useConfigContext = (): ConfigContext =>
   useContext<ConfigContext>(ConfigContext);
 
 export const ConfigContextProvider: FunctionComponent = ({ children }) => {
-  const [config, setConfig] = useState();
+  const [config, setConfig] = useState<Config>(DEFAULT_CONFIG);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const setConfigValue: ConfigContext["setConfigValue"] = (key, value) => {
-    const nextConfig = {
+    const nextConfig: Config = {
       ...config,
       [key]: value
     };
@@ -55,6 +56,7 @@ export const ConfigContextProvider: FunctionComponent = ({ children }) => {
     } else {
       await AsyncStorage.setItem(CONFIG_KEY, JSON.stringify(DEFAULT_CONFIG));
     }
+    setIsLoaded(true);
   };
 
   useEffect(() => {
@@ -63,7 +65,7 @@ export const ConfigContextProvider: FunctionComponent = ({ children }) => {
 
   return (
     <ConfigContext.Provider value={{ config, setConfigValue }}>
-      {config !== undefined ? children : <LoadingView />}
+      {isLoaded ? children : <LoadingView />}
     </ConfigContext.Provider>
   );
 };

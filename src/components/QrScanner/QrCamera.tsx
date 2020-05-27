@@ -53,7 +53,7 @@ export const QrCamera: FunctionComponent<QrCamera> = ({
   onQrData,
   disabled = false
 }) => {
-  const [hasCameraPermission, setHasCameraPermission] = useState();
+  const [hasCameraPermission, setHasCameraPermission] = useState<boolean>();
   const askForCameraPermission = async (): Promise<void> => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     setHasCameraPermission(status === "granted");
@@ -70,7 +70,7 @@ export const QrCamera: FunctionComponent<QrCamera> = ({
 
   const cameraRef = useRef<Camera>(null);
   const [isCameraReady, setIsCameraReady] = useState(false);
-  const [ratio, setRatio] = useState();
+  const [ratio, setRatio] = useState<string>();
   const onCameraReady = async (): Promise<void> => {
     if (Platform.OS === "android" && cameraRef.current) {
       const ratios = await cameraRef.current.getSupportedRatiosAsync();
