@@ -11,6 +11,7 @@ jest.mock("@expo/vector-icons", () => ({
 
 jest.mock("expo-constants", () => ({ manifest: { revisionId: "BUILD NO" } }));
 jest.mock("expo-sqlite", () => ({ default: {} }));
+jest.mock("expo", () => ({ Updates: { reload: jest.fn() } }));
 
 import { NativeModules } from "react-native";
 NativeModules.RNCNetInfo = {
