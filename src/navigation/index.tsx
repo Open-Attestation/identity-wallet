@@ -7,6 +7,7 @@ import InitialisationScreen from "./InitialisationScreen";
 import { Linking } from "expo";
 import { NetworkContextProvider } from "../context/network";
 import { ConfigContextProvider } from "../context/config";
+import { FontLoader } from "../components/FontLoader";
 
 const SwitchNavigator = createSwitchNavigator(
   {
@@ -19,21 +20,23 @@ const SwitchNavigator = createSwitchNavigator(
 const AppContainer = createAppContainer(SwitchNavigator);
 
 const App = (): ReactElement => (
-  <DbContextProvider>
-    <NetworkContextProvider>
-      <ConfigContextProvider>
-        <StatusBar />
-        <View
-          style={{
-            flex: 1,
-            paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-          }}
-        >
-          <AppContainer uriPrefix={Linking.makeUrl("/")} />
-        </View>
-      </ConfigContextProvider>
-    </NetworkContextProvider>
-  </DbContextProvider>
+  <FontLoader>
+    <DbContextProvider>
+      <NetworkContextProvider>
+        <ConfigContextProvider>
+          <StatusBar />
+          <View
+            style={{
+              flex: 1,
+              paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+            }}
+          >
+            <AppContainer uriPrefix={Linking.makeUrl("/")} />
+          </View>
+        </ConfigContextProvider>
+      </NetworkContextProvider>
+    </DbContextProvider>
+  </FontLoader>
 );
 
 export default App;
