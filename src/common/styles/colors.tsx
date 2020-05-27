@@ -7,6 +7,7 @@ const palette: { [color in ColorName]: { [tone: string]: string } } = {
     "20": "#828282",
     "30": "#4F4F4F",
     "40": "#333333",
+    "70": "#5f6368",
     "100": "#000000"
   },
   orange: {
@@ -16,6 +17,7 @@ const palette: { [color in ColorName]: { [tone: string]: string } } = {
     "40": "#F9B043"
   },
   blue: {
+    "40": "#597585",
     "50": "#2A3846"
   },
   yellow: {
@@ -35,17 +37,17 @@ const palette: { [color in ColorName]: { [tone: string]: string } } = {
 };
 
 export type ColorName = "grey" | "orange" | "blue" | "yellow" | "green" | "red";
-export type ToneLevel = 0 | 5 | 10 | 15 | 20 | 30 | 40 | 50 | 100;
+export type ToneLevel = 0 | 5 | 10 | 15 | 20 | 30 | 40 | 50 | 70 | 100;
 
 export function color(
   colorName: "grey",
-  tone: 0 | 5 | 10 | 15 | 20 | 30 | 40 | 100
+  tone: 0 | 5 | 10 | 15 | 20 | 30 | 40 | 70 | 100
 ): string;
 export function color(colorName: "orange", tone: 10 | 20 | 30 | 40): string;
 export function color(colorName: "green", tone: 10 | 20 | 30): string;
 export function color(colorName: "red", tone: 10 | 20 | 30): string;
 export function color(colorName: "yellow", tone: 10 | 20): string;
-export function color(colorName: "blue", tone: 50): string;
+export function color(colorName: "blue", tone: 40 | 50): string;
 /**
  * Returns the color according to the given color name and tone.
  *
