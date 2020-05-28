@@ -20,41 +20,41 @@ jobs:
       - sonarcloud/scan
   deploy_branch:
     docker:
-      - image: "openattestation/expo-build:latest"
+      - image: "circleci/node:latest"
     steps:
       - checkout
       - run:
           name: install
-          command: npm install
+          command: npm ci
       - run:
           name: expo_login
-          command: expo login -u $EXPO_USERNAME --non-interactive
+          command: npx expo-cli login -u $EXPO_USERNAME --non-interactive
       - run:
           name: expo_publish_channel
-          command: expo publish --non-interactive --release-channel $(echo $CI_PULL_REQUEST | cut -c 58-)
+          command:  npx expo-cli publish --non-interactive --release-channel $(echo $CI_PULL_REQUEST | cut -c 58-)
       - run:
           name: expo_publish_storybook_channel
-          command: expo publish --non-interactive --release-channel storybook-$(echo $CI_PULL_REQUEST | cut -c 58-)
+          command: npx expo-cli publish --non-interactive --release-channel storybook-$(echo $CI_PULL_REQUEST | cut -c 58-)
       - run:
           name: github_comment_published_link
           command: ./scripts/commenter.sh
   deploy_master:
     docker:
-      - image: "openattestation/expo-build:latest"
+      - image: "circleci/node:latest"
     steps:
       - checkout
       - run:
           name: install
-          command: npm install
+          command: npm ci
       - run:
           name: expo_login
-          command: expo login -u $EXPO_USERNAME --non-interactive
+          command: npx expo-cli login -u $EXPO_USERNAME --non-interactive
       - run:
           name: expo_publish_channel
-          command: expo publish --non-interactive --release-channel default
+          command: npx expo-cli publish --non-interactive --release-channel default
       - run:
           name: expo_publish_channel
-          command: expo publish --non-interactive --release-channel storybook-default
+          command: npx expo-cli publish --non-interactive --release-channel storybook-default
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.1
 workflows:
