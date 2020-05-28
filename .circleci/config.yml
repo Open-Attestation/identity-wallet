@@ -28,7 +28,7 @@ jobs:
           command: npm ci
       - run:
           name: expo_login
-          command: npx expo-cli -u $EXPO_USERNAME --non-interactive
+          command: npx expo-cli login -u $EXPO_USERNAME --non-interactive
       - run:
           name: expo_publish_channel
           command:  npx expo-cli publish --non-interactive --release-channel $(echo $CI_PULL_REQUEST | cut -c 58-)
@@ -48,7 +48,7 @@ jobs:
           command: npm ci
       - run:
           name: expo_login
-          command: npx expo-cli -u $EXPO_USERNAME --non-interactive
+          command: npx expo-cli login -u $EXPO_USERNAME --non-interactive
       - run:
           name: expo_publish_channel
           command: npx expo-cli publish --non-interactive --release-channel default
