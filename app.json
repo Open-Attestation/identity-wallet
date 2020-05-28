@@ -11,6 +11,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "sdkVersion":"37.0.0",
     "scheme": "identitywallet",
     "splash": {
       "image": "./assets/splash.png",
