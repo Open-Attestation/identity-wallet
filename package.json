@@ -25,7 +25,7 @@
     "expo-permissions": "^7.0.0",
     "expo-sqlite": "~7.0.0",
     "humanize-duration": "^3.21.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "pouchdb-adapter-idb": "^7.2.1",
     "pouchdb-adapter-react-native-sqlite": "^2.0.0",
     "pouchdb-react-native": "^6.4.1",
